@@ -44,7 +44,7 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectExceptionMessageMatches('/Wrong page range given/');
 
         $pageNumber = random_int(2, 100);
-        $filePath = __DIR__.'/files/pages-1.pdf';
+        $filePath = __DIR__.'/../files/pages-1.pdf';
 
         new PopplerRasterClient()->rasterize(new RasterizeRequest($filePath, $pageNumber));
     }
