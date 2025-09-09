@@ -8,6 +8,7 @@ use OneToMany\PdfToImage\Contract\Request\ReadInfoRequestInterface;
 use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
 use OneToMany\PdfToImage\Exception\RuntimeException;
+use OneToMany\PdfToImage\Response\PdfInfoResponse;
 
 readonly class MockRasterClient implements RasterClientInterface
 {
@@ -17,7 +18,7 @@ readonly class MockRasterClient implements RasterClientInterface
 
     public function readInfo(ReadInfoRequestInterface $request): PdfInfoResponseInterface
     {
-        throw new RuntimeException('Not implemented!');
+        return new PdfInfoResponse(\random_int(1, 100));
     }
 
     public function rasterize(RasterizeRequestInterface $request): ImageResponseInterface

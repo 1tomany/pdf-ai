@@ -2,6 +2,7 @@
 
 namespace OneToMany\PdfToImage\Client\Poppler;
 
+use OneToMany\PdfToImage\Client\Exception\ReadingPdfInfoFailedException;
 use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Contract\Request\RasterizeRequestInterface;
@@ -25,19 +26,21 @@ readonly class PopplerRasterClient implements RasterClientInterface
 
     public function readInfo(ReadInfoRequestInterface $request): PdfInfoResponseInterface
     {
-        $response = new PdfInfoResponse();
+        $process = new Process([$this->binary, $request->getPath()]);
 
         try {
-            $info = new Process([$this->binary, $request->getPath()])->mustRun()->getOutput();
+            $info = $process->mustRun()->getOutput();
         } catch (ProcessExceptionInterface $e) {
-            // throw new ReadingPdfMetadataFailedException($path, isset($process) ? $process->getErrorOutput() : null, $e);
+            throw new ReadingPdfInfoFailedException($request->getPath(), $process->getErrorOutput(), $e);
         }
 
-        foreach (explode("\n", $info) as $infoBit) {
-            if (str_contains($infoBit, ':')) {
-                $bits = explode(':', $infoBit);
+        $response = new PdfInfoResponse();
 
-                if (0 === strcmp('Pages', $bits[0])) {
+        foreach (\explode("\n", $info) as $infoBit) {
+            if (\str_contains($infoBit, ':')) {
+                $bits = \explode(':', $infoBit);
+
+                if (0 === \strcmp('Pages', $bits[0])) {
                     $response->setPages((int) $bits[1]);
                 }
             }
@@ -50,8 +53,7 @@ readonly class PopplerRasterClient implements RasterClientInterface
     {
         throw new RuntimeException('Not implemented!');
         /*
-        try {
-            $imageTypeArg = match ($request->type) {
+            $imageTypeArg = match ($request->getType()) {
                 ImageType::Jpg => '-jpeg',
                 ImageType::Png => '-png',
             };
@@ -66,12 +68,13 @@ readonly class PopplerRasterClient implements RasterClientInterface
                 $request->getPage(),
                 '-r',
                 $request->getDPI(),
-                $request->getPage(),
+                $request->getPath(),
             ]);
 
+        try {
             $image = $process->mustRun()->getOutput();
         } catch (ProcessExceptionInterface $e) {
-            throw new RasterizingPdfFailedException($request->path, $request->page, isset($process) ? $process->getErrorOutput() : null, $e);
+            throw new RasterizingPdfFailedException($request->getPath(), $request->getPage(), $process->getErrorOutput(), $e);
         }
 
         // return new RasterData($request->type, $image);
