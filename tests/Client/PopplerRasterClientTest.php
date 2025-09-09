@@ -1,7 +1,8 @@
 <?php
 
-namespace OneToMany\PdfToImage\Tests\Service;
+namespace OneToMany\PdfToImage\Tests\Client;
 
+use OneToMany\PdfToImage\Client\Poppler\PopplerRasterClient;
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
 use OneToMany\PdfToImage\Exception\RasterizingPdfFailedException;
@@ -17,8 +18,8 @@ use function sha1;
 
 #[Large]
 #[Group('UnitTests')]
-#[Group('ServiceTests')]
-final class PopplerRasterServiceTest extends TestCase
+#[Group('ClientTests')]
+final class PopplerRasterClientTest extends TestCase
 {
     public function testConstructorRequiresValidPdfToPpmBinary(): void
     {
@@ -27,14 +28,14 @@ final class PopplerRasterServiceTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The binary "'.$binary.'" could not be found.');
 
-        new PopplerRasterService($binary);
+        new PopplerRasterClient($binary);
     }
 
     public function testRasterizationRequiresValidPdfFile(): void
     {
         $this->expectException(RasterizingPdfFailedException::class);
 
-        new PopplerRasterService()->rasterize(new RasterizeRequest(__FILE__));
+        new PopplerRasterClient()->rasterize(new RasterizeRequest(__FILE__));
     }
 
     public function testRasterizationRequiresValidPageNumber(): void
@@ -45,7 +46,7 @@ final class PopplerRasterServiceTest extends TestCase
         $pageNumber = random_int(2, 100);
         $filePath = __DIR__.'/files/pages-1.pdf';
 
-        new PopplerRasterService()->rasterize(new RasterizeRequest($filePath, $pageNumber));
+        new PopplerRasterClient()->rasterize(new RasterizeRequest($filePath, $pageNumber));
     }
 
     #[DataProvider('providerFilePageTypeResolutionAndSha1Hash')]
@@ -60,7 +61,7 @@ final class PopplerRasterServiceTest extends TestCase
             $file, $page, $type, $resolution
         );
 
-        $data = new PopplerRasterService()->rasterize($request);
+        $data = new PopplerRasterClient()->rasterize($request);
         $this->assertEquals($sha1Hash, sha1($data->__toString()));
     }
 
