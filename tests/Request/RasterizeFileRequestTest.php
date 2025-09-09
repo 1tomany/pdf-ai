@@ -2,14 +2,13 @@
 
 namespace OneToMany\PdfToImage\Tests\Request;
 
-use OneToMany\PdfToImage\Contract\ImageType;
+use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
 use OneToMany\PdfToImage\Request\RasterizeFileRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-use function array_rand;
 use function random_int;
 
 use const PHP_INT_MAX;
@@ -18,15 +17,23 @@ use const PHP_INT_MAX;
 #[Group('RequestTests')]
 final class RasterizeFileRequestTest extends TestCase
 {
+    public function testConstructorRequiresNonEmptyPath(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The path to the input file cannot be empty.');
+
+        new RasterizeFileRequest('');
+    }
+
     public function testConstructorRequiresReadableFile(): void
     {
-        $filePath = __DIR__.'/invalid.file.path';
-        $this->assertFileDoesNotExist($filePath);
+        $path = __DIR__.'/invalid.file.path';
+        $this->assertFileDoesNotExist($path);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The input file "'.$filePath.'" does not exist or is not readable.');
+        $this->expectExceptionMessage('The input file path "'.$path.'" does not exist or is not readable.');
 
-        new RasterizeFileRequest($filePath);
+        new RasterizeFileRequest($path);
     }
 
     public function testConstructorRequiresPositivePageNumber(): void
@@ -40,45 +47,41 @@ final class RasterizeFileRequestTest extends TestCase
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMinimumResolution(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The resolution must be an integer between 48 and 300.');
+        $this->expectExceptionMessage('The DPI must be an integer between 48 and 300.');
 
-        new RasterizeFileRequest(path: __FILE__, resolution: random_int(1, 47));
+        new RasterizeFileRequest(path: __FILE__, dpi: random_int(1, 47));
     }
 
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMaximumResolution(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The resolution must be an integer between 48 and 300.');
+        $this->expectExceptionMessage('The DPI must be an integer between 48 and 300.');
 
-        new RasterizeFileRequest(path: __FILE__, resolution: random_int(301, PHP_INT_MAX));
+        new RasterizeFileRequest(path: __FILE__, dpi: random_int(301, PHP_INT_MAX));
     }
 
-    #[DataProvider('providerFilePathAndPage')]
-    public function testConstructor(string $filePath, int $page): void
-    {
-        $type = ImageType::cases()[
-            array_rand(ImageType::cases())
-        ];
+    #[DataProvider('providerRequestConstructorArguments')]
+    public function testConstructor(
+        string $path,
+        int $page,
+        ImageType $type,
+        int $dpi,
+    ): void {
+        $request = new RasterizeFileRequest($path, $page, $type, $dpi);
 
-        $resolution = random_int(48, 300);
-
-        $request = new RasterizeFileRequest(
-            $filePath, $page, $type, $resolution
-        );
-
-        $this->assertEquals($filePath, $request->path);
-        $this->assertEquals($page, $request->page);
-        $this->assertEquals($type, $request->type);
-        $this->assertEquals($resolution, $request->resolution);
+        $this->assertEquals($path, $request->getPath());
+        $this->assertEquals($page, $request->getPage());
+        $this->assertEquals($type, $request->getType());
+        $this->assertEquals($dpi, $request->getDPI());
     }
 
     /**
      * @return list<list<int|string>>
      */
-    public static function providerFilePathAndPage(): array
+    public static function providerRequestConstructorArguments(): array
     {
         $provider = [
-            [__DIR__.'/files/label.pdf', 1],
+            [__DIR__.'/files/label.pdf', 1, ImageType::Png, random_int(48, 300)],
         ];
 
         return $provider;

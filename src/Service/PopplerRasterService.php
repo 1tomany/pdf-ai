@@ -2,7 +2,7 @@
 
 namespace OneToMany\PdfToImage\Service;
 
-use OneToMany\PdfToImage\Contract\ImageType;
+use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Exception\RasterizingPdfFailedException;
 use OneToMany\PdfToImage\Helper\BinaryFinder;
 use OneToMany\PdfToImage\Record\RasterData;
@@ -26,7 +26,7 @@ final readonly class PopplerRasterService implements RasterServiceInterface
     {
         try {
             $imageTypeArg = match ($request->type) {
-                ImageType::Jpeg => '-jpeg',
+                ImageType::Jpg => '-jpeg',
                 ImageType::Png => '-png',
             };
 

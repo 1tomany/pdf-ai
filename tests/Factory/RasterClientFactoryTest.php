@@ -29,8 +29,7 @@ final class RasterClientFactoryTest extends TestCase
 
     private function createContainer(): ContainerInterface
     {
-        $container = new readonly class() implements ContainerInterface
-        {
+        $container = new class implements ContainerInterface {
             /**
              * @var array{
              *   mock: MockRasterClient,

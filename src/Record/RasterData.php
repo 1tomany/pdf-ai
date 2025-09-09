@@ -3,7 +3,7 @@
 namespace OneToMany\PdfToImage\Record;
 
 use OneToMany\DataUri\SmartFile;
-use OneToMany\PdfToImage\Contract\ImageType;
+use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Exception\RuntimeException;
 
 use function base64_encode;
@@ -25,7 +25,7 @@ final readonly class RasterData implements \Stringable
 
     public function toDataUri(): string
     {
-        return sprintf('data:%s;base64,%s', $this->type->contentType(), base64_encode($this->bytes));
+        return sprintf('data:%s;base64,%s', $this->type->getMimeType(), base64_encode($this->bytes));
     }
 
     public function toSmartFile(): SmartFile // @phpstan-ignore-line

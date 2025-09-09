@@ -2,7 +2,7 @@
 
 namespace OneToMany\PdfToImage\Tests\Request;
 
-use OneToMany\PdfToImage\Contract\ImageType;
+use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Record\RasterData;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ final class RasterDataTest extends TestCase
     {
         $text = 'Hello, world!';
 
-        $this->assertEquals($text, new RasterData(ImageType::Jpeg, $text)->__toString());
+        $this->assertEquals($text, new RasterData(ImageType::Jpg, $text)->__toString());
     }
 
     public function testToDataUri(): void
