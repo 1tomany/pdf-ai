@@ -2,18 +2,19 @@
 
 namespace OneToMany\PdfToImage\Action;
 
-use OneToMany\PdfToImage\Record\RasterData;
-use OneToMany\PdfToImage\Request\RasterizeRequest;
-use OneToMany\PdfToImage\Service\RasterServiceInterface;
+use OneToMany\PdfToImage\Contract\Action\RasterizeFileActionInterface;
+use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
+use OneToMany\PdfToImage\Contract\Request\RasterizeRequestInterface;
+use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 
-final readonly class RasterizeFileAction
+final readonly class RasterizeFileAction implements RasterizeFileActionInterface
 {
-    public function __construct(private RasterServiceInterface $rasterService)
+    public function __construct(private RasterClientInterface $client)
     {
     }
 
-    public function act(RasterizeRequest $request): RasterData
+    public function act(RasterizeRequestInterface $request): ImageResponseInterface
     {
-        return $this->rasterService->rasterize($request);
+        return $this->client->rasterize($request);
     }
 }
