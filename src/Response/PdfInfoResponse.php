@@ -4,6 +4,8 @@ namespace OneToMany\PdfToImage\Response;
 
 use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
 
+use function max;
+
 class PdfInfoResponse implements PdfInfoResponseInterface
 {
     /**
@@ -23,7 +25,7 @@ class PdfInfoResponse implements PdfInfoResponseInterface
 
     public function setPages(int $pages): static
     {
-        $this->pages = \max(1, $pages);
+        $this->pages = max(1, $pages);
 
         return $this;
     }

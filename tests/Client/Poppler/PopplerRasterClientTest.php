@@ -7,7 +7,6 @@ use OneToMany\PdfToImage\Client\Poppler\PopplerRasterClient;
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
 use OneToMany\PdfToImage\Request\RasterizeRequest;
-use OneToMany\PdfToImage\Service\PopplerRasterService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Large;

@@ -15,6 +15,10 @@ use OneToMany\PdfToImage\Response\PdfInfoResponse;
 use Symfony\Component\Process\Exception\ExceptionInterface as ProcessExceptionInterface;
 use Symfony\Component\Process\Process;
 
+use function explode;
+use function str_contains;
+use function strcmp;
+
 readonly class PopplerRasterClient implements RasterClientInterface
 {
     private string $binary;
@@ -36,11 +40,11 @@ readonly class PopplerRasterClient implements RasterClientInterface
 
         $response = new PdfInfoResponse();
 
-        foreach (\explode("\n", $info) as $infoBit) {
-            if (\str_contains($infoBit, ':')) {
-                $bits = \explode(':', $infoBit);
+        foreach (explode("\n", $info) as $infoBit) {
+            if (str_contains($infoBit, ':')) {
+                $bits = explode(':', $infoBit);
 
-                if (0 === \strcmp('Pages', $bits[0])) {
+                if (0 === strcmp('Pages', $bits[0])) {
                     $response->setPages((int) $bits[1]);
                 }
             }

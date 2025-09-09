@@ -10,6 +10,8 @@ use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
 use OneToMany\PdfToImage\Exception\RuntimeException;
 use OneToMany\PdfToImage\Response\PdfInfoResponse;
 
+use function random_int;
+
 readonly class MockRasterClient implements RasterClientInterface
 {
     public function __construct()
@@ -18,7 +20,7 @@ readonly class MockRasterClient implements RasterClientInterface
 
     public function readInfo(ReadInfoRequestInterface $request): PdfInfoResponseInterface
     {
-        return new PdfInfoResponse(\random_int(1, 100));
+        return new PdfInfoResponse(random_int(1, 100));
     }
 
     public function rasterize(RasterizeRequestInterface $request): ImageResponseInterface
