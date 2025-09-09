@@ -21,12 +21,12 @@
         "symfony/process": "^7.2"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.75",
-        "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^11.5"
+        "friendsofphp/php-cs-fixer": "^3.87.1",
+        "phpstan/phpstan": "^2.1.22",
+        "phpunit/phpunit": "^12.3.8"
     },
     "suggest": {
-      "1tomany/data-uri": "Provides a file object for converting raster data to a file"
+      "1tomany/data-uri": "Provides a data URI parser and immutable file object for handling local files"
     },
     "autoload": {
         "psr-4": {
