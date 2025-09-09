@@ -76,7 +76,7 @@ final class RasterizeRequestTest extends TestCase
     }
 
     /**
-     * @return list<list<int|string>>
+     * @return list<list<int|string|ImageType>>
      */
     public static function providerRequest(): array
     {

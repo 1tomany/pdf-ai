@@ -23,7 +23,6 @@ readonly class PopplerRasterClient implements RasterClientInterface
     public function rasterize(RasterizeRequestInterface $request): ImageResponseInterface
     {
         throw new RuntimeException('Not implemented!');
-
         /*
         try {
             $imageTypeArg = match ($request->type) {
