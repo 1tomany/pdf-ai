@@ -10,8 +10,13 @@ $finder = new PhpCsFixer\Finder()
         './tests/',
     ]);
 
+$parallel = new PhpCsFixer\Runner\Parallel\ParallelConfig(...[
+    'maxProcesses' => 2, // Use two CPU cores
+]);
+
 return new PhpCsFixer\Config()
     ->setFinder($finder)
+    ->setParallelConfig($parallel)
     ->setRules([
         '@Symfony' => true,
         'global_namespace_import' => [

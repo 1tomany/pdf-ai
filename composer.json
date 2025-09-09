@@ -41,6 +41,11 @@
             "OneToMany\\PdfToImage\\Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "fix": "./vendor/bin/php-cs-fixer fix",
+        "stan": "./vendor/bin/phpstan",
+        "test": "./vendor/bin/phpunit"
+    },
     "authors": [
         {
             "name": "Vic Cherubini",
