@@ -4,7 +4,7 @@ namespace OneToMany\PdfToImage\Tests\Request;
 
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
-use OneToMany\PdfToImage\Request\RasterizeFileRequest;
+use OneToMany\PdfToImage\Request\RasterizeRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -15,14 +15,14 @@ use const PHP_INT_MAX;
 
 #[Group('UnitTests')]
 #[Group('RequestTests')]
-final class RasterizeFileRequestTest extends TestCase
+final class RasterizeRequestTest extends TestCase
 {
     public function testConstructorRequiresNonEmptyPath(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The path to the input file cannot be empty.');
 
-        new RasterizeFileRequest('');
+        new RasterizeRequest('');
     }
 
     public function testConstructorRequiresReadableFile(): void
@@ -33,7 +33,7 @@ final class RasterizeFileRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The input file path "'.$path.'" does not exist or is not readable.');
 
-        new RasterizeFileRequest($path);
+        new RasterizeRequest($path);
     }
 
     public function testConstructorRequiresPositivePageNumber(): void
@@ -41,7 +41,7 @@ final class RasterizeFileRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The page number must be a positive non-zero integer.');
 
-        new RasterizeFileRequest(path: __FILE__, page: 0);
+        new RasterizeRequest(path: __FILE__, page: 0);
     }
 
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMinimumResolution(): void
@@ -49,7 +49,7 @@ final class RasterizeFileRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The DPI must be an integer between 48 and 300.');
 
-        new RasterizeFileRequest(path: __FILE__, dpi: random_int(1, 47));
+        new RasterizeRequest(path: __FILE__, dpi: random_int(1, 47));
     }
 
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMaximumResolution(): void
@@ -57,17 +57,17 @@ final class RasterizeFileRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The DPI must be an integer between 48 and 300.');
 
-        new RasterizeFileRequest(path: __FILE__, dpi: random_int(301, PHP_INT_MAX));
+        new RasterizeRequest(path: __FILE__, dpi: random_int(301, PHP_INT_MAX));
     }
 
-    #[DataProvider('providerRequestConstructorArguments')]
+    #[DataProvider('providerRequest')]
     public function testConstructor(
         string $path,
         int $page,
         ImageType $type,
         int $dpi,
     ): void {
-        $request = new RasterizeFileRequest($path, $page, $type, $dpi);
+        $request = new RasterizeRequest($path, $page, $type, $dpi);
 
         $this->assertEquals($path, $request->getPath());
         $this->assertEquals($page, $request->getPage());
@@ -78,7 +78,7 @@ final class RasterizeFileRequestTest extends TestCase
     /**
      * @return list<list<int|string>>
      */
-    public static function providerRequestConstructorArguments(): array
+    public static function providerRequest(): array
     {
         $provider = [
             [__DIR__.'/files/label.pdf', 1, ImageType::Png, random_int(48, 300)],

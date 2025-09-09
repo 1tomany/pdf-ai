@@ -4,7 +4,7 @@ namespace OneToMany\PdfToImage\Contract\Request;
 
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 
-interface RasterizeFileRequestInterface
+interface RasterizeRequestInterface
 {
     /**
      * @return non-empty-string

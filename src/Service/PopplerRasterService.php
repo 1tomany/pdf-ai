@@ -6,7 +6,7 @@ use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Exception\RasterizingPdfFailedException;
 use OneToMany\PdfToImage\Helper\BinaryFinder;
 use OneToMany\PdfToImage\Record\RasterData;
-use OneToMany\PdfToImage\Request\RasterizeFileRequest;
+use OneToMany\PdfToImage\Request\RasterizeRequest;
 use Symfony\Component\Process\Exception\ExceptionInterface as ProcessExceptionInterface;
 use Symfony\Component\Process\Process;
 
@@ -22,7 +22,7 @@ final readonly class PopplerRasterService implements RasterServiceInterface
     /**
      * @see OneToMany\PdfToImage\RasterServiceInterface
      */
-    public function rasterize(RasterizeFileRequest $request): RasterData
+    public function rasterize(RasterizeRequest $request): RasterData
     {
         try {
             $imageTypeArg = match ($request->type) {
