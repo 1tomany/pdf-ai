@@ -10,7 +10,6 @@ use OneToMany\PdfToImage\Contract\Request\RasterizeRequestInterface;
 use OneToMany\PdfToImage\Contract\Request\ReadInfoRequestInterface;
 use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
-use OneToMany\PdfToImage\Exception\RuntimeException;
 use OneToMany\PdfToImage\Helper\BinaryFinder;
 use OneToMany\PdfToImage\Response\ImageResponse;
 use OneToMany\PdfToImage\Response\PdfInfoResponse;
