@@ -6,18 +6,10 @@ use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
 
-use function is_file;
-use function is_readable;
 use function sprintf;
-use function trim;
 
-class RasterizeFileRequest implements RasterizeFileRequestInterface
+class RasterizeFileRequest extends ReadFileRequest implements RasterizeFileRequestInterface
 {
-    /**
-     * @var non-empty-string
-     */
-    protected string $filePath;
-
     /**
      * @var positive-int
      */
@@ -36,38 +28,16 @@ class RasterizeFileRequest implements RasterizeFileRequestInterface
 
     public function __construct(
         ?string $filePath,
-        int $startPage = 1,
+        int $firstPage = 1,
         int $lastPage = 1,
         ImageType $outputType = ImageType::Jpg,
         int $resolution = self::DEFAULT_RESOLUTION,
     ) {
         $this->setFilePath($filePath);
-        $this->setFirstPage($startPage);
+        $this->setFirstPage($firstPage);
         $this->setLastPage($lastPage);
         $this->setOutputType($outputType);
         $this->setResolution($resolution);
-    }
-
-    public function getFilePath(): string
-    {
-        return $this->filePath;
-    }
-
-    public function setFilePath(?string $filePath): static
-    {
-        $filePath = trim($filePath ?? '') ?: null;
-
-        if (empty($filePath)) {
-            throw new InvalidArgumentException('The file path cannot be empty.');
-        }
-
-        if (!is_file($filePath) || !is_readable($filePath)) {
-            throw new InvalidArgumentException(sprintf('The file path "%s" does not exist or is not readable.', $filePath));
-        }
-
-        $this->filePath = $filePath;
-
-        return $this;
     }
 
     public function getFirstPage(): int

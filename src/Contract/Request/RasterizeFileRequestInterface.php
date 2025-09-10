@@ -4,13 +4,8 @@ namespace OneToMany\PdfToImage\Contract\Request;
 
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 
-interface RasterizeFileRequestInterface
+interface RasterizeFileRequestInterface extends ReadFileRequestInterface
 {
-    /**
-     * @return non-empty-string
-     */
-    public function getFilePath(): string;
-
     /**
      * @return positive-int
      */

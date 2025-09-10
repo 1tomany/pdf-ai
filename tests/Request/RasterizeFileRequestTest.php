@@ -44,15 +44,15 @@ final class RasterizeFileRequestTest extends TestCase
         new RasterizeFileRequest($filePath);
     }
 
-    public function testConstructorRequiresPositiveNonZeroFirstPageNumber(): void
+    public function testConstructorRequiresPositiveNonZeroFirstPage(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The first page number must be a positive non-zero integer.');
 
-        new RasterizeFileRequest($this->filePath, startPage: 0);
+        new RasterizeFileRequest($this->filePath, firstPage: 0);
     }
 
-    public function testConstructorRequiresPositiveNonZeroLastPageNumber(): void
+    public function testConstructorRequiresPositiveNonZeroLastPage(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The last page number must be a positive non-zero integer.');
@@ -76,7 +76,7 @@ final class RasterizeFileRequestTest extends TestCase
         new RasterizeFileRequest($this->filePath, resolution: random_int(RasterizeFileRequestInterface::MAX_RESOLUTION + 1, PHP_INT_MAX));
     }
 
-    #[DataProvider('providerRequest')]
+    #[DataProvider('providerConstructorArguments')]
     public function testConstructor(
         string $filePath,
         int $firstPage,
@@ -84,13 +84,7 @@ final class RasterizeFileRequestTest extends TestCase
         ImageType $outputType,
         int $resolution,
     ): void {
-        $request = new RasterizeFileRequest(
-            $filePath,
-            $firstPage,
-            $lastPage,
-            $outputType,
-            $resolution,
-        );
+        $request = new RasterizeFileRequest($filePath, $firstPage, $lastPage, $outputType, $resolution);
 
         $this->assertEquals($filePath, $request->getFilePath());
         $this->assertEquals($firstPage, $request->getFirstPage());
@@ -102,7 +96,7 @@ final class RasterizeFileRequestTest extends TestCase
     /**
      * @return list<list<int|string|ImageType>>
      */
-    public static function providerRequest(): array
+    public static function providerConstructorArguments(): array
     {
         $resolution = random_int(
             RasterizeFileRequestInterface::MIN_RESOLUTION,

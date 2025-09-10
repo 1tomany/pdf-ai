@@ -68,7 +68,7 @@ readonly class PopplerRasterClient implements RasterClientInterface
             '-f',
             $request->getFirstPage(),
             '-l',
-            $request->getFirstPage(),
+            $request->getLastPage(),
             '-r',
             $request->getResolution(),
             $request->getFilePath(),
