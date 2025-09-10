@@ -2,7 +2,7 @@
 
 namespace OneToMany\PdfExtractor\Client\Mock;
 
-use OneToMany\PdfExtractor\Contract\Client\RasterClientInterface;
+use OneToMany\PdfExtractor\Contract\Client\PdfExtractorClientInterface;
 use OneToMany\PdfExtractor\Contract\Request\ExtractPdfRequestInterface;
 use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
 use OneToMany\PdfExtractor\Contract\Response\ExtractedDataResponseInterface;
@@ -12,7 +12,7 @@ use OneToMany\PdfExtractor\Response\FileResponse;
 
 use function random_int;
 
-readonly class MockRasterClient implements RasterClientInterface
+readonly class MockRasterClient implements PdfExtractorClientInterface
 {
     public function __construct()
     {
@@ -23,7 +23,7 @@ readonly class MockRasterClient implements RasterClientInterface
         return new FileResponse(random_int(1, 100));
     }
 
-    public function rasterize(ExtractPdfRequestInterface $request): ExtractedDataResponseInterface
+    public function extract(ExtractPdfRequestInterface $request): ExtractedDataResponseInterface
     {
         throw new RuntimeException('Not implemented!');
     }

@@ -77,7 +77,7 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectException(RasterizingFileFailedException::class);
         $this->expectExceptionMessageMatches('/May not be a PDF file/');
 
-        new PopplerRasterClient()->rasterize(new ExtractPdfRequest(__FILE__));
+        new PopplerRasterClient()->extract(new ExtractPdfRequest(__FILE__));
     }
 
     public function testRasterizationRequiresValidPageNumber(): void
@@ -87,7 +87,7 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectException(RasterizingFileFailedException::class);
         $this->expectExceptionMessageMatches('/Wrong page range given/');
 
-        new PopplerRasterClient()->rasterize(new ExtractPdfRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
+        new PopplerRasterClient()->extract(new ExtractPdfRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
     }
 
     #[DataProvider('providerRasterizeFileRequestArguments')]
@@ -107,7 +107,7 @@ final class PopplerRasterClientTest extends TestCase
             $resolution,
         );
 
-        $image = new PopplerRasterClient()->rasterize($request);
+        $image = new PopplerRasterClient()->extract($request);
         $this->assertEquals($sha1Hash, sha1($image->__toString()));
     }
 

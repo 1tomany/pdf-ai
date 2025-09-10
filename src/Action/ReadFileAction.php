@@ -3,13 +3,13 @@
 namespace OneToMany\PdfExtractor\Action;
 
 use OneToMany\PdfExtractor\Contract\Action\ReadFileActionInterface;
-use OneToMany\PdfExtractor\Contract\Client\RasterClientInterface;
+use OneToMany\PdfExtractor\Contract\Client\PdfExtractorClientInterface;
 use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
 use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
 
 final readonly class ReadFileAction implements ReadFileActionInterface
 {
-    public function __construct(private RasterClientInterface $client)
+    public function __construct(private PdfExtractorClientInterface $client)
     {
     }
 

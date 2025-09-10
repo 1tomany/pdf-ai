@@ -4,7 +4,7 @@ namespace OneToMany\PdfExtractor\Client\Poppler;
 
 use OneToMany\PdfExtractor\Client\Exception\RasterizingFileFailedException;
 use OneToMany\PdfExtractor\Client\Exception\ReadingFileFailedException;
-use OneToMany\PdfExtractor\Contract\Client\RasterClientInterface;
+use OneToMany\PdfExtractor\Contract\Client\PdfExtractorClientInterface;
 use OneToMany\PdfExtractor\Contract\Request\ExtractPdfRequestInterface;
 use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
 use OneToMany\PdfExtractor\Contract\Response\ExtractedDataResponseInterface;
@@ -19,7 +19,7 @@ use function explode;
 use function str_contains;
 use function strcmp;
 
-readonly class PopplerRasterClient implements RasterClientInterface
+readonly class PopplerRasterClient implements PdfExtractorClientInterface
 {
     private string $pdfInfoBinary;
     private string $pdfToPpmBinary;
@@ -57,7 +57,7 @@ readonly class PopplerRasterClient implements RasterClientInterface
         return $response;
     }
 
-    public function rasterize(ExtractPdfRequestInterface $request): ExtractedDataResponseInterface
+    public function extract(ExtractPdfRequestInterface $request): ExtractedDataResponseInterface
     {
         $process = new Process([
             $this->pdfToPpmBinary,

@@ -7,9 +7,9 @@ use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
 use OneToMany\PdfExtractor\Contract\Response\ExtractedDataResponseInterface;
 use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
 
-interface RasterClientInterface
+interface PdfExtractorClientInterface
 {
     public function read(ReadPdfRequestInterface $request): PdfInfoResponseInterface;
 
-    public function rasterize(ExtractPdfRequestInterface $request): ExtractedDataResponseInterface;
+    public function extract(ExtractPdfRequestInterface $request): ExtractedDataResponseInterface;
 }

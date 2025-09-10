@@ -4,27 +4,27 @@ namespace OneToMany\PdfExtractor\Tests\Factory;
 
 use OneToMany\PdfExtractor\Client\Mock\MockRasterClient;
 use OneToMany\PdfExtractor\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
-use OneToMany\PdfExtractor\Factory\RasterClientFactory;
+use OneToMany\PdfExtractor\Factory\PdfExtractorClientFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
 #[Group('UnitTests')]
 #[Group('FactoryTests')]
-final class RasterClientFactoryTest extends TestCase
+final class PdfExtractorClientFactoryTest extends TestCase
 {
     public function testCreatingServiceRequiresServiceToExist(): void
     {
         $this->expectException(CreatingRasterClientFailedServiceNotFoundException::class);
 
-        new RasterClientFactory($this->createContainer())->create('invalid');
+        new PdfExtractorClientFactory($this->createContainer())->create('invalid');
     }
 
     public function testCreatingServiceRequiresServiceToImplementRasterServiceInterface(): void
     {
         $this->expectException(CreatingRasterClientFailedServiceNotFoundException::class);
 
-        new RasterClientFactory($this->createContainer())->create('error');
+        new PdfExtractorClientFactory($this->createContainer())->create('error');
     }
 
     private function createContainer(): ContainerInterface
