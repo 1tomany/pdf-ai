@@ -2,7 +2,7 @@
 
 namespace OneToMany\PdfToImage\Request;
 
-use OneToMany\PdfToImage\Contract\Request\ReadFileRequestInterface;
+use OneToMany\PdfToImage\Contract\Request\ReadPdfRequestInterface;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
 
 use function is_file;
@@ -10,7 +10,7 @@ use function is_readable;
 use function sprintf;
 use function trim;
 
-class ReadFileRequest implements ReadFileRequestInterface
+class ReadPdfRequest implements ReadPdfRequestInterface
 {
     /**
      * @var non-empty-string

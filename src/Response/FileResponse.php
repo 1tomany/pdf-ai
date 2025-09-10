@@ -2,11 +2,11 @@
 
 namespace OneToMany\PdfToImage\Response;
 
-use OneToMany\PdfToImage\Contract\Response\FileResponseInterface;
+use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
 
 use function max;
 
-class FileResponse implements FileResponseInterface
+class FileResponse implements PdfInfoResponseInterface
 {
     /**
      * @var positive-int

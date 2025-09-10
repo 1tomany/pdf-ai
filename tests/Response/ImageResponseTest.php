@@ -2,7 +2,7 @@
 
 namespace OneToMany\PdfToImage\Tests\Response;
 
-use OneToMany\PdfToImage\Contract\Enum\ImageType;
+use OneToMany\PdfToImage\Contract\Enum\OutputType;
 use OneToMany\PdfToImage\Response\ImageResponse;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ final class ImageResponseTest extends TestCase
     {
         $text = 'Hello, world!';
 
-        $this->assertEquals($text, new ImageResponse(ImageType::Jpg, $text)->__toString());
+        $this->assertEquals($text, new ImageResponse(OutputType::Jpg, $text)->__toString());
     }
 
     public function testToDataUri(): void
@@ -32,6 +32,6 @@ final class ImageResponseTest extends TestCase
         $this->assertNotEmpty($data);
 
         $dataUri = 'data:image/png;base64,'.base64_encode($data);
-        $this->assertEquals($dataUri, new ImageResponse(ImageType::Png, $data)->toDataUri());
+        $this->assertEquals($dataUri, new ImageResponse(OutputType::Png, $data)->toDataUri());
     }
 }

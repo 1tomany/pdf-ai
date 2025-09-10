@@ -2,14 +2,14 @@
 
 namespace OneToMany\PdfToImage\Contract\Client;
 
-use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
-use OneToMany\PdfToImage\Contract\Request\ReadFileRequestInterface;
-use OneToMany\PdfToImage\Contract\Response\FileResponseInterface;
+use OneToMany\PdfToImage\Contract\Request\RasterizePdfRequestInterface;
+use OneToMany\PdfToImage\Contract\Request\ReadPdfRequestInterface;
+use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
 use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 
 interface RasterClientInterface
 {
-    public function read(ReadFileRequestInterface $request): FileResponseInterface;
+    public function read(ReadPdfRequestInterface $request): PdfInfoResponseInterface;
 
-    public function rasterize(RasterizeFileRequestInterface $request): ImageResponseInterface;
+    public function rasterize(RasterizePdfRequestInterface $request): ImageResponseInterface;
 }

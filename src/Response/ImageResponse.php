@@ -2,7 +2,7 @@
 
 namespace OneToMany\PdfToImage\Response;
 
-use OneToMany\PdfToImage\Contract\Enum\ImageType;
+use OneToMany\PdfToImage\Contract\Enum\OutputType;
 use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 
 use function base64_encode;
@@ -11,11 +11,11 @@ use function trim;
 
 class ImageResponse implements ImageResponseInterface
 {
-    protected ImageType $type;
+    protected OutputType $type;
     protected string $data;
 
     public function __construct(
-        ImageType $type,
+        OutputType $type,
         string $data,
     ) {
         $this->setType($type);
@@ -27,12 +27,12 @@ class ImageResponse implements ImageResponseInterface
         return $this->data;
     }
 
-    public function getType(): ImageType
+    public function getType(): OutputType
     {
         return $this->type;
     }
 
-    public function setType(ImageType $type): static
+    public function setType(OutputType $type): static
     {
         $this->type = $type;
 

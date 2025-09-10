@@ -2,13 +2,13 @@
 
 namespace OneToMany\PdfToImage\Request;
 
-use OneToMany\PdfToImage\Contract\Enum\ImageType;
-use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
+use OneToMany\PdfToImage\Contract\Enum\OutputType;
+use OneToMany\PdfToImage\Contract\Request\RasterizePdfRequestInterface;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
 
 use function sprintf;
 
-class RasterizeFileRequest extends ReadFileRequest implements RasterizeFileRequestInterface
+class RasterizePdfRequest extends ReadPdfRequest implements RasterizePdfRequestInterface
 {
     /**
      * @var positive-int
@@ -19,7 +19,7 @@ class RasterizeFileRequest extends ReadFileRequest implements RasterizeFileReque
      * @var positive-int
      */
     protected int $lastPage = 1;
-    protected ImageType $outputType = ImageType::Jpg;
+    protected OutputType $outputType = OutputType::Jpg;
 
     /**
      * @var int<self::MIN_RESOLUTION, self::MAX_RESOLUTION>
@@ -30,7 +30,7 @@ class RasterizeFileRequest extends ReadFileRequest implements RasterizeFileReque
         ?string $filePath,
         int $firstPage = 1,
         int $lastPage = 1,
-        ImageType $outputType = ImageType::Jpg,
+        OutputType $outputType = OutputType::Jpg,
         int $resolution = self::DEFAULT_RESOLUTION,
     ) {
         $this->setFilePath($filePath);
@@ -80,12 +80,12 @@ class RasterizeFileRequest extends ReadFileRequest implements RasterizeFileReque
         return $this;
     }
 
-    public function getOutputType(): ImageType
+    public function getOutputType(): OutputType
     {
         return $this->outputType;
     }
 
-    public function setOutputType(ImageType $outputType): static
+    public function setOutputType(OutputType $outputType): static
     {
         $this->outputType = $outputType;
 

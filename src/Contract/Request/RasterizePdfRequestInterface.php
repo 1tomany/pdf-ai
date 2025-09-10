@@ -2,9 +2,9 @@
 
 namespace OneToMany\PdfToImage\Contract\Request;
 
-use OneToMany\PdfToImage\Contract\Enum\ImageType;
+use OneToMany\PdfToImage\Contract\Enum\OutputType;
 
-interface RasterizeFileRequestInterface extends ReadFileRequestInterface
+interface RasterizePdfRequestInterface extends ReadPdfRequestInterface
 {
     public const int DEFAULT_RESOLUTION = 72;
     public const int MIN_RESOLUTION = 48;
@@ -20,7 +20,7 @@ interface RasterizeFileRequestInterface extends ReadFileRequestInterface
      */
     public function getLastPage(): int;
 
-    public function getOutputType(): ImageType;
+    public function getOutputType(): OutputType;
 
     /**
      * @return int<self::MIN_RESOLUTION, self::MAX_RESOLUTION>

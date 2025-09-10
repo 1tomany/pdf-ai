@@ -2,7 +2,7 @@
 
 namespace OneToMany\PdfToImage\Contract\Response;
 
-interface FileResponseInterface
+interface PdfInfoResponseInterface
 {
     /**
      * @return positive-int

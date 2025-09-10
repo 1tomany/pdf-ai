@@ -5,10 +5,10 @@ namespace OneToMany\PdfToImage\Tests\Client\Poppler;
 use OneToMany\PdfToImage\Client\Exception\RasterizingFileFailedException;
 use OneToMany\PdfToImage\Client\Exception\ReadingFileFailedException;
 use OneToMany\PdfToImage\Client\Poppler\PopplerRasterClient;
-use OneToMany\PdfToImage\Contract\Enum\ImageType;
+use OneToMany\PdfToImage\Contract\Enum\OutputType;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
-use OneToMany\PdfToImage\Request\RasterizeFileRequest;
-use OneToMany\PdfToImage\Request\ReadFileRequest;
+use OneToMany\PdfToImage\Request\RasterizePdfRequest;
+use OneToMany\PdfToImage\Request\ReadPdfRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Large;
@@ -48,17 +48,17 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectException(ReadingFileFailedException::class);
         $this->expectExceptionMessageMatches('/May not be a PDF file/');
 
-        new PopplerRasterClient()->read(new ReadFileRequest(__FILE__));
+        new PopplerRasterClient()->read(new ReadPdfRequest(__FILE__));
     }
 
     #[DataProvider('providerReadFileRequestArguments')]
     public function testReadingFile(string $filePath, int $pageCount): void
     {
-        $this->assertEquals($pageCount, new PopplerRasterClient()->read(new ReadFileRequest($filePath))->getPageCount());
+        $this->assertEquals($pageCount, new PopplerRasterClient()->read(new ReadPdfRequest($filePath))->getPageCount());
     }
 
     /**
-     * @return list<list<int|string|ImageType>>
+     * @return list<list<int|string|OutputType>>
      */
     public static function providerReadFileRequestArguments(): array
     {
@@ -77,7 +77,7 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectException(RasterizingFileFailedException::class);
         $this->expectExceptionMessageMatches('/May not be a PDF file/');
 
-        new PopplerRasterClient()->rasterize(new RasterizeFileRequest(__FILE__));
+        new PopplerRasterClient()->rasterize(new RasterizePdfRequest(__FILE__));
     }
 
     public function testRasterizationRequiresValidPageNumber(): void
@@ -87,7 +87,7 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectException(RasterizingFileFailedException::class);
         $this->expectExceptionMessageMatches('/Wrong page range given/');
 
-        new PopplerRasterClient()->rasterize(new RasterizeFileRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
+        new PopplerRasterClient()->rasterize(new RasterizePdfRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
     }
 
     #[DataProvider('providerRasterizeFileRequestArguments')]
@@ -95,11 +95,11 @@ final class PopplerRasterClientTest extends TestCase
         string $filePath,
         int $firstPage,
         int $lastPage,
-        ImageType $outputType,
+        OutputType $outputType,
         int $resolution,
         string $sha1Hash,
     ): void {
-        $request = new RasterizeFileRequest(
+        $request = new RasterizePdfRequest(
             $filePath,
             $firstPage,
             $lastPage,
@@ -112,16 +112,16 @@ final class PopplerRasterClientTest extends TestCase
     }
 
     /**
-     * @return list<list<int|string|ImageType>>
+     * @return list<list<int|string|OutputType>>
      */
     public static function providerRasterizeFileRequestArguments(): array
     {
         $provider = [
-            [__DIR__.'/../files/pages-1.pdf', 1, 1, ImageType::Jpg, 150, 'bfbfea39b881befa7e0af249f4fff08592d1ff56'],
-            [__DIR__.'/../files/pages-2.pdf', 1, 1, ImageType::Jpg, 300, 'b4f24570eaeda3bc0b2865e7583666ec9cae8cc3'],
-            [__DIR__.'/../files/pages-2.pdf', 1, 1, ImageType::Png, 150, '73ee6b53e3c48945095da187be916593e2cbec17'],
-            [__DIR__.'/../files/pages-3.pdf', 1, 1, ImageType::Jpg, 72, '932f94066020ae177c64544c6611441570dc2b50'],
-            [__DIR__.'/../files/pages-4.pdf', 1, 1, ImageType::Png, 72, 'a074c43375569c0f8d1b24a9fc7dbc456b5c126d'],
+            [__DIR__.'/../files/pages-1.pdf', 1, 1, OutputType::Jpg, 150, 'bfbfea39b881befa7e0af249f4fff08592d1ff56'],
+            [__DIR__.'/../files/pages-2.pdf', 1, 1, OutputType::Jpg, 300, 'b4f24570eaeda3bc0b2865e7583666ec9cae8cc3'],
+            [__DIR__.'/../files/pages-2.pdf', 1, 1, OutputType::Png, 150, '73ee6b53e3c48945095da187be916593e2cbec17'],
+            [__DIR__.'/../files/pages-3.pdf', 1, 1, OutputType::Jpg, 72, '932f94066020ae177c64544c6611441570dc2b50'],
+            [__DIR__.'/../files/pages-4.pdf', 1, 1, OutputType::Png, 72, 'a074c43375569c0f8d1b24a9fc7dbc456b5c126d'],
         ];
 
         return $provider;

@@ -2,7 +2,7 @@
 
 namespace OneToMany\PdfToImage\Contract\Request;
 
-interface ReadFileRequestInterface
+interface ReadPdfRequestInterface
 {
     /**
      * @return non-empty-string
