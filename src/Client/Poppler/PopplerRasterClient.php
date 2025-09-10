@@ -5,14 +5,13 @@ namespace OneToMany\PdfToImage\Client\Poppler;
 use OneToMany\PdfToImage\Client\Exception\RasterizingFileFailedException;
 use OneToMany\PdfToImage\Client\Exception\ReadingFileFailedException;
 use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
-use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
 use OneToMany\PdfToImage\Contract\Request\ReadFileRequestInterface;
-use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 use OneToMany\PdfToImage\Contract\Response\FileResponseInterface;
+use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 use OneToMany\PdfToImage\Helper\BinaryFinder;
-use OneToMany\PdfToImage\Response\ImageResponse;
 use OneToMany\PdfToImage\Response\FileResponse;
+use OneToMany\PdfToImage\Response\ImageResponse;
 use Symfony\Component\Process\Exception\ExceptionInterface as ProcessExceptionInterface;
 use Symfony\Component\Process\Process;
 
@@ -28,8 +27,7 @@ readonly class PopplerRasterClient implements RasterClientInterface
     public function __construct(
         string $pdfInfoBinary = 'pdfinfo',
         string $pdfToPpmBinary = 'pdftoppm',
-    )
-    {
+    ) {
         $this->pdfInfoBinary = BinaryFinder::find($pdfInfoBinary);
         $this->pdfToPpmBinary = BinaryFinder::find($pdfToPpmBinary);
     }

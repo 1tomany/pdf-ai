@@ -43,7 +43,6 @@ final class PopplerRasterClientTest extends TestCase
 
     public function testReadingRequiresValidPDF(): void
     {
-
     }
 
     public function testRasterizationRequiresValidPDF(): void

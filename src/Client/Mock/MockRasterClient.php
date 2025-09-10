@@ -5,8 +5,8 @@ namespace OneToMany\PdfToImage\Client\Mock;
 use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
 use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
 use OneToMany\PdfToImage\Contract\Request\ReadFileRequestInterface;
-use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 use OneToMany\PdfToImage\Contract\Response\FileResponseInterface;
+use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 use OneToMany\PdfToImage\Exception\RuntimeException;
 use OneToMany\PdfToImage\Response\FileResponse;
 
