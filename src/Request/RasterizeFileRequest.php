@@ -2,34 +2,109 @@
 
 namespace OneToMany\PdfToImage\Request;
 
-use OneToMany\PdfToImage\Contract\ImageType;
+use OneToMany\PdfToImage\Contract\Enum\ImageType;
+use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
 
-use function is_file;
-use function is_readable;
 use function sprintf;
 
-final readonly class RasterizeFileRequest
+class RasterizeFileRequest extends ReadFileRequest implements RasterizeFileRequestInterface
 {
-    private const int MIN_RESOLUTION = 48;
-    private const int MAX_RESOLUTION = 300;
+    /**
+     * @var positive-int
+     */
+    protected int $firstPage = 1;
+
+    /**
+     * @var positive-int
+     */
+    protected int $lastPage = 1;
+    protected ImageType $outputType = ImageType::Jpg;
+
+    /**
+     * @var int<self::MIN_RESOLUTION, self::MAX_RESOLUTION>
+     */
+    protected int $resolution = self::DEFAULT_RESOLUTION;
 
     public function __construct(
-        public string $path,
-        public int $page = 1,
-        public ImageType $type = ImageType::Png,
-        public int $resolution = 150,
+        ?string $filePath,
+        int $firstPage = 1,
+        int $lastPage = 1,
+        ImageType $outputType = ImageType::Jpg,
+        int $resolution = self::DEFAULT_RESOLUTION,
     ) {
-        if (!is_file($this->path) || !is_readable($this->path)) {
-            throw new InvalidArgumentException(sprintf('The input file "%s" does not exist or is not readable.', $this->path));
+        $this->setFilePath($filePath);
+        $this->setFirstPage($firstPage);
+        $this->setLastPage($lastPage);
+        $this->setOutputType($outputType);
+        $this->setResolution($resolution);
+    }
+
+    public function getFirstPage(): int
+    {
+        return $this->firstPage;
+    }
+
+    public function setFirstPage(int $firstPage): static
+    {
+        if ($firstPage < 1) {
+            throw new InvalidArgumentException('The first page number must be a positive non-zero integer.');
         }
 
-        if ($this->page < 1) {
-            throw new InvalidArgumentException('The page number must be a positive non-zero integer.');
+        $this->firstPage = $firstPage;
+
+        if ($firstPage > $this->getLastPage()) {
+            $this->setLastPage($firstPage);
         }
 
-        if ($this->resolution < self::MIN_RESOLUTION || $this->resolution > self::MAX_RESOLUTION) {
+        return $this;
+    }
+
+    public function getLastPage(): int
+    {
+        return $this->lastPage;
+    }
+
+    public function setLastPage(int $lastPage): static
+    {
+        if ($lastPage < 1) {
+            throw new InvalidArgumentException('The last page number must be a positive non-zero integer.');
+        }
+
+        if ($lastPage < $this->getFirstPage()) {
+            $this->setFirstPage($lastPage);
+        }
+
+        $this->lastPage = $lastPage;
+
+        return $this;
+    }
+
+    public function getOutputType(): ImageType
+    {
+        return $this->outputType;
+    }
+
+    public function setOutputType(ImageType $outputType): static
+    {
+        $this->outputType = $outputType;
+
+        return $this;
+    }
+
+    public function getResolution(): int
+    {
+        return $this->resolution;
+    }
+
+    public function setResolution(int $resolution): static
+    {
+        if ($resolution < self::MIN_RESOLUTION || $resolution > self::MAX_RESOLUTION) {
             throw new InvalidArgumentException(sprintf('The resolution must be an integer between %d and %d.', self::MIN_RESOLUTION, self::MAX_RESOLUTION));
         }
+
+        $this->resolution = $resolution;
+
+        return $this;
     }
 }

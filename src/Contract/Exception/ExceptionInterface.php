@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\PdfToImage\Exception;
+namespace OneToMany\PdfToImage\Contract\Exception;
 
 interface ExceptionInterface extends \Throwable
 {
