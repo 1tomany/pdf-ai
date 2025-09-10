@@ -1,11 +1,11 @@
 <?php
 
-namespace OneToMany\PdfToImage\Contract\Client;
+namespace OneToMany\PdfExtractor\Contract\Client;
 
-use OneToMany\PdfToImage\Contract\Request\RasterizePdfRequestInterface;
-use OneToMany\PdfToImage\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
-use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
+use OneToMany\PdfExtractor\Contract\Request\RasterizePdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
+use OneToMany\PdfExtractor\Contract\Response\ImageResponseInterface;
 
 interface RasterClientInterface
 {

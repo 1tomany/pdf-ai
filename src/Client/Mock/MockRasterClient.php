@@ -1,14 +1,14 @@
 <?php
 
-namespace OneToMany\PdfToImage\Client\Mock;
+namespace OneToMany\PdfExtractor\Client\Mock;
 
-use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
-use OneToMany\PdfToImage\Contract\Request\RasterizePdfRequestInterface;
-use OneToMany\PdfToImage\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
-use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
-use OneToMany\PdfToImage\Exception\RuntimeException;
-use OneToMany\PdfToImage\Response\FileResponse;
+use OneToMany\PdfExtractor\Contract\Client\RasterClientInterface;
+use OneToMany\PdfExtractor\Contract\Request\RasterizePdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
+use OneToMany\PdfExtractor\Contract\Response\ImageResponseInterface;
+use OneToMany\PdfExtractor\Exception\RuntimeException;
+use OneToMany\PdfExtractor\Response\FileResponse;
 
 use function random_int;
 

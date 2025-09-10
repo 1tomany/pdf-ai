@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PdfToImage\Contract\Response;
+namespace OneToMany\PdfExtractor\Contract\Response;
 
-use OneToMany\PdfToImage\Contract\Enum\OutputType;
+use OneToMany\PdfExtractor\Contract\Enum\OutputType;
 
 interface ImageResponseInterface extends \Stringable
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace OneToMany\PdfToImage\Tests\Client\Poppler;
+namespace OneToMany\PdfExtractor\Tests\Client\Poppler;
 
-use OneToMany\PdfToImage\Client\Exception\RasterizingFileFailedException;
-use OneToMany\PdfToImage\Client\Exception\ReadingFileFailedException;
-use OneToMany\PdfToImage\Client\Poppler\PopplerRasterClient;
-use OneToMany\PdfToImage\Contract\Enum\OutputType;
-use OneToMany\PdfToImage\Exception\InvalidArgumentException;
-use OneToMany\PdfToImage\Request\RasterizePdfRequest;
-use OneToMany\PdfToImage\Request\ReadPdfRequest;
+use OneToMany\PdfExtractor\Client\Exception\RasterizingFileFailedException;
+use OneToMany\PdfExtractor\Client\Exception\ReadingFileFailedException;
+use OneToMany\PdfExtractor\Client\Poppler\PopplerRasterClient;
+use OneToMany\PdfExtractor\Contract\Enum\OutputType;
+use OneToMany\PdfExtractor\Exception\InvalidArgumentException;
+use OneToMany\PdfExtractor\Request\RasterizePdfRequest;
+use OneToMany\PdfExtractor\Request\ReadPdfRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Large;

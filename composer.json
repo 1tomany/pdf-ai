@@ -1,6 +1,6 @@
 {
-    "name": "1tomany/pdf-to-image",
-    "description": "A simple library that converts a PDF to an image using the xpdf and Poppler libraries",
+    "name": "1tomany/pdf-extractor",
+    "description": "A simple library that extracts data from PDF files using the Poppler command line tools",
     "license": "MIT",
     "type": "library",
     "minimum-stability": "stable",
@@ -9,10 +9,14 @@
         "pdf",
         "poppler",
         "pdftoppm",
+        "pdfinfo",
         "xpdf",
         "pdf to image",
         "pdf2img",
-        "pdf2image"
+        "pdf2image",
+        "pdf to text",
+        "pdf2text",
+        "pdf2txt"
     ],
     "require": {
         "php": ">=8.4",
@@ -27,7 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OneToMany\\PdfToImage\\": "src/"
+            "OneToMany\\PdfExtractor\\": "src/"
         },
         "exclude-from-classmap": [
             "/Tests/"
@@ -35,7 +39,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OneToMany\\PdfToImage\\Tests\\": "tests/"
+            "OneToMany\\PdfExtractor\\Tests\\": "tests/"
         }
     },
     "scripts": {

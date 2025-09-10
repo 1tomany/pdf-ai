@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PdfToImage\Contract\Action;
+namespace OneToMany\PdfExtractor\Contract\Action;
 
-use OneToMany\PdfToImage\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
+use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
 
 interface ReadFileActionInterface
 {

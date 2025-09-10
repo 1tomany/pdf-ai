@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PdfToImage\Response;
+namespace OneToMany\PdfExtractor\Response;
 
-use OneToMany\PdfToImage\Contract\Enum\OutputType;
-use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
+use OneToMany\PdfExtractor\Contract\Enum\OutputType;
+use OneToMany\PdfExtractor\Contract\Response\ImageResponseInterface;
 
 use function base64_encode;
 use function sprintf;

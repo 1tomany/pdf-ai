@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\PdfToImage\Contract\Enum;
+namespace OneToMany\PdfExtractor\Contract\Enum;
 
 enum OutputType
 {

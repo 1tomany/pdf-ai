@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PdfToImage\Factory;
+namespace OneToMany\PdfExtractor\Factory;
 
-use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
-use OneToMany\PdfToImage\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
+use OneToMany\PdfExtractor\Contract\Client\RasterClientInterface;
+use OneToMany\PdfExtractor\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PdfToImage\Response;
+namespace OneToMany\PdfExtractor\Response;
 
-use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
+use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
 
 use function max;
 

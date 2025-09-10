@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PdfToImage\Contract\Request;
+namespace OneToMany\PdfExtractor\Contract\Request;
 
-use OneToMany\PdfToImage\Contract\Enum\OutputType;
+use OneToMany\PdfExtractor\Contract\Enum\OutputType;
 
 interface RasterizePdfRequestInterface extends ReadPdfRequestInterface
 {

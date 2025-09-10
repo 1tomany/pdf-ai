@@ -1,11 +1,11 @@
 <?php
 
-namespace OneToMany\PdfToImage\Tests\Request;
+namespace OneToMany\PdfExtractor\Tests\Request;
 
-use OneToMany\PdfToImage\Contract\Enum\OutputType;
-use OneToMany\PdfToImage\Contract\Request\RasterizePdfRequestInterface;
-use OneToMany\PdfToImage\Exception\InvalidArgumentException;
-use OneToMany\PdfToImage\Request\RasterizePdfRequest;
+use OneToMany\PdfExtractor\Contract\Enum\OutputType;
+use OneToMany\PdfExtractor\Contract\Request\RasterizePdfRequestInterface;
+use OneToMany\PdfExtractor\Exception\InvalidArgumentException;
+use OneToMany\PdfExtractor\Request\RasterizePdfRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;

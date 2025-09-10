@@ -1,10 +1,10 @@
 <?php
 
-namespace OneToMany\PdfToImage\Request;
+namespace OneToMany\PdfExtractor\Request;
 
-use OneToMany\PdfToImage\Contract\Enum\OutputType;
-use OneToMany\PdfToImage\Contract\Request\RasterizePdfRequestInterface;
-use OneToMany\PdfToImage\Exception\InvalidArgumentException;
+use OneToMany\PdfExtractor\Contract\Enum\OutputType;
+use OneToMany\PdfExtractor\Contract\Request\RasterizePdfRequestInterface;
+use OneToMany\PdfExtractor\Exception\InvalidArgumentException;
 
 use function sprintf;
 

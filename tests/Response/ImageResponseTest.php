@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PdfToImage\Tests\Response;
+namespace OneToMany\PdfExtractor\Tests\Response;
 
-use OneToMany\PdfToImage\Contract\Enum\OutputType;
-use OneToMany\PdfToImage\Response\ImageResponse;
+use OneToMany\PdfExtractor\Contract\Enum\OutputType;
+use OneToMany\PdfExtractor\Response\ImageResponse;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 

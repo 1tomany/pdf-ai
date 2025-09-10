@@ -1,12 +1,17 @@
-# PDF to Image Converter
-More to come.
+# PDF Extractor
+This library extracts data from PDF files.
 
 ## Installation
 ```
-composer require 1tomany/pdf-to-image
+composer require 1tomany/pdf-extractor
 ```
 
-## Static Analysis
+## Run Test Suite
+``` bash
+./vendor/bin/phpunit
+```
+
+## Run Static Analysis
 ``` bash
 ./vendor/bin/phpstan
 ```

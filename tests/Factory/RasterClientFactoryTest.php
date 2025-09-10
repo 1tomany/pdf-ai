@@ -1,10 +1,10 @@
 <?php
 
-namespace OneToMany\PdfToImage\Tests\Factory;
+namespace OneToMany\PdfExtractor\Tests\Factory;
 
-use OneToMany\PdfToImage\Client\Mock\MockRasterClient;
-use OneToMany\PdfToImage\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
-use OneToMany\PdfToImage\Factory\RasterClientFactory;
+use OneToMany\PdfExtractor\Client\Mock\MockRasterClient;
+use OneToMany\PdfExtractor\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
+use OneToMany\PdfExtractor\Factory\RasterClientFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;

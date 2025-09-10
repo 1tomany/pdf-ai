@@ -1,11 +1,11 @@
 <?php
 
-namespace OneToMany\PdfToImage\Action;
+namespace OneToMany\PdfExtractor\Action;
 
-use OneToMany\PdfToImage\Contract\Action\ReadFileActionInterface;
-use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
-use OneToMany\PdfToImage\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
+use OneToMany\PdfExtractor\Contract\Action\ReadFileActionInterface;
+use OneToMany\PdfExtractor\Contract\Client\RasterClientInterface;
+use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
 
 final readonly class ReadFileAction implements ReadFileActionInterface
 {

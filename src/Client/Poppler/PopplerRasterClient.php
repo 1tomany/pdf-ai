@@ -1,17 +1,17 @@
 <?php
 
-namespace OneToMany\PdfToImage\Client\Poppler;
+namespace OneToMany\PdfExtractor\Client\Poppler;
 
-use OneToMany\PdfToImage\Client\Exception\RasterizingFileFailedException;
-use OneToMany\PdfToImage\Client\Exception\ReadingFileFailedException;
-use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
-use OneToMany\PdfToImage\Contract\Request\RasterizePdfRequestInterface;
-use OneToMany\PdfToImage\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
-use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
-use OneToMany\PdfToImage\Helper\BinaryFinder;
-use OneToMany\PdfToImage\Response\FileResponse;
-use OneToMany\PdfToImage\Response\ImageResponse;
+use OneToMany\PdfExtractor\Client\Exception\RasterizingFileFailedException;
+use OneToMany\PdfExtractor\Client\Exception\ReadingFileFailedException;
+use OneToMany\PdfExtractor\Contract\Client\RasterClientInterface;
+use OneToMany\PdfExtractor\Contract\Request\RasterizePdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
+use OneToMany\PdfExtractor\Contract\Response\ImageResponseInterface;
+use OneToMany\PdfExtractor\Helper\BinaryFinder;
+use OneToMany\PdfExtractor\Response\FileResponse;
+use OneToMany\PdfExtractor\Response\ImageResponse;
 use Symfony\Component\Process\Exception\ExceptionInterface as ProcessExceptionInterface;
 use Symfony\Component\Process\Process;
 

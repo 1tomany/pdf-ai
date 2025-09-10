@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\PdfToImage\Contract\Request;
+namespace OneToMany\PdfExtractor\Contract\Request;
 
 interface ReadPdfRequestInterface
 {

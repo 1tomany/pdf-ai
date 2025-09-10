@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\PdfToImage\Client\Exception;
+namespace OneToMany\PdfExtractor\Client\Exception;
 
 use function sprintf;
 

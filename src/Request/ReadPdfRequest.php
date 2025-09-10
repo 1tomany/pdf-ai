@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PdfToImage\Request;
+namespace OneToMany\PdfExtractor\Request;
 
-use OneToMany\PdfToImage\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfToImage\Exception\InvalidArgumentException;
+use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
+use OneToMany\PdfExtractor\Exception\InvalidArgumentException;
 
 use function is_file;
 use function is_readable;

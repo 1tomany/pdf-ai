@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PdfToImage\Client\Exception;
+namespace OneToMany\PdfExtractor\Client\Exception;
 
-use OneToMany\PdfToImage\Exception\RuntimeException;
+use OneToMany\PdfExtractor\Exception\RuntimeException;
 
 use function explode;
 use function rtrim;

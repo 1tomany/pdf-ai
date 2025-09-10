@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\PdfToImage\Contract\Response;
+namespace OneToMany\PdfExtractor\Contract\Response;
 
 interface PdfInfoResponseInterface
 {
