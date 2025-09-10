@@ -3,10 +3,12 @@
 namespace OneToMany\PdfToImage\Tests\Client\Poppler;
 
 use OneToMany\PdfToImage\Client\Exception\RasterizingFileFailedException;
+use OneToMany\PdfToImage\Client\Exception\ReadingFileFailedException;
 use OneToMany\PdfToImage\Client\Poppler\PopplerRasterClient;
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
 use OneToMany\PdfToImage\Request\RasterizeFileRequest;
+use OneToMany\PdfToImage\Request\ReadFileRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Large;
@@ -41,11 +43,36 @@ final class PopplerRasterClientTest extends TestCase
         new PopplerRasterClient(pdfToPpmBinary: $pdfToPpmBinary);
     }
 
-    public function testReadingRequiresValidPDF(): void
+    public function testReadingRequiresValidPdfFile(): void
     {
+        $this->expectException(ReadingFileFailedException::class);
+        $this->expectExceptionMessageMatches('/May not be a PDF file/');
+
+        new PopplerRasterClient()->read(new ReadFileRequest(__FILE__));
     }
 
-    public function testRasterizationRequiresValidPDF(): void
+    #[DataProvider('providerReadFileRequestArguments')]
+    public function testReadingFile(string $filePath, int $pageCount): void
+    {
+        $this->assertEquals($pageCount, new PopplerRasterClient()->read(new ReadFileRequest($filePath))->getPageCount());
+    }
+
+    /**
+     * @return list<list<int|string|ImageType>>
+     */
+    public static function providerReadFileRequestArguments(): array
+    {
+        $provider = [
+            [__DIR__.'/../files/pages-1.pdf', 1],
+            [__DIR__.'/../files/pages-2.pdf', 2],
+            [__DIR__.'/../files/pages-3.pdf', 3],
+            [__DIR__.'/../files/pages-4.pdf', 4],
+        ];
+
+        return $provider;
+    }
+
+    public function testRasterizationRequiresValidPdfFile(): void
     {
         $this->expectException(RasterizingFileFailedException::class);
         $this->expectExceptionMessageMatches('/May not be a PDF file/');
@@ -63,8 +90,8 @@ final class PopplerRasterClientTest extends TestCase
         new PopplerRasterClient()->rasterize(new RasterizeFileRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
     }
 
-    #[DataProvider('providerFilePageTypeResolutionAndSha1Hash')]
-    public function testRasterizingPage(
+    #[DataProvider('providerRasterizeFileRequestArguments')]
+    public function testRasterizingFile(
         string $filePath,
         int $firstPage,
         int $lastPage,
@@ -77,17 +104,17 @@ final class PopplerRasterClientTest extends TestCase
             $firstPage,
             $lastPage,
             $outputType,
-            $resolution
+            $resolution,
         );
 
-        $data = new PopplerRasterClient()->rasterize($request);
-        $this->assertEquals($sha1Hash, sha1($data->__toString()));
+        $image = new PopplerRasterClient()->rasterize($request);
+        $this->assertEquals($sha1Hash, sha1($image->__toString()));
     }
 
     /**
      * @return list<list<int|string|ImageType>>
      */
-    public static function providerFilePageTypeResolutionAndSha1Hash(): array
+    public static function providerRasterizeFileRequestArguments(): array
     {
         $provider = [
             [__DIR__.'/../files/pages-1.pdf', 1, 1, ImageType::Jpg, 150, 'bfbfea39b881befa7e0af249f4fff08592d1ff56'],
