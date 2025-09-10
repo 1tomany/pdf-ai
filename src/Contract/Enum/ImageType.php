@@ -16,4 +16,14 @@ enum ImageType
 
         return $contentType;
     }
+
+    public function isJpg(): bool
+    {
+        return $this === self::Jpg;
+    }
+
+    public function isPng(): bool
+    {
+        return $this === self::Png;
+    }
 }

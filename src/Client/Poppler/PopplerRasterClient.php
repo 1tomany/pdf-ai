@@ -61,15 +61,11 @@ readonly class PopplerRasterClient implements RasterClientInterface
 
     public function rasterize(RasterizeFileRequestInterface $request): ImageResponseInterface
     {
-        $imageType = match ($request->getOutputType()) {
-            ImageType::Jpg => '-jpeg',
-            ImageType::Png => '-png',
-        };
+        $outputImageType = $request->getOutputType()->isJpg() ? '-jpeg' : '-png';
 
         $process = new Process([
             $this->pdfToPpmBinary,
-            '-q',
-            $imageType,
+            $outputImageType,
             '-f',
             $request->getFirstPage(),
             '-l',
