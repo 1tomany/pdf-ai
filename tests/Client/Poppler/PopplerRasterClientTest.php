@@ -6,7 +6,7 @@ use OneToMany\PdfToImage\Client\Exception\RasterizingPdfFailedException;
 use OneToMany\PdfToImage\Client\Poppler\PopplerRasterClient;
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
-use OneToMany\PdfToImage\Request\RasterizeRequest;
+use OneToMany\PdfToImage\Request\RasterizePDFRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Large;
@@ -35,7 +35,7 @@ final class PopplerRasterClientTest extends TestCase
     {
         $this->expectException(RasterizingPdfFailedException::class);
 
-        new PopplerRasterClient()->rasterize(new RasterizeRequest(__FILE__));
+        new PopplerRasterClient()->rasterize(new RasterizePDFRequest(__FILE__));
     }
 
     public function testRasterizationRequiresValidPageNumber(): void
@@ -46,7 +46,7 @@ final class PopplerRasterClientTest extends TestCase
         $pageNumber = random_int(2, 100);
         $filePath = __DIR__.'/../files/pages-1.pdf';
 
-        new PopplerRasterClient()->rasterize(new RasterizeRequest($filePath, $pageNumber));
+        new PopplerRasterClient()->rasterize(new RasterizePDFRequest($filePath, $pageNumber));
     }
 
     #[DataProvider('providerFilePageTypeResolutionAndSha1Hash')]
@@ -57,7 +57,7 @@ final class PopplerRasterClientTest extends TestCase
         int $resolution,
         string $sha1Hash,
     ): void {
-        $request = new RasterizeRequest(
+        $request = new RasterizePDFRequest(
             $file, $page, $type, $resolution
         );
 

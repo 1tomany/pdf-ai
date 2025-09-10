@@ -6,7 +6,7 @@ use OneToMany\PdfToImage\Client\Exception\RasterizingPdfFailedException;
 use OneToMany\PdfToImage\Client\Exception\ReadingPdfInfoFailedException;
 use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
-use OneToMany\PdfToImage\Contract\Request\RasterizeRequestInterface;
+use OneToMany\PdfToImage\Contract\Request\RasterizePDFRequestInterface;
 use OneToMany\PdfToImage\Contract\Request\ReadInfoRequestInterface;
 use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
@@ -54,9 +54,9 @@ readonly class PopplerRasterClient implements RasterClientInterface
         return $response;
     }
 
-    public function rasterize(RasterizeRequestInterface $request): ImageResponseInterface
+    public function rasterize(RasterizePDFRequestInterface $request): ImageResponseInterface
     {
-        $imageType = match ($request->getType()) {
+        $imageType = match ($request->getOutputType()) {
             ImageType::Jpg => '-jpeg',
             ImageType::Png => '-png',
         };
@@ -66,20 +66,20 @@ readonly class PopplerRasterClient implements RasterClientInterface
             '-q',
             $imageType,
             '-f',
-            $request->getPage(),
+            $request->getFirstPage(),
             '-l',
-            $request->getPage(),
+            $request->getFirstPage(),
             '-r',
-            $request->getDPI(),
-            $request->getPath(),
+            $request->getResolution(),
+            $request->getFilePath(),
         ]);
 
         try {
             $image = $process->mustRun()->getOutput();
         } catch (ProcessExceptionInterface $e) {
-            throw new RasterizingPdfFailedException($request->getPath(), $request->getPage(), $process->getErrorOutput(), $e);
+            throw new RasterizingPdfFailedException($request->getFilePath(), $request->getFirstPage(), $process->getErrorOutput(), $e);
         }
 
-        return new ImageResponse($request->getType(), $image);
+        return new ImageResponse($request->getOutputType(), $image);
     }
 }
