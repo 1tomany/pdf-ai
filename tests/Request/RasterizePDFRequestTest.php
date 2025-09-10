@@ -73,7 +73,7 @@ final class RasterizePDFRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The resolution must be an integer between '.RasterizePDFRequestInterface::MIN_RESOLUTION.' and '.RasterizePDFRequestInterface::MAX_RESOLUTION.'.');
 
-        new RasterizePDFRequest($this->filePath, resolution: random_int(1, RasterizePDFRequestInterface::MIN_RESOLUTION-1));
+        new RasterizePDFRequest($this->filePath, resolution: random_int(1, RasterizePDFRequestInterface::MIN_RESOLUTION - 1));
     }
 
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMaximumResolution(): void
@@ -81,7 +81,7 @@ final class RasterizePDFRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The resolution must be an integer between '.RasterizePDFRequestInterface::MIN_RESOLUTION.' and '.RasterizePDFRequestInterface::MAX_RESOLUTION.'.');
 
-        new RasterizePDFRequest($this->filePath, resolution: random_int(RasterizePDFRequestInterface::MAX_RESOLUTION+1, PHP_INT_MAX));
+        new RasterizePDFRequest($this->filePath, resolution: random_int(RasterizePDFRequestInterface::MAX_RESOLUTION + 1, PHP_INT_MAX));
     }
 
     #[DataProvider('providerRequest')]

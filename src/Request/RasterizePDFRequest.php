@@ -96,7 +96,7 @@ class RasterizePDFRequest implements RasterizePDFRequestInterface
 
     public function getLastPage(): int
     {
-	    return $this->lastPage;
+        return $this->lastPage;
     }
 
     public function setLastPage(int $lastPage): static
