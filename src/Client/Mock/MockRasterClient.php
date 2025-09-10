@@ -6,9 +6,9 @@ use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
 use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
 use OneToMany\PdfToImage\Contract\Request\ReadFileRequestInterface;
 use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
-use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
+use OneToMany\PdfToImage\Contract\Response\FileResponseInterface;
 use OneToMany\PdfToImage\Exception\RuntimeException;
-use OneToMany\PdfToImage\Response\PdfInfoResponse;
+use OneToMany\PdfToImage\Response\FileResponse;
 
 use function random_int;
 
@@ -18,9 +18,9 @@ readonly class MockRasterClient implements RasterClientInterface
     {
     }
 
-    public function readInfo(ReadFileRequestInterface $request): PdfInfoResponseInterface
+    public function read(ReadFileRequestInterface $request): FileResponseInterface
     {
-        return new PdfInfoResponse(random_int(1, 100));
+        return new FileResponse(random_int(1, 100));
     }
 
     public function rasterize(RasterizeFileRequestInterface $request): ImageResponseInterface

@@ -2,17 +2,17 @@
 
 namespace OneToMany\PdfToImage\Client\Poppler;
 
-use OneToMany\PdfToImage\Client\Exception\RasterizingPdfFailedException;
-use OneToMany\PdfToImage\Client\Exception\ReadingPdfInfoFailedException;
+use OneToMany\PdfToImage\Client\Exception\RasterizingFileFailedException;
+use OneToMany\PdfToImage\Client\Exception\ReadingFileFailedException;
 use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
 use OneToMany\PdfToImage\Contract\Request\ReadFileRequestInterface;
 use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
-use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
+use OneToMany\PdfToImage\Contract\Response\FileResponseInterface;
 use OneToMany\PdfToImage\Helper\BinaryFinder;
 use OneToMany\PdfToImage\Response\ImageResponse;
-use OneToMany\PdfToImage\Response\PdfInfoResponse;
+use OneToMany\PdfToImage\Response\FileResponse;
 use Symfony\Component\Process\Exception\ExceptionInterface as ProcessExceptionInterface;
 use Symfony\Component\Process\Process;
 
@@ -22,31 +22,36 @@ use function strcmp;
 
 readonly class PopplerRasterClient implements RasterClientInterface
 {
-    private string $binary;
+    private string $pdfInfoBinary;
+    private string $pdfToPpmBinary;
 
-    public function __construct(string $binary = 'pdftoppm')
+    public function __construct(
+        string $pdfInfoBinary = 'pdfinfo',
+        string $pdfToPpmBinary = 'pdftoppm',
+    )
     {
-        $this->binary = BinaryFinder::find($binary);
+        $this->pdfInfoBinary = BinaryFinder::find($pdfInfoBinary);
+        $this->pdfToPpmBinary = BinaryFinder::find($pdfToPpmBinary);
     }
 
-    public function readInfo(ReadFileRequestInterface $request): PdfInfoResponseInterface
+    public function read(ReadFileRequestInterface $request): FileResponseInterface
     {
-        $process = new Process([$this->binary, $request->getFilePath()]);
+        $process = new Process([$this->pdfInfoBinary, $request->getFilePath()]);
 
         try {
-            $info = $process->mustRun()->getOutput();
+            $output = $process->mustRun()->getOutput();
         } catch (ProcessExceptionInterface $e) {
-            throw new ReadingPdfInfoFailedException($request->getFilePath(), $process->getErrorOutput(), $e);
+            throw new ReadingFileFailedException($request->getFilePath(), $process->getErrorOutput(), $e);
         }
 
-        $response = new PdfInfoResponse();
+        $response = new FileResponse();
 
-        foreach (explode("\n", $info) as $infoBit) {
+        foreach (explode("\n", $output) as $infoBit) {
             if (str_contains($infoBit, ':')) {
                 $bits = explode(':', $infoBit);
 
                 if (0 === strcmp('Pages', $bits[0])) {
-                    $response->setPages((int) $bits[1]);
+                    $response->setPageCount((int) $bits[1]);
                 }
             }
         }
@@ -62,7 +67,7 @@ readonly class PopplerRasterClient implements RasterClientInterface
         };
 
         $process = new Process([
-            $this->binary,
+            $this->pdfToPpmBinary,
             '-q',
             $imageType,
             '-f',
@@ -75,11 +80,11 @@ readonly class PopplerRasterClient implements RasterClientInterface
         ]);
 
         try {
-            $image = $process->mustRun()->getOutput();
+            $output = $process->mustRun()->getOutput();
         } catch (ProcessExceptionInterface $e) {
-            throw new RasterizingPdfFailedException($request->getFilePath(), $request->getFirstPage(), $process->getErrorOutput(), $e);
+            throw new RasterizingFileFailedException($request->getFilePath(), $request->getFirstPage(), $process->getErrorOutput(), $e);
         }
 
-        return new ImageResponse($request->getOutputType(), $image);
+        return new ImageResponse($request->getOutputType(), $output);
     }
 }

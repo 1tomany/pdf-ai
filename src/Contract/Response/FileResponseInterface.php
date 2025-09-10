@@ -2,10 +2,10 @@
 
 namespace OneToMany\PdfToImage\Contract\Response;
 
-interface PdfInfoResponseInterface
+interface FileResponseInterface
 {
     /**
      * @return positive-int
      */
-    public function getPages(): int;
+    public function getPageCount(): int;
 }

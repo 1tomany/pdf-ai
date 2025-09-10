@@ -2,7 +2,7 @@
 
 namespace OneToMany\PdfToImage\Tests\Client\Poppler;
 
-use OneToMany\PdfToImage\Client\Exception\RasterizingPdfFailedException;
+use OneToMany\PdfToImage\Client\Exception\RasterizingFileFailedException;
 use OneToMany\PdfToImage\Client\Poppler\PopplerRasterClient;
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
@@ -21,19 +21,35 @@ use function sha1;
 #[Group('PopplerTests')]
 final class PopplerRasterClientTest extends TestCase
 {
-    public function testConstructorRequiresValidPdfToPpmBinary(): void
+    public function testConstructorRequiresValidPdfInfoBinary(): void
     {
-        $binary = 'invalid_pdftoppm_binary';
+        $pdfInfoBinary = 'invalid_pdfinfo_binary';
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The binary "'.$binary.'" could not be found.');
+        $this->expectExceptionMessage('The binary "'.$pdfInfoBinary.'" could not be found.');
 
-        new PopplerRasterClient($binary);
+        new PopplerRasterClient(pdfInfoBinary: $pdfInfoBinary);
     }
 
-    public function testRasterizationRequiresValidPdfFile(): void
+    public function testConstructorRequiresValidPdfToPpmBinary(): void
     {
-        $this->expectException(RasterizingPdfFailedException::class);
+        $pdfToPpmBinary = 'invalid_pdftoppm_binary';
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The binary "'.$pdfToPpmBinary.'" could not be found.');
+
+        new PopplerRasterClient(pdfToPpmBinary: $pdfToPpmBinary);
+    }
+
+    public function testReadingRequiresValidPDF(): void
+    {
+
+    }
+
+    public function testRasterizationRequiresValidPDF(): void
+    {
+        $this->expectException(RasterizingFileFailedException::class);
+        $this->expectExceptionMessageMatches('/May not be a PDF file/');
 
         new PopplerRasterClient()->rasterize(new RasterizeFileRequest(__FILE__));
     }
@@ -42,7 +58,7 @@ final class PopplerRasterClientTest extends TestCase
     {
         $pageNumber = random_int(2, 100);
 
-        $this->expectException(RasterizingPdfFailedException::class);
+        $this->expectException(RasterizingFileFailedException::class);
         $this->expectExceptionMessageMatches('/Wrong page range given/');
 
         new PopplerRasterClient()->rasterize(new RasterizeFileRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
