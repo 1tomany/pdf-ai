@@ -5,6 +5,8 @@ namespace OneToMany\PdfToImage\Response;
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
 use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 
+use function base64_encode;
+use function sprintf;
 use function trim;
 
 class ImageResponse implements ImageResponseInterface

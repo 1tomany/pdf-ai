@@ -5,7 +5,9 @@ namespace OneToMany\PdfToImage\Helper;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
 use Symfony\Component\Process\ExecutableFinder;
 
-readonly class BinaryFinder
+use function is_executable;
+
+final readonly class BinaryFinder
 {
     private function __construct()
     {

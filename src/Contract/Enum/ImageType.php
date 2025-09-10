@@ -9,12 +9,12 @@ enum ImageType
 
     public function getMimeType(): string
     {
-        $contentType = match ($this) {
+        $mimeType = match ($this) {
             self::Jpg => 'image/jpeg',
             self::Png => 'image/png',
         };
 
-        return $contentType;
+        return $mimeType;
     }
 
     public function isJpg(): bool
