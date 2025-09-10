@@ -24,7 +24,7 @@ interface RasterizePDFRequestInterface
     public function getOutputType(): ImageType;
 
     /**
-     * @return int<self::MIN_DPI, self::MAX_DPI>
+     * @return int<self::MIN_RESOLUTION, self::MAX_RESOLUTION>
      */
     public function getResolution(): int;
 

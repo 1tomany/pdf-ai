@@ -81,10 +81,6 @@ class RasterizePDFRequest implements RasterizePDFRequestInterface
             throw new InvalidArgumentException('The first page number must be a positive non-zero integer.');
         }
 
-        // if ($firstPage > $this->getLastPage()) {
-        //     throw new InvalidArgumentException('The first page number cannot be greater than the last page number.');
-        // }
-
         $this->firstPage = $firstPage;
 
         if ($firstPage > $this->getLastPage()) {
