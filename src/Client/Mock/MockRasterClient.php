@@ -5,8 +5,8 @@ namespace OneToMany\PdfExtractor\Client\Mock;
 use OneToMany\PdfExtractor\Contract\Client\RasterClientInterface;
 use OneToMany\PdfExtractor\Contract\Request\RasterizePdfRequestInterface;
 use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
 use OneToMany\PdfExtractor\Contract\Response\ImageResponseInterface;
+use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
 use OneToMany\PdfExtractor\Exception\RuntimeException;
 use OneToMany\PdfExtractor\Response\FileResponse;
 
