@@ -6,8 +6,8 @@ use OneToMany\PdfToImage\Client\Exception\RasterizingPdfFailedException;
 use OneToMany\PdfToImage\Client\Exception\ReadingPdfInfoFailedException;
 use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
-use OneToMany\PdfToImage\Contract\Request\RasterizePDFRequestInterface;
-use OneToMany\PdfToImage\Contract\Request\ReadInfoRequestInterface;
+use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
+use OneToMany\PdfToImage\Contract\Request\ReadFileRequestInterface;
 use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 use OneToMany\PdfToImage\Contract\Response\PdfInfoResponseInterface;
 use OneToMany\PdfToImage\Helper\BinaryFinder;
@@ -29,14 +29,14 @@ readonly class PopplerRasterClient implements RasterClientInterface
         $this->binary = BinaryFinder::find($binary);
     }
 
-    public function readInfo(ReadInfoRequestInterface $request): PdfInfoResponseInterface
+    public function readInfo(ReadFileRequestInterface $request): PdfInfoResponseInterface
     {
-        $process = new Process([$this->binary, $request->getPath()]);
+        $process = new Process([$this->binary, $request->getFilePath()]);
 
         try {
             $info = $process->mustRun()->getOutput();
         } catch (ProcessExceptionInterface $e) {
-            throw new ReadingPdfInfoFailedException($request->getPath(), $process->getErrorOutput(), $e);
+            throw new ReadingPdfInfoFailedException($request->getFilePath(), $process->getErrorOutput(), $e);
         }
 
         $response = new PdfInfoResponse();
@@ -54,7 +54,7 @@ readonly class PopplerRasterClient implements RasterClientInterface
         return $response;
     }
 
-    public function rasterize(RasterizePDFRequestInterface $request): ImageResponseInterface
+    public function rasterize(RasterizeFileRequestInterface $request): ImageResponseInterface
     {
         $imageType = match ($request->getOutputType()) {
             ImageType::Jpg => '-jpeg',

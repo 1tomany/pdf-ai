@@ -3,7 +3,7 @@
 namespace OneToMany\PdfToImage\Request;
 
 use OneToMany\PdfToImage\Contract\Enum\ImageType;
-use OneToMany\PdfToImage\Contract\Request\RasterizePDFRequestInterface;
+use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
 use OneToMany\PdfToImage\Exception\InvalidArgumentException;
 
 use function is_file;
@@ -11,7 +11,7 @@ use function is_readable;
 use function sprintf;
 use function trim;
 
-class RasterizePDFRequest implements RasterizePDFRequestInterface
+class RasterizeFileRequest implements RasterizeFileRequestInterface
 {
     /**
      * @var non-empty-string

@@ -4,7 +4,7 @@ namespace OneToMany\PdfToImage\Action;
 
 use OneToMany\PdfToImage\Contract\Action\RasterizeFileActionInterface;
 use OneToMany\PdfToImage\Contract\Client\RasterClientInterface;
-use OneToMany\PdfToImage\Contract\Request\RasterizePDFRequestInterface;
+use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
 use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
 
 final readonly class RasterizeFileAction implements RasterizeFileActionInterface
@@ -13,7 +13,7 @@ final readonly class RasterizeFileAction implements RasterizeFileActionInterface
     {
     }
 
-    public function act(RasterizePDFRequestInterface $request): ImageResponseInterface
+    public function act(RasterizeFileRequestInterface $request): ImageResponseInterface
     {
         return $this->client->rasterize($request);
     }

@@ -2,10 +2,10 @@
 
 namespace OneToMany\PdfToImage\Contract\Request;
 
-interface ReadInfoRequestInterface
+interface ReadFileRequestInterface
 {
     /**
      * @return non-empty-string
      */
-    public function getPath(): string;
+    public function getFilePath(): string;
 }
