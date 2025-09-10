@@ -4,7 +4,7 @@ namespace OneToMany\PdfExtractor\Contract\Response;
 
 use OneToMany\PdfExtractor\Contract\Enum\OutputType;
 
-interface ImageResponseInterface extends \Stringable
+interface ExtractedDataResponseInterface extends \Stringable
 {
     public function getType(): OutputType;
 
@@ -13,7 +13,7 @@ interface ImageResponseInterface extends \Stringable
     /**
      * @return positive-int
      */
-    public function getPageNumber(): int;
+    public function getPage(): int;
 
     public function toDataUri(): string;
 }

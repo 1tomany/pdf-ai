@@ -3,9 +3,9 @@
 namespace OneToMany\PdfExtractor\Tests\Request;
 
 use OneToMany\PdfExtractor\Contract\Enum\OutputType;
-use OneToMany\PdfExtractor\Contract\Request\RasterizePdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Request\ExtractPdfRequestInterface;
 use OneToMany\PdfExtractor\Exception\InvalidArgumentException;
-use OneToMany\PdfExtractor\Request\RasterizePdfRequest;
+use OneToMany\PdfExtractor\Request\ExtractPdfRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ use const PHP_INT_MAX;
 
 #[Group('UnitTests')]
 #[Group('RequestTests')]
-final class RasterizePdfRequestTest extends TestCase
+final class ExtractPdfRequestTest extends TestCase
 {
     private ?string $filePath = null;
 
@@ -30,7 +30,7 @@ final class RasterizePdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The file path cannot be empty.');
 
-        new RasterizePdfRequest('');
+        new ExtractPdfRequest('');
     }
 
     public function testConstructorRequiresReadableFile(): void
@@ -41,7 +41,7 @@ final class RasterizePdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The file path "'.$filePath.'" does not exist or is not readable.');
 
-        new RasterizePdfRequest($filePath);
+        new ExtractPdfRequest($filePath);
     }
 
     public function testConstructorRequiresPositiveNonZeroFirstPage(): void
@@ -49,7 +49,7 @@ final class RasterizePdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The first page number must be a positive non-zero integer.');
 
-        new RasterizePdfRequest($this->filePath, firstPage: 0);
+        new ExtractPdfRequest($this->filePath, firstPage: 0);
     }
 
     public function testConstructorRequiresPositiveNonZeroLastPage(): void
@@ -57,23 +57,23 @@ final class RasterizePdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The last page number must be a positive non-zero integer.');
 
-        new RasterizePdfRequest($this->filePath, lastPage: 0);
+        new ExtractPdfRequest($this->filePath, lastPage: 0);
     }
 
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMinimumResolution(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The resolution must be an integer between '.RasterizePdfRequestInterface::MIN_RESOLUTION.' and '.RasterizePdfRequestInterface::MAX_RESOLUTION.'.');
+        $this->expectExceptionMessage('The resolution must be an integer between '.ExtractPdfRequestInterface::MIN_RESOLUTION.' and '.ExtractPdfRequestInterface::MAX_RESOLUTION.'.');
 
-        new RasterizePdfRequest($this->filePath, resolution: random_int(1, RasterizePdfRequestInterface::MIN_RESOLUTION - 1));
+        new ExtractPdfRequest($this->filePath, resolution: random_int(1, ExtractPdfRequestInterface::MIN_RESOLUTION - 1));
     }
 
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMaximumResolution(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The resolution must be an integer between '.RasterizePdfRequestInterface::MIN_RESOLUTION.' and '.RasterizePdfRequestInterface::MAX_RESOLUTION.'.');
+        $this->expectExceptionMessage('The resolution must be an integer between '.ExtractPdfRequestInterface::MIN_RESOLUTION.' and '.ExtractPdfRequestInterface::MAX_RESOLUTION.'.');
 
-        new RasterizePdfRequest($this->filePath, resolution: random_int(RasterizePdfRequestInterface::MAX_RESOLUTION + 1, PHP_INT_MAX));
+        new ExtractPdfRequest($this->filePath, resolution: random_int(ExtractPdfRequestInterface::MAX_RESOLUTION + 1, PHP_INT_MAX));
     }
 
     #[DataProvider('providerConstructorArguments')]
@@ -84,7 +84,7 @@ final class RasterizePdfRequestTest extends TestCase
         OutputType $outputType,
         int $resolution,
     ): void {
-        $request = new RasterizePdfRequest($filePath, $firstPage, $lastPage, $outputType, $resolution);
+        $request = new ExtractPdfRequest($filePath, $firstPage, $lastPage, $outputType, $resolution);
 
         $this->assertEquals($filePath, $request->getFilePath());
         $this->assertEquals($firstPage, $request->getFirstPage());
@@ -99,8 +99,8 @@ final class RasterizePdfRequestTest extends TestCase
     public static function providerConstructorArguments(): array
     {
         $resolution = random_int(
-            RasterizePdfRequestInterface::MIN_RESOLUTION,
-            RasterizePdfRequestInterface::MAX_RESOLUTION,
+            ExtractPdfRequestInterface::MIN_RESOLUTION,
+            ExtractPdfRequestInterface::MAX_RESOLUTION,
         );
 
         $provider = [
@@ -113,7 +113,7 @@ final class RasterizePdfRequestTest extends TestCase
 
     public function testSettingFirstPageGreaterThanLastPageClampsLastPageToFirstPage(): void
     {
-        $request = new RasterizePdfRequest($this->filePath);
+        $request = new ExtractPdfRequest($this->filePath);
         $this->assertEquals($request->getFirstPage(), $request->getLastPage());
 
         $firstPage = $request->getFirstPage() + 1;
@@ -127,7 +127,7 @@ final class RasterizePdfRequestTest extends TestCase
     {
         $page = random_int(2, 10);
 
-        $request = new RasterizePdfRequest($this->filePath, $page, $page);
+        $request = new ExtractPdfRequest($this->filePath, $page, $page);
         $this->assertEquals($request->getLastPage(), $request->getFirstPage());
 
         $lastPage = $request->getLastPage() - 1;

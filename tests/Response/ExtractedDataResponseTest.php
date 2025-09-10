@@ -3,7 +3,7 @@
 namespace OneToMany\PdfExtractor\Tests\Response;
 
 use OneToMany\PdfExtractor\Contract\Enum\OutputType;
-use OneToMany\PdfExtractor\Response\ImageResponse;
+use OneToMany\PdfExtractor\Response\ExtractedDataResponse;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
@@ -12,13 +12,13 @@ use function file_get_contents;
 
 #[Group('UnitTests')]
 #[Group('ResponseTests')]
-final class ImageResponseTest extends TestCase
+final class ExtractedDataResponseTest extends TestCase
 {
     public function testToString(): void
     {
         $text = 'Hello, world!';
 
-        $this->assertEquals($text, new ImageResponse(OutputType::Jpg, $text)->__toString());
+        $this->assertEquals($text, new ExtractedDataResponse(OutputType::Jpg, $text)->__toString());
     }
 
     public function testToDataUri(): void
@@ -32,6 +32,6 @@ final class ImageResponseTest extends TestCase
         $this->assertNotEmpty($data);
 
         $dataUri = 'data:image/png;base64,'.base64_encode($data);
-        $this->assertEquals($dataUri, new ImageResponse(OutputType::Png, $data)->toDataUri());
+        $this->assertEquals($dataUri, new ExtractedDataResponse(OutputType::Png, $data)->toDataUri());
     }
 }

@@ -3,23 +3,26 @@
 namespace OneToMany\PdfExtractor\Response;
 
 use OneToMany\PdfExtractor\Contract\Enum\OutputType;
-use OneToMany\PdfExtractor\Contract\Response\ImageResponseInterface;
+use OneToMany\PdfExtractor\Contract\Response\ExtractedDataResponseInterface;
 
 use function base64_encode;
+use function max;
 use function sprintf;
 use function trim;
 
-class ImageResponse implements ImageResponseInterface
+class ExtractedDataResponse implements ExtractedDataResponseInterface
 {
-    protected OutputType $type;
-    protected string $data;
-
+    /**
+     * @param positive-int $page
+     */
     public function __construct(
-        OutputType $type,
-        string $data,
+        protected OutputType $type,
+        protected string $data,
+        protected int $page = 1,
     ) {
         $this->setType($type);
         $this->setData($data);
+        $this->setPage($page);
     }
 
     public function __toString(): string
@@ -47,6 +50,18 @@ class ImageResponse implements ImageResponseInterface
     public function setData(?string $data): static
     {
         $this->data = trim($data ?? '');
+
+        return $this;
+    }
+
+    public function getPage(): int
+    {
+        return $this->page;
+    }
+
+    public function setPage(int $page): static
+    {
+        $this->page = max(1, $page);
 
         return $this;
     }

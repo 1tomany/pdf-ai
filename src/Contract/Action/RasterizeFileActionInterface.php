@@ -2,10 +2,10 @@
 
 namespace OneToMany\PdfExtractor\Contract\Action;
 
-use OneToMany\PdfExtractor\Contract\Request\RasterizePdfRequestInterface;
-use OneToMany\PdfExtractor\Contract\Response\ImageResponseInterface;
+use OneToMany\PdfExtractor\Contract\Request\ExtractPdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Response\ExtractedDataResponseInterface;
 
 interface RasterizeFileActionInterface
 {
-    public function act(RasterizePdfRequestInterface $request): ImageResponseInterface;
+    public function act(ExtractPdfRequestInterface $request): ExtractedDataResponseInterface;
 }

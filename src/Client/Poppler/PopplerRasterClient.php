@@ -5,13 +5,13 @@ namespace OneToMany\PdfExtractor\Client\Poppler;
 use OneToMany\PdfExtractor\Client\Exception\RasterizingFileFailedException;
 use OneToMany\PdfExtractor\Client\Exception\ReadingFileFailedException;
 use OneToMany\PdfExtractor\Contract\Client\RasterClientInterface;
-use OneToMany\PdfExtractor\Contract\Request\RasterizePdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Request\ExtractPdfRequestInterface;
 use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfExtractor\Contract\Response\ImageResponseInterface;
+use OneToMany\PdfExtractor\Contract\Response\ExtractedDataResponseInterface;
 use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
 use OneToMany\PdfExtractor\Helper\BinaryFinder;
+use OneToMany\PdfExtractor\Response\ExtractedDataResponse;
 use OneToMany\PdfExtractor\Response\FileResponse;
-use OneToMany\PdfExtractor\Response\ImageResponse;
 use Symfony\Component\Process\Exception\ExceptionInterface as ProcessExceptionInterface;
 use Symfony\Component\Process\Process;
 
@@ -57,7 +57,7 @@ readonly class PopplerRasterClient implements RasterClientInterface
         return $response;
     }
 
-    public function rasterize(RasterizePdfRequestInterface $request): ImageResponseInterface
+    public function rasterize(ExtractPdfRequestInterface $request): ExtractedDataResponseInterface
     {
         $process = new Process([
             $this->pdfToPpmBinary,
@@ -77,6 +77,6 @@ readonly class PopplerRasterClient implements RasterClientInterface
             throw new RasterizingFileFailedException($request->getFilePath(), $request->getFirstPage(), $process->getErrorOutput(), $e);
         }
 
-        return new ImageResponse($request->getOutputType(), $output);
+        return new ExtractedDataResponse($request->getOutputType(), $output);
     }
 }

@@ -3,12 +3,12 @@
 namespace OneToMany\PdfExtractor\Request;
 
 use OneToMany\PdfExtractor\Contract\Enum\OutputType;
-use OneToMany\PdfExtractor\Contract\Request\RasterizePdfRequestInterface;
+use OneToMany\PdfExtractor\Contract\Request\ExtractPdfRequestInterface;
 use OneToMany\PdfExtractor\Exception\InvalidArgumentException;
 
 use function sprintf;
 
-class RasterizePdfRequest extends ReadPdfRequest implements RasterizePdfRequestInterface
+class ExtractPdfRequest extends ReadPdfRequest implements ExtractPdfRequestInterface
 {
     /**
      * @var positive-int

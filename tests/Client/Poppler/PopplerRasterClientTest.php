@@ -7,7 +7,7 @@ use OneToMany\PdfExtractor\Client\Exception\ReadingFileFailedException;
 use OneToMany\PdfExtractor\Client\Poppler\PopplerRasterClient;
 use OneToMany\PdfExtractor\Contract\Enum\OutputType;
 use OneToMany\PdfExtractor\Exception\InvalidArgumentException;
-use OneToMany\PdfExtractor\Request\RasterizePdfRequest;
+use OneToMany\PdfExtractor\Request\ExtractPdfRequest;
 use OneToMany\PdfExtractor\Request\ReadPdfRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -77,7 +77,7 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectException(RasterizingFileFailedException::class);
         $this->expectExceptionMessageMatches('/May not be a PDF file/');
 
-        new PopplerRasterClient()->rasterize(new RasterizePdfRequest(__FILE__));
+        new PopplerRasterClient()->rasterize(new ExtractPdfRequest(__FILE__));
     }
 
     public function testRasterizationRequiresValidPageNumber(): void
@@ -87,7 +87,7 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectException(RasterizingFileFailedException::class);
         $this->expectExceptionMessageMatches('/Wrong page range given/');
 
-        new PopplerRasterClient()->rasterize(new RasterizePdfRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
+        new PopplerRasterClient()->rasterize(new ExtractPdfRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
     }
 
     #[DataProvider('providerRasterizeFileRequestArguments')]
@@ -99,7 +99,7 @@ final class PopplerRasterClientTest extends TestCase
         int $resolution,
         string $sha1Hash,
     ): void {
-        $request = new RasterizePdfRequest(
+        $request = new ExtractPdfRequest(
             $filePath,
             $firstPage,
             $lastPage,

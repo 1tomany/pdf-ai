@@ -4,7 +4,7 @@ namespace OneToMany\PdfExtractor\Contract\Request;
 
 use OneToMany\PdfExtractor\Contract\Enum\OutputType;
 
-interface RasterizePdfRequestInterface extends ReadPdfRequestInterface
+interface ExtractPdfRequestInterface extends ReadPdfRequestInterface
 {
     public const int DEFAULT_RESOLUTION = 72;
     public const int MIN_RESOLUTION = 48;
