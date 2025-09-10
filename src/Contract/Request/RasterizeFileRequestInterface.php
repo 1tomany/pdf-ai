@@ -6,6 +6,10 @@ use OneToMany\PdfToImage\Contract\Enum\ImageType;
 
 interface RasterizeFileRequestInterface extends ReadFileRequestInterface
 {
+    public const int DEFAULT_RESOLUTION = 72;
+    public const int MIN_RESOLUTION = 48;
+    public const int MAX_RESOLUTION = 300;
+
     /**
      * @return positive-int
      */
@@ -22,8 +26,4 @@ interface RasterizeFileRequestInterface extends ReadFileRequestInterface
      * @return int<self::MIN_RESOLUTION, self::MAX_RESOLUTION>
      */
     public function getResolution(): int;
-
-    public const int DEFAULT_RESOLUTION = 72;
-    public const int MIN_RESOLUTION = 48;
-    public const int MAX_RESOLUTION = 300;
 }
