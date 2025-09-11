@@ -76,7 +76,7 @@ final class ExtractDataRequestTest extends TestCase
         new ExtractDataRequest($this->filePath, resolution: random_int(ExtractDataRequestInterface::MAX_RESOLUTION + 1, PHP_INT_MAX));
     }
 
-    #[DataProvider('providerConstructorArguments')]
+    #[DataProvider('providerConstructor')]
     public function testConstructor(
         string $filePath,
         int $firstPage,
@@ -96,7 +96,7 @@ final class ExtractDataRequestTest extends TestCase
     /**
      * @return list<list<int|string|OutputType>>
      */
-    public static function providerConstructorArguments(): array
+    public static function providerConstructor(): array
     {
         $resolution = random_int(
             ExtractDataRequestInterface::MIN_RESOLUTION,

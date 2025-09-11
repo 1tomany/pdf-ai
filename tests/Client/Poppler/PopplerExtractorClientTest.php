@@ -43,16 +43,22 @@ final class PopplerExtractorClientTest extends TestCase
         new PopplerExtractorClient()->readMetadata(new ReadMetadataRequest(__FILE__));
     }
 
-    #[DataProvider('providerReadMetadataRequestArguments')]
+    #[DataProvider('providerReadingMetadata')]
     public function testReadingMetadata(string $filePath, int $pages): void
     {
-        $this->assertEquals($pages, new PopplerExtractorClient()->readMetadata(new ReadMetadataRequest($filePath))->getPages());
+        $client = new PopplerExtractorClient();
+
+        $metadata = $client->readMetadata(
+            new ReadMetadataRequest($filePath),
+        );
+
+        $this->assertEquals($pages, $metadata->getPages());
     }
 
     /**
      * @return list<list<int|string|OutputType>>
      */
-    public static function providerReadMetadataRequestArguments(): array
+    public static function providerReadingMetadata(): array
     {
         $provider = [
             [__DIR__.'/../files/pages-1.pdf', 1],
@@ -102,8 +108,8 @@ final class PopplerExtractorClientTest extends TestCase
         new PopplerExtractorClient()->extractData(new ExtractDataRequest(__DIR__.'/../files/pages-1.pdf', $page, $page))->current();
     }
 
-    #[DataProvider('providerFilePathFirstPageLastPageAndResponseCount')]
-    public function testExtractingDataExtractsCorrectRange(
+    #[DataProvider('providerExtractingDataRange')]
+    public function testExtractingDataRange(
         string $filePath,
         int $firstPage,
         int $lastPage,
@@ -126,7 +132,7 @@ final class PopplerExtractorClientTest extends TestCase
     /**
      * @return list<list<int|string>>
      */
-    public static function providerFilePathFirstPageLastPageAndResponseCount(): array
+    public static function providerExtractingDataRange(): array
     {
         $provider = [
             [__DIR__.'/../files/pages-1.pdf', 1, 1, 1],
@@ -146,7 +152,11 @@ final class PopplerExtractorClientTest extends TestCase
     }
 
     #[DataProvider('providerExtractingTextData')]
-    public function testExtractingTextData(string $filePath, int $page, string $expectedText): void
+    public function testExtractingTextData(
+        string $filePath,
+        int $page,
+        string $text,
+    ): void
     {
         $client = new PopplerExtractorClient();
 
@@ -159,7 +169,7 @@ final class PopplerExtractorClientTest extends TestCase
 
         $this->assertCount(1, $responses);
         $this->assertEquals($page, $responses[0]->getPage());
-        $this->assertStringContainsString($expectedText, $responses[0]->getData());
+        $this->assertStringContainsString($text, $responses[0]);
     }
 
     /**

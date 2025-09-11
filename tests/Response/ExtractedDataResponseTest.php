@@ -21,6 +21,27 @@ final class ExtractedDataResponseTest extends TestCase
         $this->assertEquals($text, new ExtractedDataResponse(OutputType::Txt, $text)->__toString());
     }
 
+    public function testSettingPageClampsNonPositiveNonZeroValuesToOne(): void
+    {
+        $response = new ExtractedDataResponse(
+            OutputType::Txt, 'Response', 1,
+        );
+
+        $this->assertEquals(1, $response->getPage());
+
+        $response->setPage(0);
+        $this->assertEquals(1, $response->getPage());
+
+        $response->setPage(-10);
+        $this->assertEquals(1, $response->getPage());
+
+        $page = \random_int(2, 100);
+        $this->assertGreaterThan($response->getPage(), $page);
+
+        $response->setPage($page);
+        $this->assertEquals($page, $response->getPage());
+    }
+
     public function testToDataUri(): void
     {
         $filePath = __DIR__.'/files/page.png';
