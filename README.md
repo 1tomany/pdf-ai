@@ -31,8 +31,8 @@ Extracted data is stored in memory and can be written to the filesystem or conve
 
 Using the library is easy, and you have two ways to interact with it:
 
-1. **Direct** Instantiate the `PopplerExtractorClient` class and call the methods directly. This method is easier to use, but makes testing harder because you can't easily swap the `PopplerExtractorClient` with the `MockExtractorClient` in your unit tests.
-2. **Indirect** Create a container of `ExtractorClientInterface` objects, and use the `ExtractorClientFactory` class to instantiate them. If you wish to use the **indirect** method, I recommend you use the [Symfony bundle `1tomany/pdf-ai-bundle`](https://github.com/1tomany/pdf-ai-bundle) to take advantage of Symfony's container and autowiring features. While this method requires more upfront work, it makes testing much easier because you can easily swap the `PopplerExtractorClient` with the `MockExtractorClient` in your unit tests.
+1. **Direct** Instantiate the `OneToMany\PDFAI\Client\Poppler\PopplerExtractorClient` class and call the methods directly. This method is easier to use, but makes testing harder because you can't easily swap the `PopplerExtractorClient` with the `MockExtractorClient` in your unit tests.
+2. **Indirect** Create a container of `OneToMany\PDFAI\Contract\Client\ExtractorClientInterface` objects, and use the `OneToMany\PDFAI\Factory\ExtractorClientFactory` class to instantiate them. If you wish to use this method, I recommend you use the [Symfony bundle `1tomany/pdf-ai-bundle`](https://github.com/1tomany/pdf-ai-bundle) to take advantage of Symfony's container and autowiring features. While this method requires more upfront work, it makes testing much easier because you can easily swap the `PopplerExtractorClient` with the `MockExtractorClient` in your tests.
 
 ### Direct Usage
 ```php
