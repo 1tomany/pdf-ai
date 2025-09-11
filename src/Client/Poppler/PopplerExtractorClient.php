@@ -58,7 +58,7 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
             $command = BinaryFinder::find($this->pdfToTextBinary);
 
             for ($page = $request->getFirstPage(); $page <= $request->getLastPage(); ++$page) {
-                $process = new Process([$command, '-nodiag', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath()]);
+                $process = new Process([$command, '-nodiag', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath(), '-']);
 
                 try {
                     $output = $process->mustRun()->getOutput();

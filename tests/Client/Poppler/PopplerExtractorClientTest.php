@@ -102,12 +102,13 @@ final class PopplerExtractorClientTest extends TestCase
     }
 
     #[DataProvider('providerFilePathFirstPageLastPageAndResponseCount')]
-    public function testExtractingData(
+    public function testExtractingDataExtractsCorrectRange(
         string $filePath,
         int $firstPage,
         int $lastPage,
         int $responseCount,
-    ): void {
+    ): void
+    {
         $client = new PopplerExtractorClient();
 
         $request = new ExtractDataRequest(
@@ -120,7 +121,7 @@ final class PopplerExtractorClientTest extends TestCase
     }
 
     /**
-     * @return list<list<int|string|list<non-empty-string>|OutputType>>
+     * @return list<list<int|string>>
      */
     public static function providerFilePathFirstPageLastPageAndResponseCount(): array
     {
@@ -135,6 +136,39 @@ final class PopplerExtractorClientTest extends TestCase
             [__DIR__.'/../files/pages-3.pdf', 2, 3, 2],
             [__DIR__.'/../files/pages-3.pdf', 1, 3, 3],
             [__DIR__.'/../files/pages-3.pdf', 3, 3, 1],
+            [__DIR__.'/../files/pages-4.pdf', 1, 4, 4],
+        ];
+
+        return $provider;
+    }
+
+    #[DataProvider('providerExtractingTextData')]
+    public function testExtractingTextData(string $filePath, int $page, string $expectedText): void
+    {
+        $client = new PopplerExtractorClient();
+
+        $request = new ExtractTextRequest($filePath, $page, $page);
+        $responses = iterator_to_array($client->extractData($request));
+
+        $this->assertCount(1, $responses);
+        print_r($responses[0]);
+    }
+
+    public static function providerExtractingTextData(): array
+    {
+        $provider = [
+            // [__DIR__.'/../files/pages-1.pdf', 1, ''],
+            [__DIR__.'/../files/pages-2.pdf', 2, ''],
+            // [__DIR__.'/../files/pages-2.pdf', 1, 1, 1],
+            // [__DIR__.'/../files/pages-2.pdf', 2, 2, 1],
+            // [__DIR__.'/../files/pages-2.pdf', 1, 2, 2],
+            // [__DIR__.'/../files/pages-3.pdf', 1, 1, 1],
+            // [__DIR__.'/../files/pages-3.pdf', 1, 2, 2],
+            // [__DIR__.'/../files/pages-3.pdf', 2, 2, 1],
+            // [__DIR__.'/../files/pages-3.pdf', 2, 3, 2],
+            // [__DIR__.'/../files/pages-3.pdf', 1, 3, 3],
+            // [__DIR__.'/../files/pages-3.pdf', 3, 3, 1],
+            // [__DIR__.'/../files/pages-4.pdf', 1, 4, 4],
         ];
 
         return $provider;
