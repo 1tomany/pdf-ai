@@ -15,8 +15,8 @@ $client = new PopplerExtractorClient();
 $metadata = $client->readMetadata(new ReadMetadataRequest($filePath));
 printf("The PDF '%s' has %d page(s).\n", $filePath, $metadata->getPages());
 
-// Rasterize pages 1 through 4 as 150 DPI JPEGs
-$request = new ExtractDataRequest($filePath, 1, 4, OutputType::Jpg, 150);
+// Rasterize all pages as 150 DPI JPEGs
+$request = new ExtractDataRequest($filePath, 1, null, OutputType::Jpg, 150);
 
 foreach ($client->extractData($request) as $image) {
     // $image->getData() or $image->toDataUri()
