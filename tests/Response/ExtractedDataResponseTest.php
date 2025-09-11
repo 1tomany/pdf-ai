@@ -73,8 +73,7 @@ final class ExtractedDataResponseTest extends TestCase
         OutputType $type,
         int $page,
         string $name,
-    ): void
-    {
+    ): void {
         $this->assertEquals($name, new ExtractedDataResponse($type, '', $page)->getName());
     }
 
@@ -83,7 +82,7 @@ final class ExtractedDataResponseTest extends TestCase
      */
     public static function providerGettingName(): array
     {
-        $page = \random_int(1, 100);
+        $page = random_int(1, 100);
 
         $provider = [
             [OutputType::Jpg, $page, "page-{$page}.jpeg"],
