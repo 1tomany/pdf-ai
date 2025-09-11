@@ -113,12 +113,14 @@ final class PopplerExtractorClientTest extends TestCase
         $client = new PopplerExtractorClient();
 
         $request = new ExtractDataRequest(
-            filePath: $filePath,
-            firstPage: $firstPage,
-            lastPage: $lastPage,
+            $filePath, $firstPage, $lastPage,
         );
 
-        $this->assertCount($responseCount, iterator_to_array($client->extractData($request)));
+        /** @var list<ExtractedDataResponseInterface> $responses */
+        $responses = iterator_to_array($client->extractData($request));
+
+        $this->assertCount($responseCount, $responses);
+        $this->assertContainsOnlyInstancesOf(ExtractedDataResponseInterface::class, $responses);
     }
 
     /**
@@ -148,7 +150,9 @@ final class PopplerExtractorClientTest extends TestCase
     {
         $client = new PopplerExtractorClient();
 
-        $request = new ExtractTextRequest($filePath, $page, $page);
+        $request = new ExtractTextRequest(
+            $filePath, $page, $page
+        );
 
         /** @var list<ExtractedDataResponseInterface> $responses */
         $responses = iterator_to_array($client->extractData($request));
@@ -163,18 +167,11 @@ final class PopplerExtractorClientTest extends TestCase
     public static function providerExtractingTextData(): array
     {
         $provider = [
-            // [__DIR__.'/../files/pages-1.pdf', 1, ''],
-            [__DIR__.'/../files/pages-2.pdf', 2, 'Amazon Simple Storage Service'],
-            // [__DIR__.'/../files/pages-2.pdf', 1, 1, 1],
-            // [__DIR__.'/../files/pages-2.pdf', 2, 2, 1],
-            // [__DIR__.'/../files/pages-2.pdf', 1, 2, 2],
-            // [__DIR__.'/../files/pages-3.pdf', 1, 1, 1],
-            // [__DIR__.'/../files/pages-3.pdf', 1, 2, 2],
-            // [__DIR__.'/../files/pages-3.pdf', 2, 2, 1],
-            // [__DIR__.'/../files/pages-3.pdf', 2, 3, 2],
-            // [__DIR__.'/../files/pages-3.pdf', 1, 3, 3],
-            // [__DIR__.'/../files/pages-3.pdf', 3, 3, 1],
-            // [__DIR__.'/../files/pages-4.pdf', 1, 4, 4],
+            [__DIR__.'/../files/pages-1.pdf', 1, ''],
+            [__DIR__.'/../files/pages-2.pdf', 1, 'Amazon Simple Storage Service'],
+            [__DIR__.'/../files/pages-2.pdf', 2, 'Storage Service: API Reference'],
+            [__DIR__.'/../files/pages-3.pdf', 3, 'Learn more about the AWS CLI'],
+            [__DIR__.'/../files/pages-4.pdf', 4, 'API Version 2006-03-01 iv'],
         ];
 
         return $provider;
