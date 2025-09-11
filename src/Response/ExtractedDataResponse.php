@@ -53,7 +53,7 @@ class ExtractedDataResponse implements ExtractedDataResponseInterface
 
     public function getPage(): int
     {
-        return $this->page; // @phpstan-ignore-line
+        return max(1, $this->page);
     }
 
     public function setPage(int $page): static
