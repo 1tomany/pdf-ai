@@ -114,8 +114,7 @@ final class PopplerExtractorClientTest extends TestCase
         int $firstPage,
         int $lastPage,
         int $responseCount,
-    ): void
-    {
+    ): void {
         $client = new PopplerExtractorClient();
 
         $request = new ExtractDataRequest(
@@ -156,8 +155,7 @@ final class PopplerExtractorClientTest extends TestCase
         string $filePath,
         int $page,
         string $text,
-    ): void
-    {
+    ): void {
         $client = new PopplerExtractorClient();
 
         $request = new ExtractTextRequest(

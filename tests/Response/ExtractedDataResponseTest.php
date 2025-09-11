@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 use function base64_encode;
 use function file_get_contents;
+use function random_int;
 
 #[Group('UnitTests')]
 #[Group('ResponseTests')]
@@ -35,7 +36,7 @@ final class ExtractedDataResponseTest extends TestCase
         $response->setPage(-10);
         $this->assertEquals(1, $response->getPage());
 
-        $page = \random_int(2, 100);
+        $page = random_int(2, 100);
         $this->assertGreaterThan($response->getPage(), $page);
 
         $response->setPage($page);
