@@ -31,20 +31,23 @@ final class ExtractedDataResponseTest extends TestCase
 
         $property = new \ReflectionProperty($response, 'page');
 
-        $page = random_int(2, 100);
-        $this->assertGreaterThan(1, $page);
-
-        $property->setValue($response, $page);
-        $this->assertEquals($page, $response->getPage());
-
+        // Page is zero
         $property->setValue($response, 0);
         $this->assertEquals(1, $response->getPage());
 
+        // Page is negative
         $page = -1 * random_int(1, 100);
         $this->assertLessThan(1, $page);
 
         $property->setValue($response, $page);
         $this->assertEquals(1, $response->getPage());
+
+        // Page is greater than one
+        $page = random_int(2, 100);
+        $this->assertGreaterThan(1, $page);
+
+        $property->setValue($response, $page);
+        $this->assertEquals($page, $response->getPage());
     }
 
     public function testSettingPageClampsNonPositiveNonZeroValuesToOne(): void
@@ -55,12 +58,18 @@ final class ExtractedDataResponseTest extends TestCase
 
         $this->assertEquals(1, $response->getPage());
 
+        // Page is zero
         $response->setPage(0);
         $this->assertEquals(1, $response->getPage());
 
-        $response->setPage(-10);
+        // Page is negative
+        $page = -1 * random_int(1, 100);
+        $this->assertLessThan(1, $page);
+
+        $response->setPage($page);
         $this->assertEquals(1, $response->getPage());
 
+        // Page is greater than one
         $page = random_int(2, 100);
         $this->assertGreaterThan($response->getPage(), $page);
 
