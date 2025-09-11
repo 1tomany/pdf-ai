@@ -3,7 +3,7 @@
 namespace OneToMany\PDFAI\Tests\Factory;
 
 use OneToMany\PDFAI\Client\Mock\MockExtractorClient;
-use OneToMany\PDFAI\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
+use OneToMany\PDFAI\Factory\Exception\CreatingExtractorClientFailedServiceNotFoundException;
 use OneToMany\PDFAI\Factory\ExtractorClientFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -15,14 +15,14 @@ final class ExtractorClientFactoryTest extends TestCase
 {
     public function testCreatingServiceRequiresServiceToExist(): void
     {
-        $this->expectException(CreatingRasterClientFailedServiceNotFoundException::class);
+        $this->expectException(CreatingExtractorClientFailedServiceNotFoundException::class);
 
         new ExtractorClientFactory($this->createContainer())->create('invalid');
     }
 
     public function testCreatingServiceRequiresServiceToImplementRasterServiceInterface(): void
     {
-        $this->expectException(CreatingRasterClientFailedServiceNotFoundException::class);
+        $this->expectException(CreatingExtractorClientFailedServiceNotFoundException::class);
 
         new ExtractorClientFactory($this->createContainer())->create('error');
     }

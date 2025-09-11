@@ -3,7 +3,7 @@
 namespace OneToMany\PDFAI\Factory;
 
 use OneToMany\PDFAI\Contract\Client\ExtractorClientInterface;
-use OneToMany\PDFAI\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
+use OneToMany\PDFAI\Factory\Exception\CreatingExtractorClientFailedServiceNotFoundException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
@@ -19,10 +19,10 @@ final readonly class ExtractorClientFactory
             $service = $this->container->get($id);
 
             if (!$service instanceof ExtractorClientInterface) {
-                throw new CreatingRasterClientFailedServiceNotFoundException($id);
+                throw new CreatingExtractorClientFailedServiceNotFoundException($id);
             }
         } catch (ContainerExceptionInterface $e) {
-            throw new CreatingRasterClientFailedServiceNotFoundException($id, $e);
+            throw new CreatingExtractorClientFailedServiceNotFoundException($id, $e);
         }
 
         return $service;
