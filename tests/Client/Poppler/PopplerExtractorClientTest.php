@@ -162,7 +162,7 @@ final class PopplerExtractorClientTest extends TestCase
     }
 
     /**
-     * @return list<list<int|non-empty-string>>
+     * @return list<list<int|string>>
      */
     public static function providerExtractingTextData(): array
     {
