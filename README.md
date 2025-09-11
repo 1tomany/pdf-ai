@@ -21,7 +21,7 @@ brew install poppler
 apt-get install poppler-utils
 ```
 
-## Library Usage
+## Usage
 This library has three main features:
 - Read PDF metadata such as the number of pages
 - Rasterize one or more pages to JPEG or PNG images
