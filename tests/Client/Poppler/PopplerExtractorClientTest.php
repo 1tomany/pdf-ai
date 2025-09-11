@@ -8,14 +8,15 @@ use OneToMany\PDFAI\Client\Poppler\PopplerExtractorClient;
 use OneToMany\PDFAI\Contract\Enum\OutputType;
 use OneToMany\PDFAI\Exception\InvalidArgumentException;
 use OneToMany\PDFAI\Request\ExtractDataRequest;
+use OneToMany\PDFAI\Request\ExtractTextRequest;
 use OneToMany\PDFAI\Request\ReadMetadataRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Large;
 use PHPUnit\Framework\TestCase;
 
+use function iterator_to_array;
 use function random_int;
-use function sha1;
 
 #[Large]
 #[Group('UnitTests')]
@@ -23,24 +24,14 @@ use function sha1;
 #[Group('PopplerTests')]
 final class PopplerExtractorClientTest extends TestCase
 {
-    public function testConstructorRequiresValidPdfInfoBinary(): void
+    public function testReadingMetadataRequiresValidPdfInfoBinary(): void
     {
         $pdfInfoBinary = 'invalid_pdfinfo_binary';
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The binary "'.$pdfInfoBinary.'" could not be found.');
 
-        new PopplerExtractorClient(pdfInfoBinary: $pdfInfoBinary);
-    }
-
-    public function testConstructorRequiresValidPdfToPpmBinary(): void
-    {
-        $pdfToPpmBinary = 'invalid_pdftoppm_binary';
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The binary "'.$pdfToPpmBinary.'" could not be found.');
-
-        new PopplerExtractorClient(pdfToPpmBinary: $pdfToPpmBinary);
+        new PopplerExtractorClient(pdfInfoBinary: $pdfInfoBinary)->readMetadata(new ReadMetadataRequest(__FILE__));
     }
 
     public function testReadingMetadataRequiresValidPdfFile(): void
@@ -52,9 +43,9 @@ final class PopplerExtractorClientTest extends TestCase
     }
 
     #[DataProvider('providerReadMetadataRequestArguments')]
-    public function testReadingMetadata(string $filePath, int $pageCount): void
+    public function testReadingMetadata(string $filePath, int $pages): void
     {
-        $this->assertEquals($pageCount, new PopplerExtractorClient()->readMetadata(new ReadMetadataRequest($filePath))->getPages());
+        $this->assertEquals($pages, new PopplerExtractorClient()->readMetadata(new ReadMetadataRequest($filePath))->getPages());
     }
 
     /**
@@ -72,56 +63,78 @@ final class PopplerExtractorClientTest extends TestCase
         return $provider;
     }
 
+    public function testExtractingImageDataRequiresValidPdfToPpmBinary(): void
+    {
+        $pdfToPpmBinary = 'invalid_pdftoppm_binary';
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The binary "'.$pdfToPpmBinary.'" could not be found.');
+
+        new PopplerExtractorClient(pdfToPpmBinary: $pdfToPpmBinary)->extractData(new ExtractDataRequest(__FILE__, outputType: OutputType::Jpg))->current();
+    }
+
+    public function testExtractingTextDataRequiresValidPdfToTextBinary(): void
+    {
+        $pdfToTextBinary = 'invalid_pdftotext_binary';
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The binary "'.$pdfToTextBinary.'" could not be found.');
+
+        new PopplerExtractorClient(pdfToTextBinary: $pdfToTextBinary)->extractData(new ExtractTextRequest(__FILE__))->current();
+    }
+
     public function testExtractingDataRequiresValidPdfFile(): void
     {
         $this->expectException(ExtractingDataFailedException::class);
         $this->expectExceptionMessageMatches('/May not be a PDF file/');
 
-        new PopplerExtractorClient()->extractData(new ExtractDataRequest(__FILE__));
+        new PopplerExtractorClient()->extractData(new ExtractDataRequest(__FILE__))->current();
     }
 
-    public function testExtractingDataRequiresValidPageNumber(): void
+    public function testExtractingDataRequiresValidPage(): void
     {
-        $pageNumber = random_int(2, 100);
+        $page = random_int(2, 100);
 
         $this->expectException(ExtractingDataFailedException::class);
         $this->expectExceptionMessageMatches('/Wrong page range given/');
 
-        new PopplerExtractorClient()->extractData(new ExtractDataRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
+        new PopplerExtractorClient()->extractData(new ExtractDataRequest(__DIR__.'/../files/pages-1.pdf', $page, $page))->current();
     }
 
-    #[DataProvider('providerExtractingDataRequestArguments')]
-    public function testExtractingDataFile(
+    #[DataProvider('providerFilePathFirstPageLastPageAndResponseCount')]
+    public function testExtractingData(
         string $filePath,
         int $firstPage,
         int $lastPage,
-        OutputType $outputType,
-        int $resolution,
-        string $sha1Hash,
+        int $responseCount,
     ): void {
+        $client = new PopplerExtractorClient();
+
         $request = new ExtractDataRequest(
-            $filePath,
-            $firstPage,
-            $lastPage,
-            $outputType,
-            $resolution,
+            filePath: $filePath,
+            firstPage: $firstPage,
+            lastPage: $lastPage,
         );
 
-        $image = new PopplerExtractorClient()->extractData($request);
-        $this->assertEquals($sha1Hash, sha1($image->__toString()));
+        $this->assertCount($responseCount, iterator_to_array($client->extractData($request)));
     }
 
     /**
-     * @return list<list<int|string|OutputType>>
+     * @return list<list<int|string|list<non-empty-string>|OutputType>>
      */
-    public static function providerExtractingDataRequestArguments(): array
+    public static function providerFilePathFirstPageLastPageAndResponseCount(): array
     {
         $provider = [
-            [__DIR__.'/../files/pages-1.pdf', 1, 1, OutputType::Jpg, 150, 'bfbfea39b881befa7e0af249f4fff08592d1ff56'],
-            [__DIR__.'/../files/pages-2.pdf', 1, 1, OutputType::Jpg, 300, 'b4f24570eaeda3bc0b2865e7583666ec9cae8cc3'],
-            [__DIR__.'/../files/pages-2.pdf', 1, 1, OutputType::Png, 150, '73ee6b53e3c48945095da187be916593e2cbec17'],
-            [__DIR__.'/../files/pages-3.pdf', 1, 1, OutputType::Jpg, 72, '932f94066020ae177c64544c6611441570dc2b50'],
-            [__DIR__.'/../files/pages-4.pdf', 1, 1, OutputType::Png, 72, 'a074c43375569c0f8d1b24a9fc7dbc456b5c126d'],
+            [__DIR__.'/../files/pages-1.pdf', 1, 1, 1],
+            [__DIR__.'/../files/pages-2.pdf', 1, 1, 1],
+            [__DIR__.'/../files/pages-2.pdf', 2, 2, 1],
+            [__DIR__.'/../files/pages-2.pdf', 1, 2, 2],
+            [__DIR__.'/../files/pages-3.pdf', 1, 1, 1],
+            [__DIR__.'/../files/pages-3.pdf', 1, 2, 2],
+            [__DIR__.'/../files/pages-3.pdf', 2, 2, 1],
+            [__DIR__.'/../files/pages-3.pdf', 2, 3, 2],
+            [__DIR__.'/../files/pages-3.pdf', 1, 3, 3],
+            [__DIR__.'/../files/pages-3.pdf', 3, 3, 1],
         ];
 
         return $provider;

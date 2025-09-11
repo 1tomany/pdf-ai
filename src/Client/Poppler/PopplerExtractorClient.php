@@ -55,43 +55,33 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
     public function extractData(ExtractDataRequestInterface $request): \Generator
     {
         if ($request->getOutputType()->isTxt()) {
-            return $this->extractTextData($request);
-        }
+            $command = BinaryFinder::find($this->pdfToTextBinary);
 
-        return $this->extractImageData($request);
-    }
+            for ($page = $request->getFirstPage(); $page <= $request->getLastPage(); ++$page) {
+                $process = new Process([$command, '-nodiag', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath()]);
 
-    private function extractImageData(ExtractDataRequestInterface $request): \Generator
-    {
-        $command = BinaryFinder::find($this->pdfToPpmBinary);
+                try {
+                    $output = $process->mustRun()->getOutput();
+                } catch (ProcessExceptionInterface $e) {
+                    throw new ExtractingDataFailedException($request->getFilePath(), $page, $process->getErrorOutput(), $e);
+                }
 
-        for ($page = $request->getFirstPage(); $page <= $request->getLastPage(); ++$page) {
-            $process = new Process([$command, $request->getOutputType()->isJpg() ? '-jpeg' : '-png', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath()]);
-
-            try {
-                $output = $process->mustRun()->getOutput();
-            } catch (ProcessExceptionInterface $e) {
-                throw new ExtractingDataFailedException($request->getFilePath(), $page, $process->getErrorOutput(), $e);
+                yield new ExtractedDataResponse($request->getOutputType(), $output);
             }
+        } else {
+            $command = BinaryFinder::find($this->pdfToPpmBinary);
 
-            yield new ExtractedDataResponse($request->getOutputType(), $output);
-        }
-    }
+            for ($page = $request->getFirstPage(); $page <= $request->getLastPage(); ++$page) {
+                $process = new Process([$command, $request->getOutputType()->isJpg() ? '-jpeg' : '-png', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath()]);
 
-    private function extractTextData(ExtractDataRequestInterface $request): \Generator
-    {
-        $command = BinaryFinder::find($this->pdfToTextBinary);
+                try {
+                    $output = $process->mustRun()->getOutput();
+                } catch (ProcessExceptionInterface $e) {
+                    throw new ExtractingDataFailedException($request->getFilePath(), $page, $process->getErrorOutput(), $e);
+                }
 
-        for ($page = $request->getFirstPage(); $page <= $request->getLastPage(); ++$page) {
-            $process = new Process([$command, '-nodiag', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath()]);
-
-            try {
-                $output = $process->mustRun()->getOutput();
-            } catch (ProcessExceptionInterface $e) {
-                throw new ExtractingDataFailedException($request->getFilePath(), $page, $process->getErrorOutput(), $e);
+                yield new ExtractedDataResponse($request->getOutputType(), $output);
             }
-
-            yield new ExtractedDataResponse($request->getOutputType(), $output);
         }
     }
 }
