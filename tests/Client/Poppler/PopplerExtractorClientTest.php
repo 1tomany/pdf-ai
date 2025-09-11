@@ -6,6 +6,7 @@ use OneToMany\PDFAI\Client\Exception\ExtractingDataFailedException;
 use OneToMany\PDFAI\Client\Exception\ReadingMetadataFailedException;
 use OneToMany\PDFAI\Client\Poppler\PopplerExtractorClient;
 use OneToMany\PDFAI\Contract\Enum\OutputType;
+use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;
 use OneToMany\PDFAI\Exception\InvalidArgumentException;
 use OneToMany\PDFAI\Request\ExtractDataRequest;
 use OneToMany\PDFAI\Request\ExtractTextRequest;
@@ -148,17 +149,22 @@ final class PopplerExtractorClientTest extends TestCase
         $client = new PopplerExtractorClient();
 
         $request = new ExtractTextRequest($filePath, $page, $page);
+
+        /** @var list<ExtractedDataResponseInterface> $responses */
         $responses = iterator_to_array($client->extractData($request));
 
         $this->assertCount(1, $responses);
-        print_r($responses[0]);
+        $this->assertStringContainsString($expectedText, $responses[0]->getData());
     }
 
+    /**
+     * @return list<list<int|non-empty-string>>
+     */
     public static function providerExtractingTextData(): array
     {
         $provider = [
             // [__DIR__.'/../files/pages-1.pdf', 1, ''],
-            [__DIR__.'/../files/pages-2.pdf', 2, ''],
+            [__DIR__.'/../files/pages-2.pdf', 2, 'Amazon Simple Storage Service'],
             // [__DIR__.'/../files/pages-2.pdf', 1, 1, 1],
             // [__DIR__.'/../files/pages-2.pdf', 2, 2, 1],
             // [__DIR__.'/../files/pages-2.pdf', 1, 2, 2],
