@@ -59,29 +59,15 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
             return $this->toText($request);
         }
 
-        return $this->rasterize($request);
+        return $this->toImage($request);
     }
 
-    private function rasterize(ExtractDataRequestInterface $request): \Generator
+    private function toImage(ExtractDataRequestInterface $request): \Generator
     {
-        $pdfToPpmBinary = BinaryFinder::find(
-            binary: $this->pdfToPpmBinary,
-        );
-
-        $outputType = $request->getOutputType()->isJpg() ? '-jpeg' : '-png';
+        $command = BinaryFinder::find($this->pdfToPpmBinary);
 
         for ($page=$request->getFirstPage(); $page<=$request->getLastPage(); $page++) {
-            $process = new Process([
-                $pdfToPpmBinary,
-                $request->getOutputType()->isJpg() ? '-jpeg' : '-png',
-                '-f',
-                $page,
-                '-l',
-                $page,
-                '-r',
-                $request->getResolution(),
-                $request->getFilePath(),
-            ]);
+            $process = new Process([$command, $request->getOutputType()->isJpg() ? '-jpeg' : '-png', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath()]);
 
             try {
                 $output = $process->mustRun()->getOutput();
@@ -95,22 +81,10 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
 
     private function toText(ExtractDataRequestInterface $request): \Generator
     {
-        $pdfToTxtBinary = BinaryFinder::find(
-            binary: $this->pdfToTxtBinary,
-        );
+        $command = BinaryFinder::find($this->pdfToTxtBinary);
 
         for ($page=$request->getFirstPage(); $page<=$request->getLastPage(); $page++) {
-            $process = new Process([
-                $pdfToTxtBinary,
-                '-nodiag',
-                '-f',
-                $page,
-                '-l',
-                $page,
-                '-r',
-                $request->getResolution(),
-                $request->getFilePath(),
-            ]);
+            $process = new Process([$command, '-nodiag', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath()]);
 
             try {
                 $output = $process->mustRun()->getOutput();
