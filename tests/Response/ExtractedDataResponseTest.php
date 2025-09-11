@@ -7,6 +7,7 @@ use OneToMany\PDFAI\Response\ExtractedDataResponse;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Random\RandomException;
 use SebastianBergmann\Type\ObjectType;
 
 use function base64_encode;
@@ -46,11 +47,18 @@ final class ExtractedDataResponseTest extends TestCase
     }
 
     #[DataProvider('providerGettingName')]
-    public function testGettingName(OutputType $type, int $page, string $name): void
+    public function testGettingName(
+        OutputType $type,
+        int $page,
+        string $name,
+    ): void
     {
         $this->assertEquals($name, new ExtractedDataResponse($type, 'Response', $page)->getName());
     }
 
+    /**
+     * @return list<list<positive-int|non-empty-string|OutputType>>
+     */
     public static function providerGettingName(): array
     {
         $page = \random_int(1, 100);

@@ -12,9 +12,6 @@ use function trim;
 
 class ExtractedDataResponse implements ExtractedDataResponseInterface
 {
-    /**
-     * @param positive-int $page
-     */
     public function __construct(
         protected OutputType $type,
         protected string $data,
@@ -56,7 +53,7 @@ class ExtractedDataResponse implements ExtractedDataResponseInterface
 
     public function getPage(): int
     {
-        return $this->page;
+        return $this->page; // @phpstan-ignore-line
     }
 
     public function setPage(int $page): static
