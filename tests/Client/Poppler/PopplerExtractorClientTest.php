@@ -112,41 +112,11 @@ final class PopplerExtractorClientTest extends TestCase
         new PopplerExtractorClient()->extractData(new ExtractDataRequest(__DIR__.'/../files/pages-1.pdf', $page, $page))->current();
     }
 
-    #[DataProvider('providerExtractingAllPages')]
-    public function testExtractingAllPages(string $filePath, int $responseCount): void
-    {
-        $client = new PopplerExtractorClient();
-
-        $request = new ExtractDataRequest(
-            $filePath, 1, null, OutputType::Jpg,
-        );
-
-        /** @var list<ExtractedDataResponseInterface> $responses */
-        $responses = iterator_to_array($client->extractData($request));
-
-        $this->assertCount($responseCount, $responses);
-    }
-
-    /**
-     * @return list<list<int|string>>
-     */
-    public static function providerExtractingAllPages(): array
-    {
-        $provider = [
-            [__DIR__.'/../files/pages-1.pdf', 1],
-            [__DIR__.'/../files/pages-2.pdf', 2],
-            [__DIR__.'/../files/pages-3.pdf', 3],
-            [__DIR__.'/../files/pages-4.pdf', 4],
-        ];
-
-        return $provider;
-    }
-
     #[DataProvider('providerExtractingDataRange')]
     public function testExtractingDataRange(
         string $filePath,
         int $firstPage,
-        int $lastPage,
+        ?int $lastPage,
         int $responseCount,
     ): void {
         $client = new PopplerExtractorClient();
@@ -159,25 +129,45 @@ final class PopplerExtractorClientTest extends TestCase
         $responses = iterator_to_array($client->extractData($request));
 
         $this->assertCount($responseCount, $responses);
+        $this->assertContainsOnlyInstancesOf(ExtractedDataResponseInterface::class, $responses);
     }
 
     /**
-     * @return list<list<int|string>>
+     * @return list<list<int|string|null>>
      */
     public static function providerExtractingDataRange(): array
     {
         $provider = [
             [__DIR__.'/../files/pages-1.pdf', 1, 1, 1],
+            [__DIR__.'/../files/pages-1.pdf', 1, null, 1],
             [__DIR__.'/../files/pages-2.pdf', 1, 1, 1],
-            [__DIR__.'/../files/pages-2.pdf', 2, 2, 1],
             [__DIR__.'/../files/pages-2.pdf', 1, 2, 2],
+            [__DIR__.'/../files/pages-2.pdf', 1, null, 2],
+            [__DIR__.'/../files/pages-2.pdf', 2, 2, 1],
+            [__DIR__.'/../files/pages-2.pdf', 2, null, 1],
             [__DIR__.'/../files/pages-3.pdf', 1, 1, 1],
             [__DIR__.'/../files/pages-3.pdf', 1, 2, 2],
+            [__DIR__.'/../files/pages-3.pdf', 1, 3, 3],
+            [__DIR__.'/../files/pages-3.pdf', 1, null, 3],
             [__DIR__.'/../files/pages-3.pdf', 2, 2, 1],
             [__DIR__.'/../files/pages-3.pdf', 2, 3, 2],
-            [__DIR__.'/../files/pages-3.pdf', 1, 3, 3],
+            [__DIR__.'/../files/pages-3.pdf', 2, null, 2],
             [__DIR__.'/../files/pages-3.pdf', 3, 3, 1],
+            [__DIR__.'/../files/pages-3.pdf', 3, null, 1],
+            [__DIR__.'/../files/pages-4.pdf', 1, 1, 1],
+            [__DIR__.'/../files/pages-4.pdf', 1, 2, 2],
+            [__DIR__.'/../files/pages-4.pdf', 1, 3, 3],
             [__DIR__.'/../files/pages-4.pdf', 1, 4, 4],
+            [__DIR__.'/../files/pages-4.pdf', 1, null, 4],
+            [__DIR__.'/../files/pages-4.pdf', 2, 2, 1],
+            [__DIR__.'/../files/pages-4.pdf', 2, 3, 2],
+            [__DIR__.'/../files/pages-4.pdf', 2, 4, 3],
+            [__DIR__.'/../files/pages-4.pdf', 2, null, 3],
+            [__DIR__.'/../files/pages-4.pdf', 3, 3, 1],
+            [__DIR__.'/../files/pages-4.pdf', 3, 4, 2],
+            [__DIR__.'/../files/pages-4.pdf', 3, null, 2],
+            [__DIR__.'/../files/pages-4.pdf', 4, 4, 1],
+            [__DIR__.'/../files/pages-4.pdf', 4, null, 1],
         ];
 
         return $provider;
