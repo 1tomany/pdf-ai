@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Tests\Response;
+namespace OneToMany\PDFAI\Tests\Response;
 
-use OneToMany\PDFExtractor\Response\FileResponse;
+use OneToMany\PDFAI\Response\FileResponse;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 

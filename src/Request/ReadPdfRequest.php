@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Request;
+namespace OneToMany\PDFAI\Request;
 
-use OneToMany\PDFExtractor\Contract\Request\ReadMetadataRequestInterface;
-use OneToMany\PDFExtractor\Exception\InvalidArgumentException;
+use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
+use OneToMany\PDFAI\Exception\InvalidArgumentException;
 
 use function is_file;
 use function is_readable;

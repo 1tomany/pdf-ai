@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Factory;
+namespace OneToMany\PDFAI\Factory;
 
-use OneToMany\PDFExtractor\Contract\Client\ExtractorClientInterface;
-use OneToMany\PDFExtractor\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
+use OneToMany\PDFAI\Contract\Client\ExtractorClientInterface;
+use OneToMany\PDFAI\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Tests\Response;
+namespace OneToMany\PDFAI\Tests\Response;
 
-use OneToMany\PDFExtractor\Contract\Enum\OutputType;
-use OneToMany\PDFExtractor\Response\ExtractedDataResponse;
+use OneToMany\PDFAI\Contract\Enum\OutputType;
+use OneToMany\PDFAI\Response\ExtractedDataResponse;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 

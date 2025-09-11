@@ -1,25 +1,27 @@
 {
-    "name": "1tomany/pdf-extractor",
-    "description": "A simple library that extracts data from PDF files using the Poppler command line tools",
+    "name": "1tomany/pdf-ai",
+    "description": "A simple PHP library that makes extracting data from PDFs for large language models easy",
     "license": "MIT",
     "type": "library",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "keywords": [
+        "ai",
+        "llm",
         "pdf",
-        "poppler",
-        "pdftoppm",
-        "pdfinfo",
-        "xpdf",
-        "pdf to image",
         "pdf2img",
         "pdf2image",
-        "pdf to text",
         "pdf2text",
-        "pdf2txt"
+        "pdf2txt",
+        "pdfinfo",
+        "pdftoppm",
+        "pdf to image",
+        "pdf to text",
+        "poppler",
+        "xpdf"
     ],
     "require": {
-        "php": ">=8.4",
+        "php": ">=8.2",
         "psr/container": "^2.0",
         "symfony/filesystem": "^7.2",
         "symfony/process": "^7.2"
@@ -31,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OneToMany\\PDFExtractor\\": "src/"
+            "OneToMany\\PDFAI\\": "src/"
         },
         "exclude-from-classmap": [
             "/Tests/"
@@ -39,7 +41,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OneToMany\\PDFExtractor\\Tests\\": "tests/"
+            "OneToMany\\PDFAI\\Tests\\": "tests/"
         }
     },
     "scripts": {

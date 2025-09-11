@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Contract\Response;
+namespace OneToMany\PDFAI\Contract\Response;
 
 interface MetadataResponseInterface
 {

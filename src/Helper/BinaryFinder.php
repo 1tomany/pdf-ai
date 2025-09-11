@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Helper;
+namespace OneToMany\PDFAI\Helper;
 
-use OneToMany\PDFExtractor\Exception\InvalidArgumentException;
+use OneToMany\PDFAI\Exception\InvalidArgumentException;
 use Symfony\Component\Process\ExecutableFinder;
 
 use function is_executable;

@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Tests\Request;
+namespace OneToMany\PDFAI\Tests\Request;
 
-use OneToMany\PDFExtractor\Exception\InvalidArgumentException;
-use OneToMany\PDFExtractor\Request\ReadPdfRequest;
+use OneToMany\PDFAI\Exception\InvalidArgumentException;
+use OneToMany\PDFAI\Request\ReadPdfRequest;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 

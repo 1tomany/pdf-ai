@@ -1,11 +1,11 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Contract\Client;
+namespace OneToMany\PDFAI\Contract\Client;
 
-use OneToMany\PDFExtractor\Contract\Request\ExtractDataRequestInterface;
-use OneToMany\PDFExtractor\Contract\Request\ReadMetadataRequestInterface;
-use OneToMany\PDFExtractor\Contract\Response\ExtractedDataResponseInterface;
-use OneToMany\PDFExtractor\Contract\Response\MetadataResponseInterface;
+use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
+use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
+use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;
+use OneToMany\PDFAI\Contract\Response\MetadataResponseInterface;
 
 interface ExtractorClientInterface
 {

@@ -1,17 +1,17 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Client\Poppler;
+namespace OneToMany\PDFAI\Client\Poppler;
 
-use OneToMany\PDFExtractor\Client\Exception\RasterizingFileFailedException;
-use OneToMany\PDFExtractor\Client\Exception\ReadingFileFailedException;
-use OneToMany\PDFExtractor\Contract\Client\ExtractorClientInterface;
-use OneToMany\PDFExtractor\Contract\Request\ExtractDataRequestInterface;
-use OneToMany\PDFExtractor\Contract\Request\ReadMetadataRequestInterface;
-use OneToMany\PDFExtractor\Contract\Response\ExtractedDataResponseInterface;
-use OneToMany\PDFExtractor\Contract\Response\MetadataResponseInterface;
-use OneToMany\PDFExtractor\Helper\BinaryFinder;
-use OneToMany\PDFExtractor\Response\ExtractedDataResponse;
-use OneToMany\PDFExtractor\Response\FileResponse;
+use OneToMany\PDFAI\Client\Exception\RasterizingFileFailedException;
+use OneToMany\PDFAI\Client\Exception\ReadingFileFailedException;
+use OneToMany\PDFAI\Contract\Client\ExtractorClientInterface;
+use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
+use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
+use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;
+use OneToMany\PDFAI\Contract\Response\MetadataResponseInterface;
+use OneToMany\PDFAI\Helper\BinaryFinder;
+use OneToMany\PDFAI\Response\ExtractedDataResponse;
+use OneToMany\PDFAI\Response\FileResponse;
 use Symfony\Component\Process\Exception\ExceptionInterface as ProcessExceptionInterface;
 use Symfony\Component\Process\Process;
 

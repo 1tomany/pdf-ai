@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Factory\Exception;
+namespace OneToMany\PDFAI\Factory\Exception;
 
-use OneToMany\PDFExtractor\Exception\RuntimeException;
+use OneToMany\PDFAI\Exception\RuntimeException;
 
 use function sprintf;
 

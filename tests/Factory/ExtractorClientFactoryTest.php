@@ -1,10 +1,10 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Tests\Factory;
+namespace OneToMany\PDFAI\Tests\Factory;
 
-use OneToMany\PDFExtractor\Client\Mock\MockRasterClient;
-use OneToMany\PDFExtractor\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
-use OneToMany\PDFExtractor\Factory\ExtractorClientFactory;
+use OneToMany\PDFAI\Client\Mock\MockRasterClient;
+use OneToMany\PDFAI\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
+use OneToMany\PDFAI\Factory\ExtractorClientFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;

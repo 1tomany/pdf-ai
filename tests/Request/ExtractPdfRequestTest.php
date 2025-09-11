@@ -1,11 +1,11 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Tests\Request;
+namespace OneToMany\PDFAI\Tests\Request;
 
-use OneToMany\PDFExtractor\Contract\Enum\OutputType;
-use OneToMany\PDFExtractor\Contract\Request\ExtractDataRequestInterface;
-use OneToMany\PDFExtractor\Exception\InvalidArgumentException;
-use OneToMany\PDFExtractor\Request\ExtractPdfRequest;
+use OneToMany\PDFAI\Contract\Enum\OutputType;
+use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
+use OneToMany\PDFAI\Exception\InvalidArgumentException;
+use OneToMany\PDFAI\Request\ExtractPdfRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;

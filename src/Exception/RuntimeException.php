@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Exception;
+namespace OneToMany\PDFAI\Exception;
 
-use OneToMany\PDFExtractor\Contract\Exception\ExceptionInterface;
+use OneToMany\PDFAI\Contract\Exception\ExceptionInterface;
 
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {

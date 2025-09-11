@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PDFExtractor\Contract\Action;
+namespace OneToMany\PDFAI\Contract\Action;
 
-use OneToMany\PDFExtractor\Contract\Request\ReadMetadataRequestInterface;
-use OneToMany\PDFExtractor\Contract\Response\MetadataResponseInterface;
+use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
+use OneToMany\PDFAI\Contract\Response\MetadataResponseInterface;
 
 interface ReadMetadataActionInterface
 {
