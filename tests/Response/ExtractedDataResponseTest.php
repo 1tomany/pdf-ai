@@ -53,15 +53,12 @@ final class ExtractedDataResponseTest extends TestCase
 
     public static function providerGettingName(): array
     {
+        $page = \random_int(1, 100);
+
         $provider = [
-            [OutputType::Jpg, 1, 'page-1.jpeg'],
-            [OutputType::Jpg, 10, 'page-10.jpeg'],
-
-            [OutputType::Png, 1, 'page-1.png'],
-            [OutputType::Png, 10, 'page-10.png'],
-
-            [OutputType::Txt, 1, 'page-1.txt'],
-            [OutputType::Txt, 10, 'page-10.txt']
+            [OutputType::Jpg, $page, "page-{$page}.jpeg"],
+            [OutputType::Png, $page, "page-{$page}.png"],
+            [OutputType::Txt, $page, "page-{$page}.txt"],
         ];
 
         return $provider;
