@@ -55,9 +55,8 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
 
     public function extractData(ExtractDataRequestInterface $request): \Generator
     {
-        $lastPage = $request->getLastPage();
-
-        if (null === $lastPage) {
+        // Determine the number of pages to extract
+        if (null === $lastPage = $request->getLastPage()) {
             $metadataRequest = new ReadMetadataRequest(...[
                 'filePath' => $request->getFilePath(),
             ]);
