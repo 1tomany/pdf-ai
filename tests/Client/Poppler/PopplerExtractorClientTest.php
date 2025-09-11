@@ -158,6 +158,7 @@ final class PopplerExtractorClientTest extends TestCase
         $responses = iterator_to_array($client->extractData($request));
 
         $this->assertCount(1, $responses);
+        $this->assertEquals($page, $responses[0]->getPage());
         $this->assertStringContainsString($expectedText, $responses[0]->getData());
     }
 

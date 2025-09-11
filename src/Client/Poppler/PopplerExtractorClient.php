@@ -66,7 +66,7 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
                     throw new ExtractingDataFailedException($request->getFilePath(), $page, $process->getErrorOutput(), $e);
                 }
 
-                yield new ExtractedDataResponse($request->getOutputType(), $output);
+                yield new ExtractedDataResponse($request->getOutputType(), $output, $page);
             }
         } else {
             $command = BinaryFinder::find($this->pdfToPpmBinary);
@@ -80,7 +80,7 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
                     throw new ExtractingDataFailedException($request->getFilePath(), $page, $process->getErrorOutput(), $e);
                 }
 
-                yield new ExtractedDataResponse($request->getOutputType(), $output);
+                yield new ExtractedDataResponse($request->getOutputType(), $output, $page);
             }
         }
     }
