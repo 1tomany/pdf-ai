@@ -16,7 +16,11 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Large;
 use PHPUnit\Framework\TestCase;
 
+use function imagecreatefromstring;
+use function imagesx;
+use function imagesy;
 use function iterator_to_array;
+use function md5;
 use function random_int;
 
 #[Large]
@@ -159,7 +163,7 @@ final class PopplerExtractorClientTest extends TestCase
         $client = new PopplerExtractorClient();
 
         $request = new ExtractTextRequest(
-            $filePath, $page, $page
+            $filePath, $page, $page,
         );
 
         /** @var list<ExtractedDataResponseInterface> $responses */
@@ -181,6 +185,46 @@ final class PopplerExtractorClientTest extends TestCase
             [__DIR__.'/../files/pages-2.pdf', 2, 'Storage Service: API Reference'],
             [__DIR__.'/../files/pages-3.pdf', 3, 'Learn more about the AWS CLI'],
             [__DIR__.'/../files/pages-4.pdf', 4, 'API Version 2006-03-01 iv'],
+        ];
+
+        return $provider;
+    }
+
+    #[DataProvider('providerExtractingImageData')]
+    public function testExtractingImageData(
+        string $filePath,
+        int $firstPage,
+        OutputType $outputType,
+        int $resolution,
+        string $md5Hash,
+    ): void {
+        $client = new PopplerExtractorClient();
+
+        $request = new ExtractDataRequest(
+            $filePath,
+            $firstPage,
+            $firstPage,
+            $outputType,
+            $resolution,
+        );
+
+        /** @var list<ExtractedDataResponseInterface> $responses */
+        $responses = iterator_to_array($client->extractData($request));
+
+        $this->assertCount(1, $responses);
+        $this->assertNotEmpty($responses[0]->getData());
+        $this->assertEquals($md5Hash, md5($responses[0]));
+
+        $image = imagecreatefromstring($responses[0]);
+        $this->assertInstanceOf(\GdImage::class, $image);
+        $this->assertGreaterThan(0, imagesx($image));
+        $this->assertGreaterThan(0, imagesy($image));
+    }
+
+    public static function providerExtractingImageData(): array
+    {
+        $provider = [
+            [__DIR__.'/../files/pages-1.pdf', 1, OutputType::Jpg, 72, '8d56f696328dfaf06c963e1179456d25'],
         ];
 
         return $provider;
