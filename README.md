@@ -22,43 +22,30 @@ require_once __DIR__ . '/vendor/autoload.php';
 use OneToMany\PDFAI\Client\Poppler\PopplerExtractorClient;
 use OneToMany\PDFAI\Contract\Enum\OutputType;
 use OneToMany\PDFAI\Request\ExtractDataRequest;
+use OneToMany\PDFAI\Request\ExtractTextRequest;
 use OneToMany\PDFAI\Request\ReadMetadataRequest;
 
 $filePath = '/path/to/file.pdf';
 
-// The arguments below are optional and are needed
-// if the Poppler binaries are not located in $PATH
-$client = new PopplerExtractorClient(
-    pdfInfoBinary: '/path/to/pdfinfo',
-    pdfToPpmBinary: '/path/to/pdftoppm',
-    pdfToTextBinary: '/path/to/pdftotext',
-);
+$client = new PopplerExtractorClient();
 
 $metadata = $client->readMetadata(new ReadMetadataRequest($filePath));
 printf("The PDF '%s' has %d page(s).\n", $filePath, $metadata->getPages());
 
-// Rasterize pages 1 through 5 as JPEGs
-$request = new ExtractDataRequest(
-    filePath: $filePath,
-    firstPage: 1,
-    lastPage: 5,
-    outputType: OutputType::Jpg,
-    resolution: 150,
-);
+// Rasterize pages 1 through 4 as 150 DPI JPEGs
+$request = new ExtractDataRequest($filePath, 1, 4, OutputType::Jpg, 150);
 
 foreach ($client->extractData($request) as $image) {
-    // $image->toDataUri() or file_put_contents('image.jpg', $image->getData());
+    // $image->getData() or $image->toDataUri()
+    printf("MD5: %s\n", md5($image->getData()));
 }
 
-// Extract text from pages 3 through 5
-$request = new ExtractTextRequest(
-    filePath: $filePath,
-    firstPage: 3,
-    lastPage: 5,
-);
+// Extract text from pages 3 and 4
+$request = new ExtractTextRequest($filePath, 3, 4);
 
 foreach ($client->extractData($request) as $text) {
     // $text->getData()
+    printf("Length: %d\n", strlen($text->getData()));
 }
 ```
 
