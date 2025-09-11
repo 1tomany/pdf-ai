@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Client\Exception;
+namespace OneToMany\PDFExtractor\Client\Exception;
 
 use function sprintf;
 

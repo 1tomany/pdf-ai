@@ -1,14 +1,14 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Request;
+namespace OneToMany\PDFExtractor\Request;
 
-use OneToMany\PdfExtractor\Contract\Enum\OutputType;
-use OneToMany\PdfExtractor\Contract\Request\ExtractPdfRequestInterface;
-use OneToMany\PdfExtractor\Exception\InvalidArgumentException;
+use OneToMany\PDFExtractor\Contract\Enum\OutputType;
+use OneToMany\PDFExtractor\Contract\Request\ExtractDataRequestInterface;
+use OneToMany\PDFExtractor\Exception\InvalidArgumentException;
 
 use function sprintf;
 
-class ExtractPdfRequest extends ReadPdfRequest implements ExtractPdfRequestInterface
+class ExtractPdfRequest extends ReadPdfRequest implements ExtractDataRequestInterface
 {
     /**
      * @var positive-int

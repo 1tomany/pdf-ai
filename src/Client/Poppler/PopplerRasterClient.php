@@ -1,17 +1,17 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Client\Poppler;
+namespace OneToMany\PDFExtractor\Client\Poppler;
 
-use OneToMany\PdfExtractor\Client\Exception\RasterizingFileFailedException;
-use OneToMany\PdfExtractor\Client\Exception\ReadingFileFailedException;
-use OneToMany\PdfExtractor\Contract\Client\PdfExtractorClientInterface;
-use OneToMany\PdfExtractor\Contract\Request\ExtractPdfRequestInterface;
-use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfExtractor\Contract\Response\ExtractedDataResponseInterface;
-use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
-use OneToMany\PdfExtractor\Helper\BinaryFinder;
-use OneToMany\PdfExtractor\Response\ExtractedDataResponse;
-use OneToMany\PdfExtractor\Response\FileResponse;
+use OneToMany\PDFExtractor\Client\Exception\RasterizingFileFailedException;
+use OneToMany\PDFExtractor\Client\Exception\ReadingFileFailedException;
+use OneToMany\PDFExtractor\Contract\Client\ExtractorClientInterface;
+use OneToMany\PDFExtractor\Contract\Request\ExtractDataRequestInterface;
+use OneToMany\PDFExtractor\Contract\Request\ReadMetadataRequestInterface;
+use OneToMany\PDFExtractor\Contract\Response\ExtractedDataResponseInterface;
+use OneToMany\PDFExtractor\Contract\Response\MetadataResponseInterface;
+use OneToMany\PDFExtractor\Helper\BinaryFinder;
+use OneToMany\PDFExtractor\Response\ExtractedDataResponse;
+use OneToMany\PDFExtractor\Response\FileResponse;
 use Symfony\Component\Process\Exception\ExceptionInterface as ProcessExceptionInterface;
 use Symfony\Component\Process\Process;
 
@@ -19,7 +19,7 @@ use function explode;
 use function str_contains;
 use function strcmp;
 
-readonly class PopplerRasterClient implements PdfExtractorClientInterface
+readonly class PopplerRasterClient implements ExtractorClientInterface
 {
     private string $pdfInfoBinary;
     private string $pdfToPpmBinary;
@@ -32,7 +32,7 @@ readonly class PopplerRasterClient implements PdfExtractorClientInterface
         $this->pdfToPpmBinary = BinaryFinder::find($pdfToPpmBinary);
     }
 
-    public function read(ReadPdfRequestInterface $request): PdfInfoResponseInterface
+    public function readMetadata(ReadMetadataRequestInterface $request): MetadataResponseInterface
     {
         $process = new Process([$this->pdfInfoBinary, $request->getFilePath()]);
 
@@ -57,7 +57,7 @@ readonly class PopplerRasterClient implements PdfExtractorClientInterface
         return $response;
     }
 
-    public function extract(ExtractPdfRequestInterface $request): ExtractedDataResponseInterface
+    public function extractData(ExtractDataRequestInterface $request): ExtractedDataResponseInterface
     {
         $process = new Process([
             $this->pdfToPpmBinary,

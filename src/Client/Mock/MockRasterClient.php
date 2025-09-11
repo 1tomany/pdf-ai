@@ -1,29 +1,29 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Client\Mock;
+namespace OneToMany\PDFExtractor\Client\Mock;
 
-use OneToMany\PdfExtractor\Contract\Client\PdfExtractorClientInterface;
-use OneToMany\PdfExtractor\Contract\Request\ExtractPdfRequestInterface;
-use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfExtractor\Contract\Response\ExtractedDataResponseInterface;
-use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
-use OneToMany\PdfExtractor\Exception\RuntimeException;
-use OneToMany\PdfExtractor\Response\FileResponse;
+use OneToMany\PDFExtractor\Contract\Client\ExtractorClientInterface;
+use OneToMany\PDFExtractor\Contract\Request\ExtractDataRequestInterface;
+use OneToMany\PDFExtractor\Contract\Request\ReadMetadataRequestInterface;
+use OneToMany\PDFExtractor\Contract\Response\ExtractedDataResponseInterface;
+use OneToMany\PDFExtractor\Contract\Response\MetadataResponseInterface;
+use OneToMany\PDFExtractor\Exception\RuntimeException;
+use OneToMany\PDFExtractor\Response\FileResponse;
 
 use function random_int;
 
-readonly class MockRasterClient implements PdfExtractorClientInterface
+readonly class MockRasterClient implements ExtractorClientInterface
 {
     public function __construct()
     {
     }
 
-    public function read(ReadPdfRequestInterface $request): PdfInfoResponseInterface
+    public function readMetadata(ReadMetadataRequestInterface $request): MetadataResponseInterface
     {
         return new FileResponse(random_int(1, 100));
     }
 
-    public function extract(ExtractPdfRequestInterface $request): ExtractedDataResponseInterface
+    public function extractData(ExtractDataRequestInterface $request): ExtractedDataResponseInterface
     {
         throw new RuntimeException('Not implemented!');
     }

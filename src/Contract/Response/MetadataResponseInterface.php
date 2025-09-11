@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Contract\Response;
+namespace OneToMany\PDFExtractor\Contract\Response;
 
-interface PdfInfoResponseInterface
+interface MetadataResponseInterface
 {
     /**
      * @return positive-int

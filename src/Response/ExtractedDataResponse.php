@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Response;
+namespace OneToMany\PDFExtractor\Response;
 
-use OneToMany\PdfExtractor\Contract\Enum\OutputType;
-use OneToMany\PdfExtractor\Contract\Response\ExtractedDataResponseInterface;
+use OneToMany\PDFExtractor\Contract\Enum\OutputType;
+use OneToMany\PDFExtractor\Contract\Response\ExtractedDataResponseInterface;
 
 use function base64_encode;
 use function max;

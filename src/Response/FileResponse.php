@@ -1,12 +1,12 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Response;
+namespace OneToMany\PDFExtractor\Response;
 
-use OneToMany\PdfExtractor\Contract\Response\PdfInfoResponseInterface;
+use OneToMany\PDFExtractor\Contract\Response\MetadataResponseInterface;
 
 use function max;
 
-class FileResponse implements PdfInfoResponseInterface
+class FileResponse implements MetadataResponseInterface
 {
     /**
      * @var positive-int

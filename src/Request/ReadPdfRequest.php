@@ -1,16 +1,16 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Request;
+namespace OneToMany\PDFExtractor\Request;
 
-use OneToMany\PdfExtractor\Contract\Request\ReadPdfRequestInterface;
-use OneToMany\PdfExtractor\Exception\InvalidArgumentException;
+use OneToMany\PDFExtractor\Contract\Request\ReadMetadataRequestInterface;
+use OneToMany\PDFExtractor\Exception\InvalidArgumentException;
 
 use function is_file;
 use function is_readable;
 use function sprintf;
 use function trim;
 
-class ReadPdfRequest implements ReadPdfRequestInterface
+class ReadPdfRequest implements ReadMetadataRequestInterface
 {
     /**
      * @var non-empty-string

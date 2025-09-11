@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Contract\Exception;
+namespace OneToMany\PDFExtractor\Contract\Exception;
 
 interface ExceptionInterface extends \Throwable
 {

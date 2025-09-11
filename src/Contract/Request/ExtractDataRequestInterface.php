@@ -1,10 +1,10 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Contract\Request;
+namespace OneToMany\PDFExtractor\Contract\Request;
 
-use OneToMany\PdfExtractor\Contract\Enum\OutputType;
+use OneToMany\PDFExtractor\Contract\Enum\OutputType;
 
-interface ExtractPdfRequestInterface extends ReadPdfRequestInterface
+interface ExtractDataRequestInterface extends ReadMetadataRequestInterface
 {
     public const int DEFAULT_RESOLUTION = 72;
     public const int MIN_RESOLUTION = 48;

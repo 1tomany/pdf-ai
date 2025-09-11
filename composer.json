@@ -31,7 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OneToMany\\PdfExtractor\\": "src/"
+            "OneToMany\\PDFExtractor\\": "src/"
         },
         "exclude-from-classmap": [
             "/Tests/"
@@ -39,7 +39,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OneToMany\\PdfExtractor\\Tests\\": "tests/"
+            "OneToMany\\PDFExtractor\\Tests\\": "tests/"
         }
     },
     "scripts": {

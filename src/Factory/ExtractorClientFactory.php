@@ -1,24 +1,24 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Factory;
+namespace OneToMany\PDFExtractor\Factory;
 
-use OneToMany\PdfExtractor\Contract\Client\PdfExtractorClientInterface;
-use OneToMany\PdfExtractor\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
+use OneToMany\PDFExtractor\Contract\Client\ExtractorClientInterface;
+use OneToMany\PDFExtractor\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
-final readonly class PdfExtractorClientFactory
+final readonly class ExtractorClientFactory
 {
     public function __construct(private ContainerInterface $container)
     {
     }
 
-    public function create(string $id): PdfExtractorClientInterface
+    public function create(string $id): ExtractorClientInterface
     {
         try {
             $service = $this->container->get($id);
 
-            if (!$service instanceof PdfExtractorClientInterface) {
+            if (!$service instanceof ExtractorClientInterface) {
                 throw new CreatingRasterClientFailedServiceNotFoundException($id);
             }
         } catch (ContainerExceptionInterface $e) {

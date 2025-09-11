@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Contract\Request;
+namespace OneToMany\PDFExtractor\Contract\Request;
 
-interface ReadPdfRequestInterface
+interface ReadMetadataRequestInterface
 {
     /**
      * @return non-empty-string

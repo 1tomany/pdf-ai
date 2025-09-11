@@ -1,11 +1,11 @@
 <?php
 
-namespace OneToMany\PdfExtractor\Tests\Request;
+namespace OneToMany\PDFExtractor\Tests\Request;
 
-use OneToMany\PdfExtractor\Contract\Enum\OutputType;
-use OneToMany\PdfExtractor\Contract\Request\ExtractPdfRequestInterface;
-use OneToMany\PdfExtractor\Exception\InvalidArgumentException;
-use OneToMany\PdfExtractor\Request\ExtractPdfRequest;
+use OneToMany\PDFExtractor\Contract\Enum\OutputType;
+use OneToMany\PDFExtractor\Contract\Request\ExtractDataRequestInterface;
+use OneToMany\PDFExtractor\Exception\InvalidArgumentException;
+use OneToMany\PDFExtractor\Request\ExtractPdfRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -63,17 +63,17 @@ final class ExtractPdfRequestTest extends TestCase
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMinimumResolution(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The resolution must be an integer between '.ExtractPdfRequestInterface::MIN_RESOLUTION.' and '.ExtractPdfRequestInterface::MAX_RESOLUTION.'.');
+        $this->expectExceptionMessage('The resolution must be an integer between '.ExtractDataRequestInterface::MIN_RESOLUTION.' and '.ExtractDataRequestInterface::MAX_RESOLUTION.'.');
 
-        new ExtractPdfRequest($this->filePath, resolution: random_int(1, ExtractPdfRequestInterface::MIN_RESOLUTION - 1));
+        new ExtractPdfRequest($this->filePath, resolution: random_int(1, ExtractDataRequestInterface::MIN_RESOLUTION - 1));
     }
 
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMaximumResolution(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The resolution must be an integer between '.ExtractPdfRequestInterface::MIN_RESOLUTION.' and '.ExtractPdfRequestInterface::MAX_RESOLUTION.'.');
+        $this->expectExceptionMessage('The resolution must be an integer between '.ExtractDataRequestInterface::MIN_RESOLUTION.' and '.ExtractDataRequestInterface::MAX_RESOLUTION.'.');
 
-        new ExtractPdfRequest($this->filePath, resolution: random_int(ExtractPdfRequestInterface::MAX_RESOLUTION + 1, PHP_INT_MAX));
+        new ExtractPdfRequest($this->filePath, resolution: random_int(ExtractDataRequestInterface::MAX_RESOLUTION + 1, PHP_INT_MAX));
     }
 
     #[DataProvider('providerConstructorArguments')]
@@ -99,8 +99,8 @@ final class ExtractPdfRequestTest extends TestCase
     public static function providerConstructorArguments(): array
     {
         $resolution = random_int(
-            ExtractPdfRequestInterface::MIN_RESOLUTION,
-            ExtractPdfRequestInterface::MAX_RESOLUTION,
+            ExtractDataRequestInterface::MIN_RESOLUTION,
+            ExtractDataRequestInterface::MAX_RESOLUTION,
         );
 
         $provider = [
