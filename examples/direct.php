@@ -8,7 +8,7 @@ use OneToMany\PDFAI\Request\ExtractDataRequest;
 use OneToMany\PDFAI\Request\ExtractTextRequest;
 use OneToMany\PDFAI\Request\ReadMetadataRequest;
 
-$filePath = '../tests/Client/files/pages-4.pdf';
+$filePath = realpath(__DIR__ . '/../tests/Client/files/pages-4.pdf');
 
 $client = new PopplerExtractorClient();
 
