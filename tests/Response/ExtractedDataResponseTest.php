@@ -7,8 +7,6 @@ use OneToMany\PDFAI\Response\ExtractedDataResponse;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use Random\RandomException;
-use SebastianBergmann\Type\ObjectType;
 
 use function base64_encode;
 use function file_get_contents;
@@ -25,10 +23,34 @@ final class ExtractedDataResponseTest extends TestCase
         $this->assertEquals($text, new ExtractedDataResponse(OutputType::Txt, $text)->__toString());
     }
 
+    public function testGettingPageClampsNonPositiveNonZeroValuesToOne(): void
+    {
+        $response = new ExtractedDataResponse(
+            OutputType::Txt, 'Hello, world!'
+        );
+
+        $property = new \ReflectionProperty($response, 'page');
+
+        $page = random_int(2, 100);
+        $this->assertGreaterThan(1, $page);
+
+        $property->setValue($response, $page);
+        $this->assertEquals($page, $response->getPage());
+
+        $property->setValue($response, 0);
+        $this->assertEquals(1, $response->getPage());
+
+        $page = -1 * random_int(1, 100);
+        $this->assertLessThan(1, $page);
+
+        $property->setValue($response, $page);
+        $this->assertEquals(1, $response->getPage());
+    }
+
     public function testSettingPageClampsNonPositiveNonZeroValuesToOne(): void
     {
         $response = new ExtractedDataResponse(
-            OutputType::Txt, 'Response', 1,
+            OutputType::Txt, 'Hello, world!'
         );
 
         $this->assertEquals(1, $response->getPage());
@@ -53,7 +75,7 @@ final class ExtractedDataResponseTest extends TestCase
         string $name,
     ): void
     {
-        $this->assertEquals($name, new ExtractedDataResponse($type, 'Response', $page)->getName());
+        $this->assertEquals($name, new ExtractedDataResponse($type, '', $page)->getName());
     }
 
     /**

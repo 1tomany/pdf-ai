@@ -32,4 +32,23 @@ final class OutputTypeTest extends TestCase
         return $provider;
     }
 
+    #[DataProvider('providerGettingMimeType')]
+    public function testGettingMimeType(OutputType $type, string $mimeType): void
+    {
+        $this->assertEquals($mimeType, $type->getMimeType());
+    }
+
+    /**
+     * @return list<list<non-empty-string|OutputType>>
+     */
+    public static function providerGettingMimeType(): array
+    {
+        $provider = [
+            [OutputType::Jpg, 'image/jpeg'],
+            [OutputType::Png, 'image/png'],
+            [OutputType::Txt, 'text/plain'],
+        ];
+
+        return $provider;
+    }
 }
