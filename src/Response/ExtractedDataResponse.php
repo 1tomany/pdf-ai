@@ -12,9 +12,6 @@ use function trim;
 
 class ExtractedDataResponse implements ExtractedDataResponseInterface
 {
-    /**
-     * @param positive-int $page
-     */
     public function __construct(
         protected OutputType $type,
         protected string $data,
@@ -56,7 +53,7 @@ class ExtractedDataResponse implements ExtractedDataResponseInterface
 
     public function getPage(): int
     {
-        return $this->page;
+        return max(1, $this->page);
     }
 
     public function setPage(int $page): static
@@ -66,8 +63,13 @@ class ExtractedDataResponse implements ExtractedDataResponseInterface
         return $this;
     }
 
+    public function getName(): string
+    {
+        return sprintf('page-%d.%s', $this->getPage(), $this->getType()->getExtension());
+    }
+
     public function toDataUri(): string
     {
-        return sprintf('data:%s;base64,%s', $this->type->getMimeType(), base64_encode($this->data));
+        return sprintf('data:%s;base64,%s', $this->type->getMimeType(), base64_encode($this->getData()));
     }
 }

@@ -15,5 +15,10 @@ interface ExtractedDataResponseInterface extends \Stringable
      */
     public function getPage(): int;
 
+    /**
+     * @return non-empty-string
+     */
+    public function getName(): string;
+
     public function toDataUri(): string;
 }
