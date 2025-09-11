@@ -5,7 +5,6 @@ namespace OneToMany\PDFAI\Client\Mock;
 use OneToMany\PDFAI\Contract\Client\ExtractorClientInterface;
 use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
 use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
-use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;
 use OneToMany\PDFAI\Contract\Response\MetadataResponseInterface;
 use OneToMany\PDFAI\Exception\RuntimeException;
 use OneToMany\PDFAI\Response\MetadataResponse;

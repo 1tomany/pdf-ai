@@ -2,7 +2,6 @@
 
 namespace OneToMany\PDFAI\Contract\Client;
 
-use Generator;
 use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
 use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
 use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;

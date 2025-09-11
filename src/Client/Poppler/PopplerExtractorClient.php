@@ -7,7 +7,6 @@ use OneToMany\PDFAI\Client\Exception\ReadingMetadataFailedException;
 use OneToMany\PDFAI\Contract\Client\ExtractorClientInterface;
 use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
 use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
-use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;
 use OneToMany\PDFAI\Contract\Response\MetadataResponseInterface;
 use OneToMany\PDFAI\Helper\BinaryFinder;
 use OneToMany\PDFAI\Response\ExtractedDataResponse;
@@ -24,7 +23,7 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
     public function __construct(
         private string $pdfInfoBinary = 'pdfinfo',
         private string $pdfToPpmBinary = 'pdftoppm',
-        private string $pdfToTxtBinary = 'pdftotext',
+        private string $pdfToTextBinary = 'pdftotext',
     ) {
     }
 
@@ -56,17 +55,17 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
     public function extractData(ExtractDataRequestInterface $request): \Generator
     {
         if ($request->getOutputType()->isTxt()) {
-            return $this->toText($request);
+            return $this->extractTextData($request);
         }
 
-        return $this->toImage($request);
+        return $this->extractImageData($request);
     }
 
-    private function toImage(ExtractDataRequestInterface $request): \Generator
+    private function extractImageData(ExtractDataRequestInterface $request): \Generator
     {
         $command = BinaryFinder::find($this->pdfToPpmBinary);
 
-        for ($page=$request->getFirstPage(); $page<=$request->getLastPage(); $page++) {
+        for ($page = $request->getFirstPage(); $page <= $request->getLastPage(); ++$page) {
             $process = new Process([$command, $request->getOutputType()->isJpg() ? '-jpeg' : '-png', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath()]);
 
             try {
@@ -79,11 +78,11 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
         }
     }
 
-    private function toText(ExtractDataRequestInterface $request): \Generator
+    private function extractTextData(ExtractDataRequestInterface $request): \Generator
     {
-        $command = BinaryFinder::find($this->pdfToTxtBinary);
+        $command = BinaryFinder::find($this->pdfToTextBinary);
 
-        for ($page=$request->getFirstPage(); $page<=$request->getLastPage(); $page++) {
+        for ($page = $request->getFirstPage(); $page <= $request->getLastPage(); ++$page) {
             $process = new Process([$command, '-nodiag', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath()]);
 
             try {

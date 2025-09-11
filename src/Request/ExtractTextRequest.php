@@ -14,5 +14,4 @@ class ExtractTextRequest extends ExtractDataRequest
     ) {
         parent::__construct($filePath, $firstPage, $lastPage, OutputType::Txt, $resolution);
     }
-
 }

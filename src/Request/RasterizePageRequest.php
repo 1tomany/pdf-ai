@@ -14,5 +14,4 @@ class RasterizePageRequest extends ExtractDataRequest
     ) {
         parent::__construct($filePath, $pageNumber, $pageNumber, $outputType, $resolution);
     }
-
 }
