@@ -3,7 +3,7 @@
 namespace OneToMany\PDFAI\Tests\Request;
 
 use OneToMany\PDFAI\Exception\InvalidArgumentException;
-use OneToMany\PDFAI\Request\ReadPdfRequest;
+use OneToMany\PDFAI\Request\ReadMetadataRequest;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
@@ -19,6 +19,6 @@ final class ReadPdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The file path "'.$filePath.'" does not exist or is not readable.');
 
-        new ReadPdfRequest($filePath);
+        new ReadMetadataRequest($filePath);
     }
 }

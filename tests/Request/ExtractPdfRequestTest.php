@@ -5,7 +5,7 @@ namespace OneToMany\PDFAI\Tests\Request;
 use OneToMany\PDFAI\Contract\Enum\OutputType;
 use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
 use OneToMany\PDFAI\Exception\InvalidArgumentException;
-use OneToMany\PDFAI\Request\ExtractPdfRequest;
+use OneToMany\PDFAI\Request\ExtractDataRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -30,7 +30,7 @@ final class ExtractPdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The file path cannot be empty.');
 
-        new ExtractPdfRequest('');
+        new ExtractDataRequest('');
     }
 
     public function testConstructorRequiresReadableFile(): void
@@ -41,7 +41,7 @@ final class ExtractPdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The file path "'.$filePath.'" does not exist or is not readable.');
 
-        new ExtractPdfRequest($filePath);
+        new ExtractDataRequest($filePath);
     }
 
     public function testConstructorRequiresPositiveNonZeroFirstPage(): void
@@ -49,7 +49,7 @@ final class ExtractPdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The first page number must be a positive non-zero integer.');
 
-        new ExtractPdfRequest($this->filePath, firstPage: 0);
+        new ExtractDataRequest($this->filePath, firstPage: 0);
     }
 
     public function testConstructorRequiresPositiveNonZeroLastPage(): void
@@ -57,7 +57,7 @@ final class ExtractPdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The last page number must be a positive non-zero integer.');
 
-        new ExtractPdfRequest($this->filePath, lastPage: 0);
+        new ExtractDataRequest($this->filePath, lastPage: 0);
     }
 
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMinimumResolution(): void
@@ -65,7 +65,7 @@ final class ExtractPdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The resolution must be an integer between '.ExtractDataRequestInterface::MIN_RESOLUTION.' and '.ExtractDataRequestInterface::MAX_RESOLUTION.'.');
 
-        new ExtractPdfRequest($this->filePath, resolution: random_int(1, ExtractDataRequestInterface::MIN_RESOLUTION - 1));
+        new ExtractDataRequest($this->filePath, resolution: random_int(1, ExtractDataRequestInterface::MIN_RESOLUTION - 1));
     }
 
     public function testConstructorRequiresResolutionToBeLessThanOrEqualToMaximumResolution(): void
@@ -73,7 +73,7 @@ final class ExtractPdfRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The resolution must be an integer between '.ExtractDataRequestInterface::MIN_RESOLUTION.' and '.ExtractDataRequestInterface::MAX_RESOLUTION.'.');
 
-        new ExtractPdfRequest($this->filePath, resolution: random_int(ExtractDataRequestInterface::MAX_RESOLUTION + 1, PHP_INT_MAX));
+        new ExtractDataRequest($this->filePath, resolution: random_int(ExtractDataRequestInterface::MAX_RESOLUTION + 1, PHP_INT_MAX));
     }
 
     #[DataProvider('providerConstructorArguments')]
@@ -84,7 +84,7 @@ final class ExtractPdfRequestTest extends TestCase
         OutputType $outputType,
         int $resolution,
     ): void {
-        $request = new ExtractPdfRequest($filePath, $firstPage, $lastPage, $outputType, $resolution);
+        $request = new ExtractDataRequest($filePath, $firstPage, $lastPage, $outputType, $resolution);
 
         $this->assertEquals($filePath, $request->getFilePath());
         $this->assertEquals($firstPage, $request->getFirstPage());
@@ -113,7 +113,7 @@ final class ExtractPdfRequestTest extends TestCase
 
     public function testSettingFirstPageGreaterThanLastPageClampsLastPageToFirstPage(): void
     {
-        $request = new ExtractPdfRequest($this->filePath);
+        $request = new ExtractDataRequest($this->filePath);
         $this->assertEquals($request->getFirstPage(), $request->getLastPage());
 
         $firstPage = $request->getFirstPage() + 1;
@@ -127,7 +127,7 @@ final class ExtractPdfRequestTest extends TestCase
     {
         $page = random_int(2, 10);
 
-        $request = new ExtractPdfRequest($this->filePath, $page, $page);
+        $request = new ExtractDataRequest($this->filePath, $page, $page);
         $this->assertEquals($request->getLastPage(), $request->getFirstPage());
 
         $lastPage = $request->getLastPage() - 1;

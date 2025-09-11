@@ -7,8 +7,8 @@ use OneToMany\PDFAI\Client\Exception\ReadingFileFailedException;
 use OneToMany\PDFAI\Client\Poppler\PopplerRasterClient;
 use OneToMany\PDFAI\Contract\Enum\OutputType;
 use OneToMany\PDFAI\Exception\InvalidArgumentException;
-use OneToMany\PDFAI\Request\ExtractPdfRequest;
-use OneToMany\PDFAI\Request\ReadPdfRequest;
+use OneToMany\PDFAI\Request\ExtractDataRequest;
+use OneToMany\PDFAI\Request\ReadMetadataRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Large;
@@ -48,13 +48,13 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectException(ReadingFileFailedException::class);
         $this->expectExceptionMessageMatches('/May not be a PDF file/');
 
-        new PopplerRasterClient()->readMetadata(new ReadPdfRequest(__FILE__));
+        new PopplerRasterClient()->readMetadata(new ReadMetadataRequest(__FILE__));
     }
 
     #[DataProvider('providerReadFileRequestArguments')]
     public function testReadingFile(string $filePath, int $pageCount): void
     {
-        $this->assertEquals($pageCount, new PopplerRasterClient()->readMetadata(new ReadPdfRequest($filePath))->getPages());
+        $this->assertEquals($pageCount, new PopplerRasterClient()->readMetadata(new ReadMetadataRequest($filePath))->getPages());
     }
 
     /**
@@ -77,7 +77,7 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectException(RasterizingFileFailedException::class);
         $this->expectExceptionMessageMatches('/May not be a PDF file/');
 
-        new PopplerRasterClient()->extractData(new ExtractPdfRequest(__FILE__));
+        new PopplerRasterClient()->extractData(new ExtractDataRequest(__FILE__));
     }
 
     public function testRasterizationRequiresValidPageNumber(): void
@@ -87,7 +87,7 @@ final class PopplerRasterClientTest extends TestCase
         $this->expectException(RasterizingFileFailedException::class);
         $this->expectExceptionMessageMatches('/Wrong page range given/');
 
-        new PopplerRasterClient()->extractData(new ExtractPdfRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
+        new PopplerRasterClient()->extractData(new ExtractDataRequest(__DIR__.'/../files/pages-1.pdf', $pageNumber, $pageNumber));
     }
 
     #[DataProvider('providerRasterizeFileRequestArguments')]
@@ -99,7 +99,7 @@ final class PopplerRasterClientTest extends TestCase
         int $resolution,
         string $sha1Hash,
     ): void {
-        $request = new ExtractPdfRequest(
+        $request = new ExtractDataRequest(
             $filePath,
             $firstPage,
             $lastPage,

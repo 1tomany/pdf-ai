@@ -10,7 +10,7 @@ use function is_readable;
 use function sprintf;
 use function trim;
 
-class ReadPdfRequest implements ReadMetadataRequestInterface
+class ReadMetadataRequest implements ReadMetadataRequestInterface
 {
     /**
      * @var non-empty-string

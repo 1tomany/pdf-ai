@@ -8,7 +8,7 @@ use OneToMany\PDFAI\Exception\InvalidArgumentException;
 
 use function sprintf;
 
-class ExtractPdfRequest extends ReadPdfRequest implements ExtractDataRequestInterface
+class ExtractDataRequest extends ReadMetadataRequest implements ExtractDataRequestInterface
 {
     /**
      * @var positive-int
