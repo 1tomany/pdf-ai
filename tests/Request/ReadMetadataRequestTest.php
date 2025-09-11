@@ -1,15 +1,15 @@
 <?php
 
-namespace OneToMany\PdfToImage\Tests\Request;
+namespace OneToMany\PDFAI\Tests\Request;
 
-use OneToMany\PdfToImage\Exception\InvalidArgumentException;
-use OneToMany\PdfToImage\Request\ReadFileRequest;
+use OneToMany\PDFAI\Exception\InvalidArgumentException;
+use OneToMany\PDFAI\Request\ReadMetadataRequest;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[Group('UnitTests')]
 #[Group('RequestTests')]
-final class ReadFileRequestTest extends TestCase
+final class ReadMetadataRequestTest extends TestCase
 {
     public function testConstructorRequiresReadableFile(): void
     {
@@ -19,6 +19,6 @@ final class ReadFileRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The file path "'.$filePath.'" does not exist or is not readable.');
 
-        new ReadFileRequest($filePath);
+        new ReadMetadataRequest($filePath);
     }
 }

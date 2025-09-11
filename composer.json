@@ -1,33 +1,38 @@
 {
-    "name": "1tomany/pdf-to-image",
-    "description": "A simple library that converts a PDF to an image using the xpdf and Poppler libraries",
+    "name": "1tomany/pdf-ai",
+    "description": "A simple PHP library that makes extracting data from PDFs for large language models easy",
     "license": "MIT",
     "type": "library",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "keywords": [
+        "ai",
+        "llm",
         "pdf",
-        "poppler",
-        "pdftoppm",
-        "xpdf",
-        "pdf to image",
         "pdf2img",
-        "pdf2image"
+        "pdf2image",
+        "pdf2text",
+        "pdf2txt",
+        "pdfinfo",
+        "pdftoppm",
+        "pdf to image",
+        "pdf to text",
+        "poppler",
+        "xpdf"
     ],
     "require": {
-        "php": ">=8.4",
+        "php": ">=8.2",
         "psr/container": "^2.0",
-        "symfony/filesystem": "^7.2",
         "symfony/process": "^7.2"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.87.2",
         "phpstan/phpstan": "^2.1.23",
-        "phpunit/phpunit": "^12.3.8"
+        "phpunit/phpunit": "^12.3.10"
     },
     "autoload": {
         "psr-4": {
-            "OneToMany\\PdfToImage\\": "src/"
+            "OneToMany\\PDFAI\\": "src/"
         },
         "exclude-from-classmap": [
             "/Tests/"
@@ -35,7 +40,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OneToMany\\PdfToImage\\Tests\\": "tests/"
+            "OneToMany\\PDFAI\\Tests\\": "tests/"
         }
     },
     "scripts": {

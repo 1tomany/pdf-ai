@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PdfToImage\Client\Exception;
+namespace OneToMany\PDFAI\Client\Exception;
 
-use OneToMany\PdfToImage\Exception\RuntimeException;
+use OneToMany\PDFAI\Exception\RuntimeException;
 
 use function explode;
 use function rtrim;

@@ -1,16 +1,16 @@
 <?php
 
-namespace OneToMany\PdfToImage\Request;
+namespace OneToMany\PDFAI\Request;
 
-use OneToMany\PdfToImage\Contract\Request\ReadFileRequestInterface;
-use OneToMany\PdfToImage\Exception\InvalidArgumentException;
+use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
+use OneToMany\PDFAI\Exception\InvalidArgumentException;
 
 use function is_file;
 use function is_readable;
 use function sprintf;
 use function trim;
 
-class ReadFileRequest implements ReadFileRequestInterface
+class ReadMetadataRequest implements ReadMetadataRequestInterface
 {
     /**
      * @var non-empty-string

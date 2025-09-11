@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PdfToImage\Helper;
+namespace OneToMany\PDFAI\Helper;
 
-use OneToMany\PdfToImage\Exception\InvalidArgumentException;
+use OneToMany\PDFAI\Exception\InvalidArgumentException;
 use Symfony\Component\Process\ExecutableFinder;
 
 use function is_executable;

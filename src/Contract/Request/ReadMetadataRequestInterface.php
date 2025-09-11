@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\PdfToImage\Contract\Request;
+namespace OneToMany\PDFAI\Contract\Request;
 
-interface ReadFileRequestInterface
+interface ReadMetadataRequestInterface
 {
     /**
      * @return non-empty-string

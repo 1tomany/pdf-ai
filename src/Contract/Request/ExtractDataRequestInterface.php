@@ -1,10 +1,10 @@
 <?php
 
-namespace OneToMany\PdfToImage\Contract\Request;
+namespace OneToMany\PDFAI\Contract\Request;
 
-use OneToMany\PdfToImage\Contract\Enum\ImageType;
+use OneToMany\PDFAI\Contract\Enum\OutputType;
 
-interface RasterizeFileRequestInterface extends ReadFileRequestInterface
+interface ExtractDataRequestInterface extends ReadMetadataRequestInterface
 {
     public const int DEFAULT_RESOLUTION = 72;
     public const int MIN_RESOLUTION = 48;
@@ -16,11 +16,11 @@ interface RasterizeFileRequestInterface extends ReadFileRequestInterface
     public function getFirstPage(): int;
 
     /**
-     * @return positive-int
+     * A NULL last page indicates that all pages should be extracted.
      */
-    public function getLastPage(): int;
+    public function getLastPage(): ?int;
 
-    public function getOutputType(): ImageType;
+    public function getOutputType(): OutputType;
 
     /**
      * @return int<self::MIN_RESOLUTION, self::MAX_RESOLUTION>

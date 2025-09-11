@@ -1,25 +1,28 @@
 <?php
 
-namespace OneToMany\PdfToImage\Response;
+namespace OneToMany\PDFAI\Response;
 
-use OneToMany\PdfToImage\Contract\Enum\ImageType;
-use OneToMany\PdfToImage\Contract\Response\ImageResponseInterface;
+use OneToMany\PDFAI\Contract\Enum\OutputType;
+use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;
 
 use function base64_encode;
+use function max;
 use function sprintf;
 use function trim;
 
-class ImageResponse implements ImageResponseInterface
+class ExtractedDataResponse implements ExtractedDataResponseInterface
 {
-    protected ImageType $type;
-    protected string $data;
-
+    /**
+     * @param positive-int $page
+     */
     public function __construct(
-        ImageType $type,
-        string $data,
+        protected OutputType $type,
+        protected string $data,
+        protected int $page = 1,
     ) {
         $this->setType($type);
         $this->setData($data);
+        $this->setPage($page);
     }
 
     public function __toString(): string
@@ -27,12 +30,12 @@ class ImageResponse implements ImageResponseInterface
         return $this->data;
     }
 
-    public function getType(): ImageType
+    public function getType(): OutputType
     {
         return $this->type;
     }
 
-    public function setType(ImageType $type): static
+    public function setType(OutputType $type): static
     {
         $this->type = $type;
 
@@ -47,6 +50,18 @@ class ImageResponse implements ImageResponseInterface
     public function setData(?string $data): static
     {
         $this->data = trim($data ?? '');
+
+        return $this;
+    }
+
+    public function getPage(): int
+    {
+        return $this->page;
+    }
+
+    public function setPage(int $page): static
+    {
+        $this->page = max(1, $page);
 
         return $this;
     }

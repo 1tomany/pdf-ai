@@ -1,25 +1,21 @@
 <?php
 
-namespace OneToMany\PdfToImage\Request;
+namespace OneToMany\PDFAI\Request;
 
-use OneToMany\PdfToImage\Contract\Enum\ImageType;
-use OneToMany\PdfToImage\Contract\Request\RasterizeFileRequestInterface;
-use OneToMany\PdfToImage\Exception\InvalidArgumentException;
+use OneToMany\PDFAI\Contract\Enum\OutputType;
+use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
+use OneToMany\PDFAI\Exception\InvalidArgumentException;
 
 use function sprintf;
 
-class RasterizeFileRequest extends ReadFileRequest implements RasterizeFileRequestInterface
+class ExtractDataRequest extends ReadMetadataRequest implements ExtractDataRequestInterface
 {
     /**
      * @var positive-int
      */
     protected int $firstPage = 1;
-
-    /**
-     * @var positive-int
-     */
-    protected int $lastPage = 1;
-    protected ImageType $outputType = ImageType::Jpg;
+    protected ?int $lastPage = null;
+    protected OutputType $outputType = OutputType::Jpg;
 
     /**
      * @var int<self::MIN_RESOLUTION, self::MAX_RESOLUTION>
@@ -29,8 +25,8 @@ class RasterizeFileRequest extends ReadFileRequest implements RasterizeFileReque
     public function __construct(
         ?string $filePath,
         int $firstPage = 1,
-        int $lastPage = 1,
-        ImageType $outputType = ImageType::Jpg,
+        ?int $lastPage = 1,
+        OutputType $outputType = OutputType::Jpg,
         int $resolution = self::DEFAULT_RESOLUTION,
     ) {
         $this->setFilePath($filePath);
@@ -60,19 +56,21 @@ class RasterizeFileRequest extends ReadFileRequest implements RasterizeFileReque
         return $this;
     }
 
-    public function getLastPage(): int
+    public function getLastPage(): ?int
     {
         return $this->lastPage;
     }
 
-    public function setLastPage(int $lastPage): static
+    public function setLastPage(?int $lastPage): static
     {
-        if ($lastPage < 1) {
-            throw new InvalidArgumentException('The last page number must be a positive non-zero integer.');
-        }
+        if (null !== $lastPage) {
+            if ($lastPage < 1) {
+                throw new InvalidArgumentException('The last page number must be a positive non-zero integer.');
+            }
 
-        if ($lastPage < $this->getFirstPage()) {
-            $this->setFirstPage($lastPage);
+            if ($lastPage < $this->getFirstPage()) {
+                $this->setFirstPage($lastPage);
+            }
         }
 
         $this->lastPage = $lastPage;
@@ -80,12 +78,12 @@ class RasterizeFileRequest extends ReadFileRequest implements RasterizeFileReque
         return $this;
     }
 
-    public function getOutputType(): ImageType
+    public function getOutputType(): OutputType
     {
         return $this->outputType;
     }
 
-    public function setOutputType(ImageType $outputType): static
+    public function setOutputType(OutputType $outputType): static
     {
         $this->outputType = $outputType;
 
