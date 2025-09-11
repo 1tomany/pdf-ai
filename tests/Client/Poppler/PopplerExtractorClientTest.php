@@ -221,6 +221,9 @@ final class PopplerExtractorClientTest extends TestCase
         $this->assertGreaterThan(0, imagesy($image));
     }
 
+    /**
+     * @return list<list<int|non-empty-string|OutputType>>
+     */
     public static function providerExtractingImageData(): array
     {
         $provider = [
