@@ -11,7 +11,7 @@ use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;
 use OneToMany\PDFAI\Contract\Response\MetadataResponseInterface;
 use OneToMany\PDFAI\Helper\BinaryFinder;
 use OneToMany\PDFAI\Response\ExtractedDataResponse;
-use OneToMany\PDFAI\Response\FileResponse;
+use OneToMany\PDFAI\Response\MetadataResponse;
 use Symfony\Component\Process\Exception\ExceptionInterface as ProcessExceptionInterface;
 use Symfony\Component\Process\Process;
 
@@ -42,14 +42,14 @@ readonly class PopplerRasterClient implements ExtractorClientInterface
             throw new ReadingFileFailedException($request->getFilePath(), $process->getErrorOutput(), $e);
         }
 
-        $response = new FileResponse();
+        $response = new MetadataResponse();
 
         foreach (explode("\n", $output) as $infoBit) {
             if (str_contains($infoBit, ':')) {
                 $bits = explode(':', $infoBit);
 
                 if (0 === strcmp('Pages', $bits[0])) {
-                    $response->setPageCount((int) $bits[1]);
+                    $response->setPages((int) $bits[1]);
                 }
             }
         }

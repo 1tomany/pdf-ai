@@ -8,7 +8,7 @@ use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
 use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;
 use OneToMany\PDFAI\Contract\Response\MetadataResponseInterface;
 use OneToMany\PDFAI\Exception\RuntimeException;
-use OneToMany\PDFAI\Response\FileResponse;
+use OneToMany\PDFAI\Response\MetadataResponse;
 
 use function random_int;
 
@@ -20,7 +20,7 @@ readonly class MockRasterClient implements ExtractorClientInterface
 
     public function readMetadata(ReadMetadataRequestInterface $request): MetadataResponseInterface
     {
-        return new FileResponse(random_int(1, 100));
+        return new MetadataResponse(random_int(1, 100));
     }
 
     public function extractData(ExtractDataRequestInterface $request): ExtractedDataResponseInterface

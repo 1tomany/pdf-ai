@@ -54,7 +54,7 @@ final class PopplerRasterClientTest extends TestCase
     #[DataProvider('providerReadFileRequestArguments')]
     public function testReadingFile(string $filePath, int $pageCount): void
     {
-        $this->assertEquals($pageCount, new PopplerRasterClient()->readMetadata(new ReadPdfRequest($filePath))->getPageCount());
+        $this->assertEquals($pageCount, new PopplerRasterClient()->readMetadata(new ReadPdfRequest($filePath))->getPages());
     }
 
     /**

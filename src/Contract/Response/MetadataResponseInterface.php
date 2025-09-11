@@ -7,5 +7,5 @@ interface MetadataResponseInterface
     /**
      * @return positive-int
      */
-    public function getPageCount(): int;
+    public function getPages(): int;
 }
