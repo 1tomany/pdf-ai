@@ -2,6 +2,7 @@
 
 namespace OneToMany\PDFAI\Contract\Client;
 
+use Generator;
 use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
 use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
 use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;
@@ -11,5 +12,8 @@ interface ExtractorClientInterface
 {
     public function readMetadata(ReadMetadataRequestInterface $request): MetadataResponseInterface;
 
-    public function extractData(ExtractDataRequestInterface $request): ExtractedDataResponseInterface;
+    /**
+     * @return \Generator<int, ExtractedDataResponseInterface>
+     */
+    public function extractData(ExtractDataRequestInterface $request): \Generator;
 }

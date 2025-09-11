@@ -7,5 +7,8 @@ use OneToMany\PDFAI\Contract\Response\ExtractedDataResponseInterface;
 
 interface ExtractDataActionInterface
 {
-    public function act(ExtractDataRequestInterface $request): ExtractedDataResponseInterface;
+    /**
+     * @return \Generator<int, ExtractedDataResponseInterface>
+     */
+    public function act(ExtractDataRequestInterface $request): \Generator;
 }

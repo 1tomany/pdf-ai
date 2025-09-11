@@ -23,7 +23,7 @@ readonly class MockExtractorClient implements ExtractorClientInterface
         return new MetadataResponse(random_int(1, 100));
     }
 
-    public function extractData(ExtractDataRequestInterface $request): ExtractedDataResponseInterface
+    public function extractData(ExtractDataRequestInterface $request): \Generator
     {
         throw new RuntimeException('Not implemented!');
     }

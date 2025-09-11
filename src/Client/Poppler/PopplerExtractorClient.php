@@ -21,20 +21,16 @@ use function strcmp;
 
 readonly class PopplerExtractorClient implements ExtractorClientInterface
 {
-    private string $pdfInfoBinary;
-    private string $pdfToPpmBinary;
-
     public function __construct(
-        string $pdfInfoBinary = 'pdfinfo',
-        string $pdfToPpmBinary = 'pdftoppm',
+        private string $pdfInfoBinary = 'pdfinfo',
+        private string $pdfToPpmBinary = 'pdftoppm',
+        private string $pdfToTxtBinary = 'pdftotext',
     ) {
-        $this->pdfInfoBinary = BinaryFinder::find($pdfInfoBinary);
-        $this->pdfToPpmBinary = BinaryFinder::find($pdfToPpmBinary);
     }
 
     public function readMetadata(ReadMetadataRequestInterface $request): MetadataResponseInterface
     {
-        $process = new Process([$this->pdfInfoBinary, $request->getFilePath()]);
+        $process = new Process([BinaryFinder::find($this->pdfInfoBinary), $request->getFilePath()]);
 
         try {
             $output = $process->mustRun()->getOutput();
@@ -57,26 +53,72 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
         return $response;
     }
 
-    public function extractData(ExtractDataRequestInterface $request): ExtractedDataResponseInterface
+    public function extractData(ExtractDataRequestInterface $request): \Generator
     {
-        $process = new Process([
-            $this->pdfToPpmBinary,
-            $request->getOutputType()->isJpg() ? '-jpeg' : '-png',
-            '-f',
-            $request->getFirstPage(),
-            '-l',
-            $request->getFirstPage(),
-            '-r',
-            $request->getResolution(),
-            $request->getFilePath(),
-        ]);
-
-        try {
-            $output = $process->mustRun()->getOutput();
-        } catch (ProcessExceptionInterface $e) {
-            throw new ExtractingDataFailedException($request->getFilePath(), $request->getFirstPage(), $process->getErrorOutput(), $e);
+        if ($request->getOutputType()->isTxt()) {
+            return $this->toText($request);
         }
 
-        return new ExtractedDataResponse($request->getOutputType(), $output);
+        return $this->rasterize($request);
+    }
+
+    private function rasterize(ExtractDataRequestInterface $request): \Generator
+    {
+        $pdfToPpmBinary = BinaryFinder::find(
+            binary: $this->pdfToPpmBinary,
+        );
+
+        $outputType = $request->getOutputType()->isJpg() ? '-jpeg' : '-png';
+
+        for ($page=$request->getFirstPage(); $page<=$request->getLastPage(); $page++) {
+            $process = new Process([
+                $pdfToPpmBinary,
+                $request->getOutputType()->isJpg() ? '-jpeg' : '-png',
+                '-f',
+                $page,
+                '-l',
+                $page,
+                '-r',
+                $request->getResolution(),
+                $request->getFilePath(),
+            ]);
+
+            try {
+                $output = $process->mustRun()->getOutput();
+            } catch (ProcessExceptionInterface $e) {
+                throw new ExtractingDataFailedException($request->getFilePath(), $page, $process->getErrorOutput(), $e);
+            }
+
+            yield new ExtractedDataResponse($request->getOutputType(), $output);
+        }
+    }
+
+    private function toText(ExtractDataRequestInterface $request): \Generator
+    {
+        $pdfToTxtBinary = BinaryFinder::find(
+            binary: $this->pdfToTxtBinary,
+        );
+
+        for ($page=$request->getFirstPage(); $page<=$request->getLastPage(); $page++) {
+            $process = new Process([
+                $pdfToTxtBinary,
+                '-nodiag',
+                '-f',
+                $page,
+                '-l',
+                $page,
+                '-r',
+                $request->getResolution(),
+                $request->getFilePath(),
+            ]);
+
+            try {
+                $output = $process->mustRun()->getOutput();
+            } catch (ProcessExceptionInterface $e) {
+                throw new ExtractingDataFailedException($request->getFilePath(), $page, $process->getErrorOutput(), $e);
+            }
+
+            yield new ExtractedDataResponse($request->getOutputType(), $output);
+        }
     }
 }
