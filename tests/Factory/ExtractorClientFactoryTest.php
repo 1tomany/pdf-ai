@@ -2,7 +2,7 @@
 
 namespace OneToMany\PDFAI\Tests\Factory;
 
-use OneToMany\PDFAI\Client\Mock\MockRasterClient;
+use OneToMany\PDFAI\Client\Mock\MockExtractorClient;
 use OneToMany\PDFAI\Factory\Exception\CreatingRasterClientFailedServiceNotFoundException;
 use OneToMany\PDFAI\Factory\ExtractorClientFactory;
 use PHPUnit\Framework\Attributes\Group;
@@ -32,7 +32,7 @@ final class ExtractorClientFactoryTest extends TestCase
         $container = new class implements ContainerInterface {
             /**
              * @var array{
-             *   mock: MockRasterClient,
+             *   mock: MockExtractorClient,
              *   error: \InvalidArgumentException,
              * }
              */
@@ -41,7 +41,7 @@ final class ExtractorClientFactoryTest extends TestCase
             public function __construct()
             {
                 $this->services = [
-                    'mock' => new MockRasterClient(),
+                    'mock' => new MockExtractorClient(),
                     'error' => new \InvalidArgumentException(),
                 ];
             }

@@ -16,7 +16,7 @@ use const PHP_INT_MAX;
 
 #[Group('UnitTests')]
 #[Group('RequestTests')]
-final class ExtractPdfRequestTest extends TestCase
+final class ExtractDataRequestTest extends TestCase
 {
     private ?string $filePath = null;
 

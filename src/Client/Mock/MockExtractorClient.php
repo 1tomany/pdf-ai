@@ -12,7 +12,7 @@ use OneToMany\PDFAI\Response\MetadataResponse;
 
 use function random_int;
 
-readonly class MockRasterClient implements ExtractorClientInterface
+readonly class MockExtractorClient implements ExtractorClientInterface
 {
     public function __construct()
     {

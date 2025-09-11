@@ -2,8 +2,8 @@
 
 namespace OneToMany\PDFAI\Client\Poppler;
 
-use OneToMany\PDFAI\Client\Exception\RasterizingFileFailedException;
-use OneToMany\PDFAI\Client\Exception\ReadingFileFailedException;
+use OneToMany\PDFAI\Client\Exception\ExtractingDataFailedException;
+use OneToMany\PDFAI\Client\Exception\ReadingMetadataFailedException;
 use OneToMany\PDFAI\Contract\Client\ExtractorClientInterface;
 use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
 use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
@@ -19,7 +19,7 @@ use function explode;
 use function str_contains;
 use function strcmp;
 
-readonly class PopplerRasterClient implements ExtractorClientInterface
+readonly class PopplerExtractorClient implements ExtractorClientInterface
 {
     private string $pdfInfoBinary;
     private string $pdfToPpmBinary;
@@ -39,7 +39,7 @@ readonly class PopplerRasterClient implements ExtractorClientInterface
         try {
             $output = $process->mustRun()->getOutput();
         } catch (ProcessExceptionInterface $e) {
-            throw new ReadingFileFailedException($request->getFilePath(), $process->getErrorOutput(), $e);
+            throw new ReadingMetadataFailedException($request->getFilePath(), $process->getErrorOutput(), $e);
         }
 
         $response = new MetadataResponse();
@@ -74,7 +74,7 @@ readonly class PopplerRasterClient implements ExtractorClientInterface
         try {
             $output = $process->mustRun()->getOutput();
         } catch (ProcessExceptionInterface $e) {
-            throw new RasterizingFileFailedException($request->getFilePath(), $request->getFirstPage(), $process->getErrorOutput(), $e);
+            throw new ExtractingDataFailedException($request->getFilePath(), $request->getFirstPage(), $process->getErrorOutput(), $e);
         }
 
         return new ExtractedDataResponse($request->getOutputType(), $output);

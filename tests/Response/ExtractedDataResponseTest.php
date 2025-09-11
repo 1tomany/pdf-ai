@@ -18,7 +18,7 @@ final class ExtractedDataResponseTest extends TestCase
     {
         $text = 'Hello, world!';
 
-        $this->assertEquals($text, new ExtractedDataResponse(OutputType::Jpg, $text)->__toString());
+        $this->assertEquals($text, new ExtractedDataResponse(OutputType::Txt, $text)->__toString());
     }
 
     public function testToDataUri(): void

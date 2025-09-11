@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 #[Group('UnitTests')]
 #[Group('RequestTests')]
-final class ReadPdfRequestTest extends TestCase
+final class ReadMetadataRequestTest extends TestCase
 {
     public function testConstructorRequiresReadableFile(): void
     {
