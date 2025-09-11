@@ -1,5 +1,5 @@
-# PDF Extractor
-This library extracts data from PDF files.
+# PDFAI
+PDFAI is a simple PHP library that makes extracting data from PDFs for large language models easy. It 
 
 ## Installation
 ```
