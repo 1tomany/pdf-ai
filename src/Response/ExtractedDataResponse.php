@@ -66,8 +66,13 @@ class ExtractedDataResponse implements ExtractedDataResponseInterface
         return $this;
     }
 
+    public function getName(): string
+    {
+        return sprintf('page-%d.%s', $this->getPage(), $this->getType()->getExtension());
+    }
+
     public function toDataUri(): string
     {
-        return sprintf('data:%s;base64,%s', $this->type->getMimeType(), base64_encode($this->data));
+        return sprintf('data:%s;base64,%s', $this->type->getMimeType(), base64_encode($this->getData()));
     }
 }

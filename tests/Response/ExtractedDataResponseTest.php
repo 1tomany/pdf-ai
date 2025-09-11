@@ -4,8 +4,10 @@ namespace OneToMany\PDFAI\Tests\Response;
 
 use OneToMany\PDFAI\Contract\Enum\OutputType;
 use OneToMany\PDFAI\Response\ExtractedDataResponse;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use SebastianBergmann\Type\ObjectType;
 
 use function base64_encode;
 use function file_get_contents;
@@ -41,6 +43,28 @@ final class ExtractedDataResponseTest extends TestCase
 
         $response->setPage($page);
         $this->assertEquals($page, $response->getPage());
+    }
+
+    #[DataProvider('providerGettingName')]
+    public function testGettingName(OutputType $type, int $page, string $name): void
+    {
+        $this->assertEquals($name, new ExtractedDataResponse($type, 'Response', $page)->getName());
+    }
+
+    public static function providerGettingName(): array
+    {
+        $provider = [
+            [OutputType::Jpg, 1, 'page-1.jpeg'],
+            [OutputType::Jpg, 10, 'page-10.jpeg'],
+
+            [OutputType::Png, 1, 'page-1.png'],
+            [OutputType::Png, 10, 'page-10.png'],
+
+            [OutputType::Txt, 1, 'page-1.txt'],
+            [OutputType::Txt, 10, 'page-10.txt']
+        ];
+
+        return $provider;
     }
 
     public function testToDataUri(): void
