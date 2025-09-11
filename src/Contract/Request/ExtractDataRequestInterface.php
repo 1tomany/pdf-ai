@@ -16,9 +16,9 @@ interface ExtractDataRequestInterface extends ReadMetadataRequestInterface
     public function getFirstPage(): int;
 
     /**
-     * @return positive-int
+     * A NULL last page indicates that all pages should be extracted.
      */
-    public function getLastPage(): int;
+    public function getLastPage(): ?int;
 
     public function getOutputType(): OutputType;
 

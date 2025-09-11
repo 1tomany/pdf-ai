@@ -9,6 +9,7 @@ use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
 use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
 use OneToMany\PDFAI\Contract\Response\MetadataResponseInterface;
 use OneToMany\PDFAI\Helper\BinaryFinder;
+use OneToMany\PDFAI\Request\ReadMetadataRequest;
 use OneToMany\PDFAI\Response\ExtractedDataResponse;
 use OneToMany\PDFAI\Response\MetadataResponse;
 use Symfony\Component\Process\Exception\ExceptionInterface as ProcessExceptionInterface;
@@ -54,10 +55,20 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
 
     public function extractData(ExtractDataRequestInterface $request): \Generator
     {
+        $lastPage = $request->getLastPage();
+
+        if (null === $lastPage) {
+            $metadataRequest = new ReadMetadataRequest(...[
+                'filePath' => $request->getFilePath(),
+            ]);
+
+            $lastPage = $this->readMetadata($metadataRequest)->getPages();
+        }
+
         if ($request->getOutputType()->isTxt()) {
             $command = BinaryFinder::find($this->pdfToTextBinary);
 
-            for ($page = $request->getFirstPage(); $page <= $request->getLastPage(); ++$page) {
+            for ($page = $request->getFirstPage(); $page <= $lastPage; ++$page) {
                 $process = new Process([$command, '-nodiag', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath(), '-']);
 
                 try {
@@ -71,7 +82,7 @@ readonly class PopplerExtractorClient implements ExtractorClientInterface
         } else {
             $command = BinaryFinder::find($this->pdfToPpmBinary);
 
-            for ($page = $request->getFirstPage(); $page <= $request->getLastPage(); ++$page) {
+            for ($page = $request->getFirstPage(); $page <= $lastPage; ++$page) {
                 $process = new Process([$command, $request->getOutputType()->isJpg() ? '-jpeg' : '-png', '-f', $page, '-l', $page, '-r', $request->getResolution(), $request->getFilePath()]);
 
                 try {

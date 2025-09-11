@@ -81,7 +81,7 @@ final class PopplerExtractorClientTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The binary "'.$pdfToPpmBinary.'" could not be found.');
 
-        new PopplerExtractorClient(pdfToPpmBinary: $pdfToPpmBinary)->extractData(new ExtractDataRequest(__FILE__, outputType: OutputType::Jpg))->current();
+        new PopplerExtractorClient(pdfToPpmBinary: $pdfToPpmBinary)->extractData(new ExtractDataRequest(__FILE__))->current();
     }
 
     public function testExtractingTextDataRequiresValidPdfToTextBinary(): void

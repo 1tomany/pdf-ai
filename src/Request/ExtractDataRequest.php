@@ -14,11 +14,7 @@ class ExtractDataRequest extends ReadMetadataRequest implements ExtractDataReque
      * @var positive-int
      */
     protected int $firstPage = 1;
-
-    /**
-     * @var positive-int
-     */
-    protected int $lastPage = 1;
+    protected ?int $lastPage = null;
     protected OutputType $outputType = OutputType::Jpg;
 
     /**
@@ -29,7 +25,7 @@ class ExtractDataRequest extends ReadMetadataRequest implements ExtractDataReque
     public function __construct(
         ?string $filePath,
         int $firstPage = 1,
-        int $lastPage = 1,
+        ?int $lastPage = 1,
         OutputType $outputType = OutputType::Jpg,
         int $resolution = self::DEFAULT_RESOLUTION,
     ) {
@@ -60,19 +56,21 @@ class ExtractDataRequest extends ReadMetadataRequest implements ExtractDataReque
         return $this;
     }
 
-    public function getLastPage(): int
+    public function getLastPage(): ?int
     {
         return $this->lastPage;
     }
 
-    public function setLastPage(int $lastPage): static
+    public function setLastPage(?int $lastPage): static
     {
-        if ($lastPage < 1) {
-            throw new InvalidArgumentException('The last page number must be a positive non-zero integer.');
-        }
+        if (null !== $lastPage) {
+            if ($lastPage < 1) {
+                throw new InvalidArgumentException('The last page number must be a positive non-zero integer.');
+            }
 
-        if ($lastPage < $this->getFirstPage()) {
-            $this->setFirstPage($lastPage);
+            if ($lastPage < $this->getFirstPage()) {
+                $this->setFirstPage($lastPage);
+            }
         }
 
         $this->lastPage = $lastPage;
