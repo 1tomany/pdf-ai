@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 use OneToMany\PDFAI\Client\Poppler\PopplerExtractorClient;
 use OneToMany\PDFAI\Contract\Enum\OutputType;
@@ -8,7 +8,7 @@ use OneToMany\PDFAI\Request\ExtractDataRequest;
 use OneToMany\PDFAI\Request\ExtractTextRequest;
 use OneToMany\PDFAI\Request\ReadMetadataRequest;
 
-$filePath = realpath(__DIR__ . '/../tests/Client/files/pages-4.pdf');
+$filePath = realpath(__DIR__.'/../tests/Client/files/pages-4.pdf');
 
 $client = new PopplerExtractorClient();
 
