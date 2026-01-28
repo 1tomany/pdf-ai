@@ -129,7 +129,7 @@ final class PopplerExtractorClientTest extends TestCase
         $responses = iterator_to_array($client->extractData($request));
 
         $this->assertCount($responseCount, $responses);
-        $this->assertContainsOnlyInstancesOf(ExtractedDataResponseInterface::class, $responses);
+        $this->assertContainsOnlyInstancesOf(ExtractedDataResponseInterface::class, $responses); // @phpstan-ignore-line
     }
 
     /**
