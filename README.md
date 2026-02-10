@@ -58,12 +58,17 @@ use OneToMany\PDFAI\Request\ReadMetadataRequest;
 
 $filePath = '/path/to/file.pdf';
 
+// Construct the Poppler wrapper
 $client = new PopplerExtractorClient();
 
+// Construct and execute a request to read the PDF metadata
 $metadata = $client->readMetadata(new ReadMetadataRequest($filePath));
-printf("The PDF '%s' has %d page(s).\n", $filePath, $metadata->getPages());
 
-// Rasterize all pages as 150 DPI JPEGs
+vprintf("The PDF '%s' has %d page(s).\n", [
+    $filePath, $metadata->getPages(),
+]);
+
+// Construct a request to rasterize all pages as 150 DPI JPEGs
 $request = new ExtractDataRequest($filePath, 1, null, OutputType::Jpg, 150);
 
 foreach ($client->extractData($request) as $image) {
