@@ -1,14 +1,14 @@
-# PDFAI
-PDFAI is a simple PHP library that makes extracting data from PDFs for large language models easy. It uses a single dependency, the [Symfony Process Component](https://symfony.com/doc/current/components/process.html), to interface with the [Poppler command line tools from the xpdf library](https://poppler.freedesktop.org/).
+# pdf-ai
+`pdf-ai` is a simple PHP library that makes extracting data from PDFs for large language models easy. It uses a single dependency, the [Symfony Process Component](https://symfony.com/doc/current/components/process.html), to interface with the [Poppler command line tools from the xpdf library](https://poppler.freedesktop.org/).
 
-## Install PDFAI
+## Installation
 Install the library using Composer:
 
 ```shell
 composer require 1tomany/pdf-ai
 ```
 
-## Install Poppler
+## Installing Poppler
 Before beginning, ensure the `pdfinfo`, `pdftoppm`, and `pdftotext` binaries are installed and located in the `$PATH` environment variables.
 
 ### macOS
@@ -34,8 +34,8 @@ Using the library is easy, and you have two ways to interact with it:
 1. **Direct** Instantiate the `OneToMany\PDFAI\Client\Poppler\PopplerExtractorClient` class and call the methods directly. This method is easier to use, but makes testing harder because you can't easily swap the `PopplerExtractorClient` with the `MockExtractorClient` in your unit tests.
 2. **Indirect** Create a container of `OneToMany\PDFAI\Contract\Client\ExtractorClientInterface` objects, and use the `OneToMany\PDFAI\Factory\ExtractorClientFactory` class to instantiate them. If you wish to use this method, I recommend you use the [Symfony bundle `1tomany/pdf-ai-bundle`](https://github.com/1tomany/pdf-ai-bundle) to take advantage of Symfony's container and autowiring features. While this method requires more upfront work, it makes testing much easier because you can easily swap the `PopplerExtractorClient` with the `MockExtractorClient` in your tests.
 
-### Direct Usage
-```php
+### Direct usage
+```
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -70,14 +70,14 @@ foreach ($client->extractData($request) as $text) {
 }
 ```
 
-### Run Test Suite
+### Test suite
 Run the test suite with PHPUnit:
 
 ```shell
 ./vendor/bin/phpunit
 ```
 
-### Run Static Analysis
+### Static analysis
 Run static analysis with PHPStan:
 
 ```shell
